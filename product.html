@@ -1932,4 +1932,13 @@
   new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
-        if (node.nodeType === Node
+        if (node.nodeType === Node.TEXT_NODE) node.nodeValue = normalizeCopy(node.nodeValue);
+        if (node.nodeType === Node.ELEMENT_NODE) normalizeDom(node);
+      });
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+</script>
+
+</body>
+</html>
+

@@ -2331,4 +2331,15 @@
   document.title = normalizeCopy(document.title);
   normalizeDom();
   new MutationObserver(mutations => {
-    mutations.forEa
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) node.nodeValue = normalizeCopy(node.nodeValue);
+        if (node.nodeType === Node.ELEMENT_NODE) normalizeDom(node);
+      });
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+</script>
+
+</body>
+</html>
+
