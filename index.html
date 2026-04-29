@@ -25,8 +25,8 @@
     --success: #5C7C5A;
     --error: #B5564B;
 
-    --font-display: 'Cormorant Garamond', 'Cairo', serif;
-    --font-body: 'Inter', 'Cairo', sans-serif;
+    --font-display: 'Cormorant Garamond', 'Times New Roman', 'Cairo', serif;
+    --font-body: 'Inter', 'Helvetica Neue', Arial, 'Cairo', sans-serif;
     --font-arabic: 'Cairo', sans-serif;
 
     --radius-sm: 6px;
@@ -1178,11 +1178,11 @@
   }
   .st-cart__upsell-list::-webkit-scrollbar { display: none; }
   .st-cart__upsell-item {
-    flex: 0 0 130px;
+    flex: 0 0 clamp(108px, 34vw, 124px);
     background: var(--cream);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    padding: 10px;
+    padding: 10px 9px;
     text-align: center;
     transition: border-color .2s ease;
     cursor: pointer;
@@ -1224,6 +1224,11 @@
     transition: all .2s ease;
   }
   .st-cart__upsell-add:hover { background: var(--brown); color: var(--beige); }
+  @media (max-width: 480px) {
+    .st-cart__upsell-list { gap: 8px; }
+    .st-cart__upsell-name,
+    .st-cart__upsell-price { font-size: 10px; }
+  }
 
   /* Items */
   .st-cart__items {
@@ -2281,6 +2286,48 @@
     document.body.classList.remove('is-locked');
   };
   reelModal.onclick = e => { if (e.target === reelModal) $('#closeReel').click(); };
+
+  const TEXT_FIXES = [
+    ['â€”', '—'],
+    ['â€“', '–'],
+    ['Â·', '·'],
+    ['Ã‚Â·', '·'],
+    ['âˆ’', '−'],
+    ['Â©', '©'],
+    ['â†’', '→'],
+    ['â†', '←'],
+    ['Ã—', '×'],
+    ['ðŸŽ ', ''],
+    ['âœ¨ ', ''],
+    ['Ø³Ù…Ø§Ùƒ ØªØ´', 'سماك تش'],
+    ['Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©', 'العربية'],
+    ['Ø³ÙˆÙ‚ Ø§Ù„Ø²Ù„ Ø§Ù„Ù…Ø¨Ø§Ø±ÙƒÙŠØ©', 'الكويت']
+  ];
+  function normalizeCopy(value = '') {
+    return TEXT_FIXES.reduce((text, [from, to]) => text.split(from).join(to), value);
+  }
+  function normalizeDom(root = document.body) {
+    if (!root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) walker.currentNode.nodeValue = normalizeCopy(walker.currentNode.nodeValue);
+    if (root.querySelectorAll) {
+      root.querySelectorAll('[placeholder],[title],[aria-label],[alt]').forEach(el => {
+        ['placeholder', 'title', 'aria-label', 'alt'].forEach(attr => {
+          if (el.hasAttribute(attr)) el.setAttribute(attr, normalizeCopy(el.getAttribute(attr)));
+        });
+      });
+    }
+  }
+  document.title = normalizeCopy(document.title);
+  normalizeDom();
+  new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) node.nodeValue = normalizeCopy(node.nodeValue);
+        if (node.nodeType === Node.ELEMENT_NODE) normalizeDom(node);
+      });
+    });
+  }).observe(document.body, { childList: true, subtree: true });
 </script>
 
 </body>
