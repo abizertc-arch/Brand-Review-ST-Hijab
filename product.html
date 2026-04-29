@@ -686,18 +686,42 @@
   }
   .st-carousel::-webkit-scrollbar { display: none; }
   .st-product {
-    flex: 0 0 64%;
+    flex: 0 0 72%;
     scroll-snap-align: start;
     background: var(--beige-pale);
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
   }
+  .st-product__link { display: block; color: inherit; }
   .st-product__media { aspect-ratio: 4/5; overflow: hidden; }
   .st-product__media img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-  .st-product__body { padding: 14px; }
-  .st-product__name { font-family: var(--font-display); font-size: 17px; color: var(--brown); margin-bottom: 4px; font-weight: 500; }
-  .st-product__price { font-size: 14px; color: var(--brown); font-weight: 600; }
+  .st-product__body { padding: 14px; display: grid; gap: 8px; }
+  .st-product__name { font-family: var(--font-display); font-size: 17px; color: var(--brown); font-weight: 500; line-height: 1.15; }
+  .st-product__review {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--brown-soft);
+  }
+  .st-product__review svg { width: 12px; height: 12px; fill: #d4ad6a; flex: 0 0 auto; }
+  .st-product__price-row { display: flex; align-items: baseline; gap: 8px; }
+  .st-product__price { font-size: 15px; color: var(--brown); font-weight: 700; }
+  .st-product__compare { font-size: 13px; color: var(--brown-tint); text-decoration: line-through; }
+  .st-product__atc {
+    width: 100%;
+    height: 42px;
+    border-radius: 999px;
+    background: var(--brown);
+    color: var(--beige);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
   @media (min-width: 768px) {
     .st-carousel {
       display: grid; grid-template-columns: repeat(4, 1fr);
@@ -705,6 +729,7 @@
       overflow: visible;
     }
     .st-product { flex: none; }
+    .st-product__body { padding: 16px; }
   }
 
   /* STICKY CTA */
@@ -933,63 +958,66 @@
     color: var(--brown-soft); font-weight: 700; margin-bottom: 12px;
     padding: 0 4px;
   }
-  .st-cart__upsell-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-items: start; }
-  @media (min-width: 480px) {
-    .st-cart__upsell-list { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
-    .st-cart__upsell-list::-webkit-scrollbar { display: none; }
-  }
+  .st-cart__upsell-list { display: flex; flex-direction: column; gap: 10px; }
+  .st-cart__upsell-list::-webkit-scrollbar { display: none; }
   .st-cart__upsell-item {
     background: var(--cream);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    padding: 8px;
-    text-align: center;
-    transition: border-color .2s ease;
-    min-width: 0;
+    padding: 10px 12px;
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "img name btn"
+      "img price btn";
+    gap: 4px 12px;
+    align-items: center;
     overflow: hidden;
   }
   @media (min-width: 480px) {
-    .st-cart__upsell-item { flex: 0 0 130px; padding: 10px; }
+    .st-cart__upsell-list { display: flex; flex-direction: row; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+    .st-cart__upsell-item {
+      flex: 0 0 130px;
+      display: block;
+      padding: 10px;
+      text-align: center;
+      transition: border-color .2s ease;
+    }
   }
   .st-cart__upsell-item:hover { border-color: var(--brown); }
   .st-cart__upsell-img {
-    width: 100%; aspect-ratio: 1;
+    grid-area: img;
+    width: 64px; aspect-ratio: 4 / 5;
     background: var(--beige-pale);
     border-radius: var(--radius-sm);
-    margin-bottom: 8px;
     display: flex; align-items: center; justify-content: center;
     color: var(--brown);
   }
+  @media (min-width: 480px) {
+    .st-cart__upsell-img { width: 100%; aspect-ratio: 1; margin-bottom: 8px; }
+  }
   .st-cart__upsell-img svg { width: 38px; height: 38px; stroke: currentColor; fill: none; stroke-width: 1.4; }
-  .st-cart__upsell-name { font-size: 11px; color: var(--brown); font-weight: 600; margin-bottom: 4px; line-height: 1.3; overflow: hidden; }
-  .st-cart__upsell-price { font-size: 11px; color: var(--brown-soft); margin-bottom: 8px; }
+  .st-cart__upsell-name { grid-area: name; font-size: 14px; color: var(--brown); font-weight: 600; line-height: 1.25; overflow: hidden; }
+  .st-cart__upsell-price { grid-area: price; font-size: 12px; color: var(--brown-soft); }
   .st-cart__upsell-add {
-    width: 100%;
+    grid-area: btn;
+    width: auto;
+    min-width: 84px;
     background: transparent;
     border: 1px solid var(--brown);
     color: var(--brown);
-    height: 28px;
+    height: 34px;
+    padding: 0 14px;
     border-radius: 999px;
     font-size: 10px; font-weight: 700;
     letter-spacing: .15em; text-transform: uppercase;
     transition: all .2s ease;
   }
   .st-cart__upsell-add:hover { background: var(--brown); color: var(--beige); }
-  @media (max-width: 480px) {
-    .st-cart__upsell-list { gap: 6px; }
-    .st-cart__upsell-item { padding: 6px; }
-    .st-cart__upsell-img { margin-bottom: 6px; }
-    .st-cart__upsell-img svg { width: 28px; height: 28px; }
-    .st-cart__upsell-name {
-      font-size: 10px;
-      line-height: 1.2;
-      min-height: 2.4em;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-    .st-cart__upsell-price { font-size: 10px; margin-bottom: 6px; }
-    .st-cart__upsell-add { height: 24px; font-size: 9px; letter-spacing: .12em; }
+  @media (min-width: 480px) {
+    .st-cart__upsell-name { font-size: 11px; margin-bottom: 4px; line-height: 1.3; }
+    .st-cart__upsell-price { font-size: 11px; margin-bottom: 8px; }
+    .st-cart__upsell-add { width: 100%; min-width: 0; height: 28px; padding: 0; }
   }
   .st-cart__items { flex: 1; overflow-y: auto; padding: 8px 22px; }
   .st-cart__empty { padding: 60px 20px; text-align: center; color: var(--brown-soft); }
@@ -1447,22 +1475,58 @@
   </div>
   <div class="st-products-wrap">
     <div class="st-carousel">
-      <a href="#" class="st-product">
-        <div class="st-product__media"><img src="./assets/color-cream.jpg" alt=""></div>
-        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Cream</div><div class="st-product__price">4.500 KWD</div></div>
-      </a>
-      <a href="#" class="st-product">
-        <div class="st-product__media"><img src="./assets/color-plum.jpg" alt=""></div>
-        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Plum</div><div class="st-product__price">4.500 KWD</div></div>
-      </a>
-      <a href="#" class="st-product">
-        <div class="st-product__media"><img src="./assets/color-charcoal.jpg" alt=""></div>
-        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Charcoal</div><div class="st-product__price">4.500 KWD</div></div>
-      </a>
-      <a href="#" class="st-product">
-        <div class="st-product__media"><img src="./assets/color-olive.jpg" alt=""></div>
-        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Olive</div><div class="st-product__price">4.500 KWD</div></div>
-      </a>
+      <article class="st-product">
+        <a href="product.html" class="st-product__link">
+          <div class="st-product__media"><img src="./assets/color-cream.jpg" alt="Crinkle Hijab Cream"></div>
+          <div class="st-product__body">
+            <div class="st-product__name">Crinkle Hijab - Cream</div>
+            <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.8 · 942 reviews</div>
+            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+          </div>
+        </a>
+        <div class="st-product__body" style="padding-top:0;">
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-cream" data-rec-name="Crinkle Hijab" data-rec-color="Cream" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-cream.jpg">Add to Cart</button>
+        </div>
+      </article>
+      <article class="st-product">
+        <a href="product.html" class="st-product__link">
+          <div class="st-product__media"><img src="./assets/color-plum.jpg" alt="Crinkle Hijab Plum"></div>
+          <div class="st-product__body">
+            <div class="st-product__name">Crinkle Hijab - Plum</div>
+            <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.9 · 421 reviews</div>
+            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+          </div>
+        </a>
+        <div class="st-product__body" style="padding-top:0;">
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-plum" data-rec-name="Crinkle Hijab" data-rec-color="Plum" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-plum.jpg">Add to Cart</button>
+        </div>
+      </article>
+      <article class="st-product">
+        <a href="product.html" class="st-product__link">
+          <div class="st-product__media"><img src="./assets/color-charcoal.jpg" alt="Crinkle Hijab Charcoal"></div>
+          <div class="st-product__body">
+            <div class="st-product__name">Crinkle Hijab - Charcoal</div>
+            <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.7 · 618 reviews</div>
+            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+          </div>
+        </a>
+        <div class="st-product__body" style="padding-top:0;">
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-charcoal" data-rec-name="Crinkle Hijab" data-rec-color="Charcoal" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-charcoal.jpg">Add to Cart</button>
+        </div>
+      </article>
+      <article class="st-product">
+        <a href="product.html" class="st-product__link">
+          <div class="st-product__media"><img src="./assets/color-olive.jpg" alt="Crinkle Hijab Olive"></div>
+          <div class="st-product__body">
+            <div class="st-product__name">Crinkle Hijab - Olive</div>
+            <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.8 · 612 reviews</div>
+            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+          </div>
+        </a>
+        <div class="st-product__body" style="padding-top:0;">
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-olive" data-rec-name="Crinkle Hijab" data-rec-color="Olive" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-olive.jpg">Add to Cart</button>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -1775,6 +1839,20 @@
     it.querySelector('.st-cart__upsell-add').onclick = e => {
       e.stopPropagation();
       cart.add({ ...UPSELLS[it.dataset.upsell], qty: 1 });
+    };
+  });
+  document.querySelectorAll('.st-product__atc').forEach((btn) => {
+    btn.onclick = () => {
+      cart.add({
+        id: btn.dataset.recId,
+        name: btn.dataset.recName,
+        color: btn.dataset.recColor,
+        size: btn.dataset.recSize,
+        price: Number(btn.dataset.recPrice),
+        image: btn.dataset.recImage,
+        qty: 1
+      });
+      cart.open();
     };
   });
 
