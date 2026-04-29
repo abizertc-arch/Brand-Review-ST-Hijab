@@ -1,0 +1,1818 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#FAF3E8" />
+<title>Crinkle Hijab â€” Taupe Â· Smack Touch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brown-deep: #1A130D;
+    --brown: #2E231C;
+    --brown-soft: #4A382A;
+    --brown-tint: #6B5544;
+    --beige: #C9AF93;
+    --beige-soft: #E2CDB3;
+    --beige-pale: #F5EBDD;
+    --cream: #FAF3E8;
+    --line: rgba(46,35,28,.12);
+    --success: #5C7C5A;
+    --error: #B5564B;
+    --font-display: 'Cormorant Garamond', 'Cairo', serif;
+    --font-body: 'Inter', 'Cairo', sans-serif;
+    --font-arabic: 'Cairo', sans-serif;
+    --radius-sm: 6px;
+    --radius: 12px;
+    --radius-lg: 22px;
+    --shadow-sm: 0 2px 8px rgba(46,35,28,.06);
+    --shadow: 0 8px 24px rgba(46,35,28,.10);
+    --shadow-lg: 0 16px 48px rgba(46,35,28,.15);
+    --container: 1280px;
+    --gutter: 22px;
+    --gutter-d: 40px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { background: var(--cream); color: var(--brown); font-family: var(--font-body); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  body.is-locked { overflow: hidden; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
+  input { font: inherit; }
+
+  /* ============================================================
+     ANNOUNCEMENT BAR (fixed containment)
+     ============================================================ */
+  .st-announce {
+    background: var(--brown);
+    color: var(--beige);
+    overflow: hidden;
+    height: 36px;
+    position: relative;
+  }
+  .st-announce__track {
+    width: 100%;
+    animation: announceCycle 16s infinite;
+  }
+  .st-announce__msg {
+    height: 36px;
+    line-height: 36px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  @keyframes announceCycle {
+    0%, 22%   { transform: translateY(0); }
+    25%, 47%  { transform: translateY(-36px); }
+    50%, 72%  { transform: translateY(-72px); }
+    75%, 97%  { transform: translateY(-108px); }
+    100%      { transform: translateY(0); }
+  }
+
+  /* ============================================================
+     HEADER
+     ============================================================ */
+  .st-header {
+    position: sticky; top: 0; z-index: 60;
+    background: rgba(250,243,232,.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .st-nav-wrap {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 4px;
+    padding: 10px var(--gutter);
+  }
+  .st-icon-btn {
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    color: var(--brown);
+    transition: background .2s ease;
+    position: relative;
+  }
+  .st-icon-btn:active { background: rgba(46,35,28,.06); }
+  .st-icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .st-cart-badge {
+    position: absolute; top: 4px; right: 4px;
+    background: var(--brown); color: var(--beige);
+    font-size: 9px; font-weight: 700;
+    min-width: 16px; height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--cream);
+  }
+  .st-logo {
+    display: flex; align-items: center; justify-content: center;
+    height: 50px;
+    grid-column: 2;
+  }
+  .st-logo img { height: 100%; width: auto; object-fit: contain; }
+
+  .st-nav-desktop { display: none; }
+  .st-nav-utility { display: none; }
+
+  @media (min-width: 1024px) {
+    .st-nav-wrap {
+      grid-template-columns: 1fr auto 1fr;
+      padding: 14px var(--gutter-d);
+      gap: 24px;
+    }
+    .st-icon-btn[data-mobile-only] { display: none; }
+    .st-logo { grid-column: 2; height: 60px; }
+    .st-nav-desktop {
+      display: flex; align-items: center; gap: 32px;
+      grid-column: 1;
+    }
+    .st-nav-desktop a {
+      font-size: 12px; letter-spacing: .15em; text-transform: uppercase;
+      font-weight: 500; color: var(--brown);
+      position: relative; padding: 8px 0;
+    }
+    .st-nav-desktop a:hover { color: var(--brown-soft); }
+    .st-nav-desktop a.is-sale { color: var(--error); }
+    .st-nav-utility { display: flex !important; align-items: center; gap: 4px; grid-column: 3; justify-content: flex-end; }
+  }
+
+  /* ============================================================
+     BREADCRUMB
+     ============================================================ */
+  .st-breadcrumb {
+    padding: 12px var(--gutter) 0;
+    font-size: 11px;
+    color: var(--brown-tint);
+    letter-spacing: .05em;
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  @media (min-width: 1024px) { .st-breadcrumb { padding: 18px var(--gutter-d) 0; } }
+  .st-breadcrumb a { color: var(--brown-tint); }
+  .st-breadcrumb .sep { margin: 0 6px; opacity: .5; }
+
+  /* ============================================================
+     PDP MAIN LAYOUT
+     ============================================================ */
+  .pdp-main {
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  @media (min-width: 1024px) {
+    .pdp-main {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      padding: 24px var(--gutter-d) 60px;
+      align-items: start;
+    }
+    .pdp-main__gallery { position: sticky; top: 110px; }
+  }
+
+  /* ============================================================
+     GALLERY
+     ============================================================ */
+  .pdp-gallery { position: relative; margin-top: 14px; }
+  @media (min-width: 1024px) { .pdp-gallery { margin-top: 0; } }
+
+  .pdp-gallery__main {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--beige);
+    border-radius: 0;
+  }
+  @media (min-width: 1024px) { .pdp-gallery__main { border-radius: var(--radius); } }
+
+  .pdp-gallery__track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pdp-gallery__track::-webkit-scrollbar { display: none; }
+  .pdp-gallery__slide {
+    flex: 0 0 100%;
+    height: 100%;
+    scroll-snap-align: start;
+    position: relative;
+  }
+  .pdp-gallery__slide img,
+  .pdp-gallery__slide video {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+  }
+
+  .pdp-gallery__badges {
+    position: absolute; top: 14px; left: 14px;
+    display: flex; flex-direction: column; gap: 6px;
+    z-index: 5;
+  }
+  .pdp-badge {
+    background: var(--brown); color: var(--beige);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px;
+  }
+  .pdp-badge--sale { background: var(--error); color: white; }
+
+  .pdp-gallery__counter {
+    position: absolute; bottom: 14px; right: 14px;
+    background: rgba(46,35,28,.7); color: var(--cream);
+    font-size: 11px; font-weight: 600;
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .pdp-gallery__video-tag {
+    position: absolute; bottom: 14px; left: 14px;
+    background: rgba(46,35,28,.7); color: var(--cream);
+    font-size: 10px; font-weight: 600;
+    padding: 5px 10px; border-radius: 999px;
+    letter-spacing: .15em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .pdp-gallery__video-tag svg { width: 11px; height: 11px; fill: currentColor; }
+
+  .pdp-gallery__thumbs {
+    display: flex; gap: 8px;
+    padding: 10px var(--gutter) 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .pdp-gallery__thumbs::-webkit-scrollbar { display: none; }
+  @media (min-width: 1024px) {
+    .pdp-gallery__thumbs { padding: 12px 0 0; }
+  }
+  .pdp-thumb {
+    flex: 0 0 64px;
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: border-color .2s ease;
+    position: relative;
+    background: var(--beige-pale);
+  }
+  .pdp-thumb.is-active { border-color: var(--brown); }
+  .pdp-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .pdp-thumb__play {
+    position: absolute; inset: 0;
+    background: rgba(46,35,28,.4);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+  }
+  .pdp-thumb__play svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ============================================================
+     PRODUCT INFO
+     ============================================================ */
+  .pdp-info { padding: 18px var(--gutter) 6px; }
+  @media (min-width: 1024px) { .pdp-info { padding: 0; } }
+
+  .pdp-info__brand {
+    font-size: 10px; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--brown-tint); font-weight: 600; margin-bottom: 10px;
+  }
+  /* Title â€” no italic, clean serif */
+  .pdp-info__title {
+    font-family: var(--font-display);
+    font-size: clamp(26px, 2.6vw, 34px);
+    font-weight: 500; line-height: 1.1;
+    color: var(--brown); margin-bottom: 10px; letter-spacing: -.4px;
+  }
+
+  .pdp-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .pdp-rating .stars { display: flex; gap: 2px; }
+  .pdp-rating .stars svg { width: 13px; height: 13px; fill: var(--beige); }
+  .pdp-rating__text {
+    font-size: 12px; color: var(--brown-soft);
+    border-bottom: 1px solid var(--brown-tint);
+    padding-bottom: 1px;
+  }
+
+  /* CLEAN PRICE BLOCK â€” sans-serif, matched font, no tax line */
+  .pdp-price-block {
+    padding: 4px 0 22px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 22px;
+  }
+  .pdp-price-row {
+    display: flex; align-items: baseline; gap: 12px;
+    flex-wrap: wrap;
+  }
+  .pdp-price-current {
+    font-family: var(--font-body);
+    font-size: clamp(26px, 2.6vw, 32px);
+    font-weight: 600;
+    color: var(--brown);
+    letter-spacing: -.3px;
+    font-variant-numeric: tabular-nums;
+  }
+  .pdp-price-compare {
+    font-family: var(--font-body);
+    font-size: 17px;
+    color: var(--brown-tint);
+    text-decoration: line-through;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+  .pdp-price-save {
+    font-size: 10px;
+    background: var(--error);
+    color: white;
+    padding: 4px 9px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  /* VARIANTS */
+  .pdp-variant { margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .pdp-variant__label {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .pdp-variant__label-text {
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--brown-soft); font-weight: 600;
+  }
+  .pdp-variant__label-text strong {
+    color: var(--brown); font-weight: 600;
+    text-transform: none; letter-spacing: 0;
+    margin-left: 6px;
+    font-size: 13px;
+  }
+  .pdp-size-guide-link {
+    font-size: 11px;
+    color: var(--brown-soft);
+    text-decoration: underline;
+    cursor: pointer;
+    background: none; border: 0;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .pdp-size-guide-link svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+
+  /* RECTANGLE PORTRAIT COLOR SWATCHES */
+  .pdp-swatches {
+    display: flex; gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pdp-swatch {
+    width: 56px;
+    height: 76px;
+    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    box-shadow: 0 0 0 1px var(--line);
+    cursor: pointer;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+    background-size: cover; background-position: center top;
+    position: relative;
+    overflow: hidden;
+  }
+  .pdp-swatch::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(46,35,28,.8) 100%);
+    color: white;
+    font-size: 9px;
+    padding: 12px 4px 4px;
+    letter-spacing: .05em;
+    text-align: center;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .pdp-swatch:hover::after,
+  .pdp-swatch.is-active::after { opacity: 1; }
+  .pdp-swatch.is-active {
+    border-color: var(--brown);
+    box-shadow: 0 0 0 2px var(--brown);
+    transform: translateY(-2px);
+  }
+
+  /* SIZES */
+  .pdp-sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pdp-size {
+    padding: 16px 8px;
+    background: var(--beige-pale);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 13px; font-weight: 600;
+    color: var(--brown); text-align: center;
+    cursor: pointer; transition: all .2s;
+    letter-spacing: .05em;
+  }
+  .pdp-size:hover { background: var(--beige); }
+  .pdp-size.is-active { background: var(--brown); color: var(--beige); border-color: var(--brown); }
+  .pdp-size.is-disabled {
+    color: var(--brown-tint);
+    text-decoration: line-through;
+    cursor: not-allowed;
+    opacity: .5;
+  }
+
+  /* STOCK */
+  .pdp-stock {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--success);
+    margin: 14px 0 18px; font-weight: 500;
+  }
+  .pdp-stock .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 1.6s infinite ease-in-out;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+  /* QUANTITY + ATC */
+  .pdp-actions { padding: 0 var(--gutter); margin-bottom: 24px; }
+  @media (min-width: 1024px) { .pdp-actions { padding: 0; } }
+
+  .pdp-qty-row { display: flex; gap: 12px; align-items: stretch; margin-bottom: 12px; }
+  .pdp-qty {
+    display: flex; align-items: center;
+    background: var(--beige-pale);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 0 4px;
+  }
+  .pdp-qty button { width: 40px; height: 56px; display: flex; align-items: center; justify-content: center; color: var(--brown); font-size: 18px; }
+  .pdp-qty input {
+    width: 38px; height: 56px;
+    background: transparent; border: 0;
+    text-align: center; color: var(--brown);
+    font: inherit; font-weight: 600; outline: none;
+    -moz-appearance: textfield;
+  }
+  .pdp-qty input::-webkit-outer-spin-button,
+  .pdp-qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+  /* ATC button â€” clean, single line */
+  .pdp-atc {
+    flex: 1;
+    background: var(--brown); color: var(--beige);
+    border-radius: var(--radius);
+    height: 56px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: background .2s ease, transform .15s;
+  }
+  .pdp-atc:hover { background: var(--brown-soft); }
+  .pdp-atc:active { transform: scale(.99); }
+  .pdp-atc svg {
+    width: 18px; height: 18px;
+    stroke: currentColor; fill: none; stroke-width: 1.8;
+    stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .pdp-buynow {
+    width: 100%;
+    margin-top: 10px;
+    background: var(--beige);
+    color: var(--brown);
+    border-radius: var(--radius);
+    height: 50px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    transition: background .2s ease;
+  }
+  .pdp-buynow:hover { background: var(--beige-soft); }
+
+
+  /* TRUST */
+  .pdp-trust {
+    margin: 0 var(--gutter) 24px;
+    padding: 16px;
+    background: var(--beige-pale);
+    border-radius: var(--radius);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    text-align: center;
+  }
+  @media (min-width: 1024px) { .pdp-trust { margin: 0; } }
+  .pdp-trust__item svg { width: 22px; height: 22px; stroke: var(--brown); fill: none; stroke-width: 1.6; margin-bottom: 4px; }
+  .pdp-trust__item .t1 { font-size: 11px; font-weight: 600; color: var(--brown); }
+  .pdp-trust__item .t2 { font-size: 9px; color: var(--brown-tint); letter-spacing: .05em; }
+
+  /* ACCORDION */
+  .pdp-accordion { margin: 0 var(--gutter) 24px; border-top: 1px solid var(--line); }
+  @media (min-width: 1024px) { .pdp-accordion { margin: 0; } }
+  .pdp-acc-item { border-bottom: 1px solid var(--line); }
+  .pdp-acc-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 0;
+    font-size: 14px; font-weight: 600; color: var(--brown);
+    cursor: pointer; width: 100%;
+    letter-spacing: .03em;
+  }
+  .pdp-acc-head svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; transition: transform .25s; }
+  .pdp-acc-item.is-open .pdp-acc-head svg { transform: rotate(45deg); }
+  .pdp-acc-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s ease;
+    font-size: 13px; line-height: 1.65; color: var(--brown-soft);
+  }
+  .pdp-acc-body__inner { padding: 0 0 18px; }
+  .pdp-acc-item.is-open .pdp-acc-body { max-height: 800px; }
+  .pdp-feature-list { list-style: none; margin-top: 8px; }
+  .pdp-feature-list li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-size: 13px;
+  }
+  .pdp-feature-list li::before {
+    content: '';
+    position: absolute; left: 0; top: 13px;
+    width: 12px; height: 1px;
+    background: var(--beige);
+  }
+
+  .st-section { padding: 36px var(--gutter) 12px; }
+  @media (min-width: 1024px) { .st-section { padding: 60px var(--gutter-d) 12px; } }
+  .st-section__head { text-align: center; margin-bottom: 22px; }
+  .st-section__eyebrow {
+    font-size: 10px; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--brown-soft); font-weight: 600; margin-bottom: 8px;
+  }
+  .st-section__title { font-family: var(--font-display); font-size: clamp(26px, 3vw, 36px); color: var(--brown); font-weight: 500; }
+  .st-section__title em { font-style: normal; color: var(--brown-soft); font-weight: 600; }
+  .st-section__rule { width: 36px; height: 1px; background: var(--brown); margin: 10px auto 0; opacity: .4; }
+
+  /* REVIEWS */
+  .pdp-reviews {
+    background: var(--beige-pale);
+    padding: 40px var(--gutter);
+    margin-top: 24px;
+  }
+  @media (min-width: 1024px) { .pdp-reviews { padding: 60px var(--gutter-d); } }
+  .pdp-reviews__inner { max-width: var(--container); margin: 0 auto; }
+  .pdp-reviews__overview {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 18px; align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 768px) {
+    .pdp-reviews__overview { grid-template-columns: auto 1fr; gap: 60px; }
+  }
+  .pdp-reviews__avg { text-align: center; }
+  .pdp-reviews__avg .num {
+    font-family: var(--font-display);
+    font-size: 56px; font-weight: 600;
+    color: var(--brown); line-height: 1;
+  }
+  .pdp-reviews__avg .stars { display: inline-flex; gap: 2px; margin: 6px 0 4px; }
+  .pdp-reviews__avg .stars svg { width: 14px; height: 14px; fill: var(--beige); }
+  .pdp-reviews__avg .total { font-size: 11px; color: var(--brown-soft); }
+
+  .pdp-rating-bars { display: flex; flex-direction: column; gap: 6px; }
+  .pdp-rating-bar { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--brown-soft); }
+  .pdp-rating-bar .label { width: 14px; }
+  .pdp-rating-bar .track { flex: 1; height: 6px; background: rgba(46,35,28,.1); border-radius: 999px; overflow: hidden; }
+  .pdp-rating-bar .fill { height: 100%; background: var(--beige); border-radius: 999px; }
+  .pdp-rating-bar .pct { width: 32px; text-align: right; }
+
+  .pdp-photo-strip {
+    display: flex; gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 22px;
+    scrollbar-width: none;
+  }
+  .pdp-photo-strip::-webkit-scrollbar { display: none; }
+  .pdp-photo-strip img {
+    flex: 0 0 90px;
+    width: 90px; height: 110px;
+    object-fit: cover; object-position: center top;
+    border-radius: var(--radius-sm);
+  }
+
+  .pdp-review-grid {
+    display: grid; grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 768px) {
+    .pdp-review-grid { grid-template-columns: repeat(2, 1fr); gap: 0 32px; }
+  }
+
+  .pdp-review { padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .pdp-review__head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .pdp-review__avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--brown); color: var(--beige);
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pdp-review__name { font-size: 13px; font-weight: 600; color: var(--brown); }
+  .pdp-review__verified {
+    font-size: 10px; color: var(--success); font-weight: 600;
+    display: flex; align-items: center; gap: 3px;
+  }
+  .pdp-review__verified svg { width: 12px; height: 12px; }
+  .pdp-review__date { font-size: 11px; color: var(--brown-tint); margin-left: auto; }
+  .pdp-review__stars { display: flex; gap: 2px; margin-bottom: 6px; }
+  .pdp-review__stars svg { width: 12px; height: 12px; fill: var(--beige); }
+  .pdp-review__title { font-weight: 600; font-size: 13px; color: var(--brown); margin-bottom: 4px; }
+  .pdp-review__text { font-size: 13px; color: var(--brown-soft); line-height: 1.55; margin-bottom: 8px; }
+  .pdp-review__photos { display: flex; gap: 6px; }
+  .pdp-review__photos img { width: 56px; height: 70px; object-fit: cover; object-position: center top; border-radius: 6px; }
+  .pdp-reviews__more {
+    width: 100%; margin-top: 22px; padding: 14px;
+    background: transparent;
+    border: 1px solid var(--brown);
+    border-radius: 999px;
+    color: var(--brown);
+    font-size: 12px; font-weight: 600;
+    letter-spacing: .15em; text-transform: uppercase;
+  }
+
+  /* RECOMMENDATIONS */
+  .st-products-wrap { max-width: var(--container); margin: 0 auto; }
+  .st-carousel {
+    display: flex; gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px var(--gutter) 24px;
+    scrollbar-width: none;
+  }
+  .st-carousel::-webkit-scrollbar { display: none; }
+  .st-product {
+    flex: 0 0 64%;
+    scroll-snap-align: start;
+    background: var(--beige-pale);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .st-product__media { aspect-ratio: 4/5; overflow: hidden; }
+  .st-product__media img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .st-product__body { padding: 14px; }
+  .st-product__name { font-family: var(--font-display); font-size: 17px; color: var(--brown); margin-bottom: 4px; font-weight: 500; }
+  .st-product__price { font-size: 14px; color: var(--brown); font-weight: 600; }
+  @media (min-width: 768px) {
+    .st-carousel {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 18px; padding: 4px var(--gutter-d) 24px;
+      overflow: visible;
+    }
+    .st-product { flex: none; }
+  }
+
+  /* STICKY CTA */
+  .pdp-sticky-cta {
+    position: fixed;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 50;
+    background: var(--brown);
+    border-radius: var(--radius);
+    padding: 8px 8px 8px 18px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.25);
+    transform: translateY(140%);
+    transition: transform .3s ease;
+  }
+  @media (min-width: 1024px) { .pdp-sticky-cta { display: none; } }
+  .pdp-sticky-cta.is-shown { transform: translateY(0); }
+  .pdp-sticky-cta__price {
+    color: var(--beige);
+    font-size: 14px; font-weight: 600;
+    font-family: var(--font-display);
+    flex-shrink: 0;
+  }
+  .pdp-sticky-cta__btn {
+    flex: 1;
+    background: var(--beige);
+    color: var(--brown);
+    height: 42px; border-radius: var(--radius);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .pdp-sticky-cta__btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+  /* SIZE GUIDE MODAL */
+  .pdp-size-modal {
+    position: fixed; inset: 0;
+    background: rgba(26,19,13,.6);
+    backdrop-filter: blur(6px);
+    z-index: 120;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .pdp-size-modal.is-open { display: flex; }
+  .pdp-size-modal__inner {
+    background: var(--cream);
+    border-radius: var(--radius-lg);
+    max-width: 520px; width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+  }
+  .pdp-size-modal__close {
+    position: absolute; top: 16px; right: 16px;
+    color: var(--brown);
+  }
+  .pdp-size-modal__close svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+  .pdp-size-modal h3 {
+    font-family: var(--font-display);
+    font-size: 28px; color: var(--brown); margin-bottom: 6px;
+  }
+  .pdp-size-modal h3 em { font-style: italic; color: var(--brown-soft); }
+  .pdp-size-modal__sub { font-size: 13px; color: var(--brown-soft); margin-bottom: 22px; }
+  .pdp-size-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+  .pdp-size-table th, .pdp-size-table td {
+    text-align: left; padding: 12px 8px;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .pdp-size-table th {
+    font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--brown-tint); font-weight: 600;
+  }
+  .pdp-size-table td:first-child { font-weight: 600; color: var(--brown); }
+  .pdp-size-modal__note {
+    background: var(--beige-pale);
+    border-radius: var(--radius);
+    padding: 14px;
+    font-size: 12px; line-height: 1.5;
+    color: var(--brown-soft);
+  }
+
+  /* ============================================================
+     FOOTER (same as homepage)
+     ============================================================ */
+  .st-footer {
+    background: var(--cream);
+    border-top: 1px solid var(--line);
+    padding: 40px var(--gutter) 100px;
+  }
+  @media (min-width: 768px) { .st-footer { padding: 60px var(--gutter-d) 40px; } }
+  .st-footer__inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .st-footer__inner { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; }
+  }
+  .st-footer__brand img { height: 56px; margin-bottom: 14px; }
+  .st-footer__brand p { font-size: 13px; color: var(--brown-soft); line-height: 1.6; max-width: 320px; margin-bottom: 16px; }
+  .st-footer__brand .ar { font-family: var(--font-arabic); font-size: 14px; color: var(--brown); letter-spacing: .15em; }
+  .st-footer__col h4 {
+    font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--brown); font-weight: 700; margin-bottom: 14px;
+  }
+  .st-footer__col ul { list-style: none; }
+  .st-footer__col ul li { margin-bottom: 8px; }
+  .st-footer__col a { font-size: 13px; color: var(--brown-soft); }
+  .st-footer__col a:hover { color: var(--brown); }
+  .st-footer__bottom {
+    max-width: var(--container);
+    margin: 32px auto 0;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .st-footer__bottom { flex-direction: row; justify-content: space-between; }
+  }
+  .st-footer__pay { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .st-footer__pay span {
+    background: var(--beige-pale);
+    color: var(--brown);
+    font-size: 9px; font-weight: 700;
+    padding: 5px 9px;
+    border-radius: 4px;
+    letter-spacing: .1em;
+  }
+  .st-footer__social { display: flex; gap: 10px; }
+  .st-footer__social a {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--beige-pale);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--brown);
+  }
+  .st-footer__social svg { width: 14px; height: 14px; fill: currentColor; }
+  .st-footer__copy { font-size: 11px; color: var(--brown-tint); letter-spacing: .1em; }
+
+  /* CART DRAWER (same as homepage) */
+  .st-overlay {
+    position: fixed; inset: 0;
+    background: rgba(26,19,13,.55);
+    backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+    z-index: 80;
+  }
+  .st-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+  .st-cart {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 100%; max-width: 440px;
+    background: var(--cream);
+    z-index: 110;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.5,0,.2,1);
+    display: flex; flex-direction: column;
+    box-shadow: var(--shadow-lg);
+  }
+  .st-cart.is-open { transform: translateX(0); }
+  .st-cart__head {
+    padding: 20px 22px 14px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .st-cart__head h3 {
+    font-family: var(--font-display);
+    font-size: 22px; color: var(--brown); font-weight: 600;
+  }
+  .st-cart__count {
+    background: var(--brown); color: var(--beige);
+    font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 999px;
+    margin-left: 8px; letter-spacing: .1em;
+  }
+  /* Free shipping + offer (themed, no emojis) */
+  .st-cart__shipping { padding: 18px 22px 16px; background: var(--cream); border-bottom: 1px solid var(--line); }
+  .st-cart__shipping-msg {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  .st-cart__shipping-msg strong { color: var(--brown); font-weight: 700; }
+  .st-cart__shipping-msg.is-met { color: var(--brown); }
+  .st-cart__shipping-msg.is-met svg {
+    width: 12px; height: 12px;
+    stroke: currentColor; fill: none; stroke-width: 2.5;
+    vertical-align: middle; margin-right: 6px;
+  }
+  .st-cart__shipping-bar { height: 4px; background: var(--beige-pale); border-radius: 999px; overflow: hidden; }
+  .st-cart__shipping-fill { height: 100%; background: var(--brown); border-radius: 999px; width: 0%; transition: width .4s ease; }
+
+  .st-cart__offer {
+    padding: 14px 22px;
+    background: var(--beige-pale);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .st-cart__offer strong { color: var(--brown); font-weight: 700; }
+  .st-cart__offer.is-applied { background: var(--brown); color: var(--beige); }
+  .st-cart__offer.is-applied strong { color: var(--cream); }
+
+  /* Cart upsell strip */
+  .st-cart__upsell { padding: 18px 22px; border-bottom: 1px solid var(--line); }
+  .st-cart__upsell-title {
+    font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--brown-soft); font-weight: 700; margin-bottom: 12px;
+  }
+  .st-cart__upsell-list { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+  .st-cart__upsell-list::-webkit-scrollbar { display: none; }
+  .st-cart__upsell-item {
+    flex: 0 0 130px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    text-align: center;
+    transition: border-color .2s ease;
+  }
+  .st-cart__upsell-item:hover { border-color: var(--brown); }
+  .st-cart__upsell-img {
+    width: 100%; aspect-ratio: 1;
+    background: var(--beige-pale);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown);
+  }
+  .st-cart__upsell-img svg { width: 38px; height: 38px; stroke: currentColor; fill: none; stroke-width: 1.4; }
+  .st-cart__upsell-name { font-size: 11px; color: var(--brown); font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+  .st-cart__upsell-price { font-size: 11px; color: var(--brown-soft); margin-bottom: 8px; }
+  .st-cart__upsell-add {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--brown);
+    color: var(--brown);
+    height: 28px;
+    border-radius: 999px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    transition: all .2s ease;
+  }
+  .st-cart__upsell-add:hover { background: var(--brown); color: var(--beige); }
+  .st-cart__items { flex: 1; overflow-y: auto; padding: 8px 22px; }
+  .st-cart__empty { padding: 60px 20px; text-align: center; color: var(--brown-soft); }
+  .st-cart__empty svg { width: 60px; height: 60px; stroke: var(--brown-tint); fill: none; stroke-width: 1.2; margin-bottom: 14px; }
+  .st-cart-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .st-cart-item:last-child { border-bottom: 0; }
+  .st-cart-item__img { width: 80px; height: 100px; border-radius: var(--radius-sm); overflow: hidden; background: var(--beige); }
+  .st-cart-item__img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .st-cart-item__body { display: flex; flex-direction: column; justify-content: space-between; padding-right: 4px; }
+  .st-cart-item__name { font-family: var(--font-body); font-size: 14px; color: var(--brown); font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+  .st-cart-item__variant { font-size: 11px; color: var(--brown-tint); margin-bottom: 8px; letter-spacing: .03em; }
+  .st-cart-item__row { display: flex; align-items: center; justify-content: space-between; }
+  .st-cart-item__qty { display: flex; align-items: center; background: var(--beige-pale); border-radius: 999px; padding: 0 2px; }
+  .st-cart-item__qty button { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: var(--brown); font-size: 14px; }
+  .st-cart-item__qty span { min-width: 22px; text-align: center; font-size: 12px; font-weight: 700; }
+  .st-cart-item__price { font-size: 13px; font-weight: 700; color: var(--brown); font-family: var(--font-body); }
+  .st-cart-item__close {
+    position: absolute;
+    top: 14px; right: 0;
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown-tint);
+    transition: color .2s ease;
+  }
+  .st-cart-item__close:hover { color: var(--brown); }
+  .st-cart-item__close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; }
+  .st-cart__totals { padding: 16px 22px 20px; border-top: 1px solid var(--line); background: var(--beige-pale); }
+  .st-cart__row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--brown-soft); }
+  .st-cart__row.is-discount { color: var(--success); font-weight: 600; }
+  .st-cart__total { display: flex; justify-content: space-between; align-items: baseline; font-size: 18px; font-weight: 700; color: var(--brown); margin: 12px 0 14px; padding-top: 12px; border-top: 1px solid var(--line); font-family: var(--font-display); }
+  .st-cart__checkout {
+    width: 100%; background: var(--brown); color: var(--beige);
+    height: 50px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .st-cart__continue {
+    width: 100%; height: 40px; color: var(--brown-soft);
+    font-size: 12px; letter-spacing: .12em;
+    text-transform: uppercase; text-decoration: underline;
+  }
+
+  .st-toast {
+    position: fixed;
+    bottom: 100px; left: 50%;
+    transform: translate(-50%, 20px);
+    background: var(--brown); color: var(--beige);
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-size: 13px; font-weight: 600;
+    box-shadow: var(--shadow);
+    z-index: 200;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .st-toast.is-shown { opacity: 1; transform: translate(-50%, 0); }
+  .st-toast svg { width: 16px; height: 16px; stroke: var(--beige); fill: none; stroke-width: 2.5; }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="st-announce">
+  <div class="st-announce__track">
+    <div class="st-announce__msg">FREE SHIPPING ON ORDERS OVER 25 KWD</div>
+    <div class="st-announce__msg">ðŸŽ BUY 2 â€” GET 10% OFF</div>
+    <div class="st-announce__msg">âœ¨ BUY 6 â€” GET 20% OFF</div>
+    <div class="st-announce__msg">FREE 14-DAY RETURNS</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="st-header">
+  <div class="st-nav-wrap">
+    <a href="index.html" class="st-icon-btn" data-mobile-only aria-label="Back">
+      <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg>
+    </a>
+
+    <nav class="st-nav-desktop">
+      <a href="shop.html">Shop</a>
+      <a href="collection.html?cat=hijabs">Hijabs</a>
+      <a href="collection.html?cat=undercaps">Undercaps</a>
+      <a href="collection.html?cat=accessories">Pins</a>
+      <a href="collection.html?cat=sale" class="is-sale">Sale</a>
+    </nav>
+
+    <a href="index.html" class="st-logo"><img src="./assets/logo-brown.png" alt="Smack Touch"></a>
+
+    <div class="st-nav-utility">
+      <button class="st-icon-btn" id="searchBtnD" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      </button>
+      <button class="st-icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </button>
+      <button class="st-icon-btn" id="cartBtnD" aria-label="Cart">
+        <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        <span class="st-cart-badge" data-cart-count>0</span>
+      </button>
+    </div>
+
+    <button class="st-icon-btn" data-mobile-only aria-label="Search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    </button>
+    <button class="st-icon-btn" id="cartBtn" data-mobile-only aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+      <span class="st-cart-badge" data-cart-count>0</span>
+    </button>
+  </div>
+</header>
+
+<nav class="st-breadcrumb">
+  <a href="index.html">Home</a><span class="sep">/</span>
+  <a href="#">Hijabs</a><span class="sep">/</span>
+  <span style="color: var(--brown);">Crinkle Hijab â€” Taupe</span>
+</nav>
+
+<!-- MAIN PRODUCT -->
+<div class="pdp-main">
+  <!-- LEFT: Gallery -->
+  <div class="pdp-main__gallery">
+    <section class="pdp-gallery" data-section-type="main-product">
+      <div class="pdp-gallery__main">
+        <div class="pdp-gallery__badges">
+          <span class="pdp-badge">Bestseller</span>
+          <span class="pdp-badge pdp-badge--sale">âˆ’30%</span>
+        </div>
+        <div class="pdp-gallery__track" id="galleryTrack">
+          <div class="pdp-gallery__slide"><img src="./assets/product-taupe-1.jpg" alt="Front" id="mainImg"></div>
+          <div class="pdp-gallery__slide"><img src="./assets/product-taupe-2.jpg" alt="Side"></div>
+          <div class="pdp-gallery__slide"><img src="./assets/product-taupe-3.jpg" alt="Detail"></div>
+          <div class="pdp-gallery__slide"><img src="./assets/product-taupe-4.jpg" alt="Style"></div>
+          <div class="pdp-gallery__slide" id="videoSlide">
+            <img src="./assets/hero-video-poster.jpg" alt="Styling video">
+            <span class="pdp-gallery__video-tag">
+              <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+              Watch Style
+            </span>
+          </div>
+          <div class="pdp-gallery__slide"><img src="./assets/product-taupe-5.jpg" alt="Fabric"></div>
+        </div>
+        <span class="pdp-gallery__counter" id="counter">1 / 6</span>
+      </div>
+      <div class="pdp-gallery__thumbs">
+        <button class="pdp-thumb is-active" data-idx="0"><img src="./assets/product-taupe-1.jpg" alt=""></button>
+        <button class="pdp-thumb" data-idx="1"><img src="./assets/product-taupe-2.jpg" alt=""></button>
+        <button class="pdp-thumb" data-idx="2"><img src="./assets/product-taupe-3.jpg" alt=""></button>
+        <button class="pdp-thumb" data-idx="3"><img src="./assets/product-taupe-4.jpg" alt=""></button>
+        <button class="pdp-thumb" data-idx="4">
+          <img src="./assets/hero-video-poster.jpg" alt="">
+          <span class="pdp-thumb__play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></span>
+        </button>
+        <button class="pdp-thumb" data-idx="5"><img src="./assets/product-taupe-5.jpg" alt=""></button>
+      </div>
+    </section>
+  </div>
+
+  <!-- RIGHT: Info -->
+  <div class="pdp-main__info">
+    <section class="pdp-info">
+      <div class="pdp-info__brand">Crinkle Collection</div>
+      <h1 class="pdp-info__title">Crinkle Hijab â€” Taupe</h1>
+
+      <div class="pdp-rating">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+        </div>
+        <a href="#reviews" class="pdp-rating__text">4.9 Â· 1,284 reviews</a>
+      </div>
+
+      <!-- PRICE â€” clean, sans-serif, no extra wording -->
+      <div class="pdp-price-block">
+        <div class="pdp-price-row">
+          <span class="pdp-price-current">4.500 KWD</span>
+          <span class="pdp-price-compare">6.500 KWD</span>
+          <span class="pdp-price-save">âˆ’30%</span>
+        </div>
+      </div>
+
+      <!-- COLOR â€” rectangle portrait swatches (bigger) -->
+      <div class="pdp-variant">
+        <div class="pdp-variant__label">
+          <div class="pdp-variant__label-text">Color<strong id="selColor">Taupe</strong></div>
+        </div>
+        <div class="pdp-swatches">
+          <button class="pdp-swatch is-active" style="background-image: url('./assets/product-taupe-1.jpg');" data-name="Taupe"></button>
+          <button class="pdp-swatch" style="background-image: url('./assets/color-cream.jpg');" data-name="Cream"></button>
+          <button class="pdp-swatch" style="background-image: url('./assets/color-olive.jpg');" data-name="Olive"></button>
+          <button class="pdp-swatch" style="background-image: url('./assets/color-light-grey.jpg');" data-name="Light Grey"></button>
+          <button class="pdp-swatch" style="background-image: url('./assets/color-charcoal.jpg');" data-name="Charcoal"></button>
+          <button class="pdp-swatch" style="background-image: url('./assets/color-plum.jpg');" data-name="Plum"></button>
+          <button class="pdp-swatch" style="background-image: url('./assets/color-silver.jpg');" data-name="Silver"></button>
+          <button class="pdp-swatch" style="background-image: url('./assets/color-white.jpg');" data-name="Ivory"></button>
+        </div>
+      </div>
+
+      <!-- SIZE â€” Plain / Jafsa / Small -->
+      <div class="pdp-variant">
+        <div class="pdp-variant__label">
+          <div class="pdp-variant__label-text">Size<strong id="selSize">Jafsa</strong></div>
+          <button class="pdp-size-guide-link" id="openSizeGuide">
+            <svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="6" rx="1"/><line x1="7" y1="9" x2="7" y2="13"/><line x1="11" y1="9" x2="11" y2="14"/><line x1="15" y1="9" x2="15" y2="13"/></svg>
+            Size Guide
+          </button>
+        </div>
+        <div class="pdp-sizes">
+          <button class="pdp-size">Plain</button>
+          <button class="pdp-size is-active">Jafsa</button>
+          <button class="pdp-size">Small</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ATC â€” clean, no price below, no offer pill -->
+    <div class="pdp-actions">
+      <div class="pdp-qty-row">
+        <div class="pdp-qty">
+          <button id="qtyDown">âˆ’</button>
+          <input type="number" id="qty" value="1" min="1" max="10">
+          <button id="qtyUp">+</button>
+        </div>
+        <button class="pdp-atc" id="atcBtn">
+          <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+          Add to Cart
+        </button>
+      </div>
+      <button class="pdp-buynow" id="buyNowBtn">Buy It Now</button>
+    </div>
+
+    <!-- TRUST -->
+    <div class="pdp-trust">
+      <div class="pdp-trust__item">
+        <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7z"/><path d="M16 7l-1-3H9L8 7"/></svg>
+        <div class="t1">Free Shipping</div>
+        <div class="t2">Over 25 KWD</div>
+      </div>
+      <div class="pdp-trust__item">
+        <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/><polyline points="21 3 21 9 15 9"/></svg>
+        <div class="t1">14-Day Returns</div>
+        <div class="t2">Hassle-free</div>
+      </div>
+      <div class="pdp-trust__item">
+        <svg viewBox="0 0 24 24"><path d="M12 2 L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/></svg>
+        <div class="t1">Secure</div>
+        <div class="t2">KNET Â· Apple Pay</div>
+      </div>
+    </div>
+
+    <!-- ACCORDION -->
+    <div class="pdp-accordion">
+      <div class="pdp-acc-item is-open">
+        <button class="pdp-acc-head">
+          Description
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="pdp-acc-body"><div class="pdp-acc-body__inner">
+          Our signature crinkle hijab in soft taupe â€” light, breathable, with a beautifully textured weave that holds its drape effortlessly. A staple for everyday elegance.
+          <ul class="pdp-feature-list">
+            <li>Premium crinkle weave fabric</li>
+            <li>Available in Plain, Jafsa & Small cuts</li>
+            <li>Frayed natural-finish edges</li>
+            <li>Breathable, year-round wear</li>
+            <li>Hypoallergenic & easy-care</li>
+          </ul>
+        </div></div>
+      </div>
+      <div class="pdp-acc-item">
+        <button class="pdp-acc-head">
+          Materials & Care
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="pdp-acc-body"><div class="pdp-acc-body__inner">
+          Hand wash cold with mild detergent. Lay flat to dry. Iron on low heat. Do not bleach.
+        </div></div>
+      </div>
+      <div class="pdp-acc-item">
+        <button class="pdp-acc-head">
+          Shipping & Returns
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="pdp-acc-body"><div class="pdp-acc-body__inner">
+          Free shipping in Kuwait above 25 KWD. GCC delivery 2â€“4 business days. International 5â€“7 days. 14-day returns on unworn items.
+        </div></div>
+      </div>
+      <div class="pdp-acc-item">
+        <button class="pdp-acc-head">
+          Sustainability
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="pdp-acc-body"><div class="pdp-acc-body__inner">
+          Small-batch production, recyclable packaging, partnership with women-led artisan workshops.
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="pdp-reviews" id="reviews">
+  <div class="pdp-reviews__inner">
+    <div class="st-section__head" style="margin-bottom: 18px;">
+      <div class="st-section__eyebrow">Customer Reviews</div>
+      <h2 class="st-section__title">Loved by thousands</h2>
+    </div>
+    <div class="pdp-reviews__overview">
+      <div class="pdp-reviews__avg">
+        <div class="num">4.9</div>
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+        </div>
+        <div class="total">Based on 1,284 reviews</div>
+      </div>
+      <div class="pdp-rating-bars">
+        <div class="pdp-rating-bar"><span class="label">5</span><div class="track"><div class="fill" style="width:88%"></div></div><span class="pct">88%</span></div>
+        <div class="pdp-rating-bar"><span class="label">4</span><div class="track"><div class="fill" style="width:9%"></div></div><span class="pct">9%</span></div>
+        <div class="pdp-rating-bar"><span class="label">3</span><div class="track"><div class="fill" style="width:2%"></div></div><span class="pct">2%</span></div>
+        <div class="pdp-rating-bar"><span class="label">2</span><div class="track"><div class="fill" style="width:1%"></div></div><span class="pct">1%</span></div>
+        <div class="pdp-rating-bar"><span class="label">1</span><div class="track"><div class="fill" style="width:0%"></div></div><span class="pct">0%</span></div>
+      </div>
+    </div>
+
+    <div class="pdp-photo-strip">
+      <img src="./assets/review-1.jpg" alt="">
+      <img src="./assets/review-2.jpg" alt="">
+      <img src="./assets/review-3.jpg" alt="">
+      <img src="./assets/review-4.jpg" alt="">
+      <img src="./assets/color-plum.jpg" alt="">
+      <img src="./assets/color-silver.jpg" alt="">
+    </div>
+
+    <div class="pdp-review-grid">
+      <div class="pdp-review">
+        <div class="pdp-review__head">
+          <div class="pdp-review__avatar">M</div>
+          <div>
+            <div class="pdp-review__name">Mariam A.</div>
+            <div class="pdp-review__verified">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Buyer Â· Kuwait
+            </div>
+          </div>
+          <div class="pdp-review__date">3 days ago</div>
+        </div>
+        <div class="pdp-review__stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+        </div>
+        <div class="pdp-review__title">Absolutely beautiful</div>
+        <p class="pdp-review__text">The Taupe color is exactly as pictured â€” soft, neutral, goes with everything. The crinkle texture drapes perfectly. Worth every fil.</p>
+        <div class="pdp-review__photos">
+          <img src="./assets/review-1.jpg" alt="">
+          <img src="./assets/review-2.jpg" alt="">
+        </div>
+      </div>
+      <div class="pdp-review">
+        <div class="pdp-review__head">
+          <div class="pdp-review__avatar">F</div>
+          <div>
+            <div class="pdp-review__name">Fatima H.</div>
+            <div class="pdp-review__verified">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Buyer Â· KSA
+            </div>
+          </div>
+          <div class="pdp-review__date">1 week ago</div>
+        </div>
+        <div class="pdp-review__stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+        </div>
+        <div class="pdp-review__title">My new favorite hijab brand</div>
+        <p class="pdp-review__text">Quality is unmatched. The crinkle doesn't slip, doesn't wrinkle out. Already on my third order. Shipping to Riyadh was super fast.</p>
+        <div class="pdp-review__photos"><img src="./assets/review-3.jpg" alt=""></div>
+      </div>
+      <div class="pdp-review">
+        <div class="pdp-review__head">
+          <div class="pdp-review__avatar">N</div>
+          <div>
+            <div class="pdp-review__name">Noor K.</div>
+            <div class="pdp-review__verified">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Buyer Â· UAE
+            </div>
+          </div>
+          <div class="pdp-review__date">2 weeks ago</div>
+        </div>
+        <div class="pdp-review__stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24" style="opacity:.3"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+        </div>
+        <div class="pdp-review__title">Beautiful packaging</div>
+        <p class="pdp-review__text">Smack Touch packaging feels so premium. The new logo is gorgeous. Took half a star only because color was slightly lighter than expected.</p>
+      </div>
+      <div class="pdp-review">
+        <div class="pdp-review__head">
+          <div class="pdp-review__avatar">S</div>
+          <div>
+            <div class="pdp-review__name">Sara M.</div>
+            <div class="pdp-review__verified">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Verified Buyer Â· Kuwait
+            </div>
+          </div>
+          <div class="pdp-review__date">3 weeks ago</div>
+        </div>
+        <div class="pdp-review__stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+        </div>
+        <div class="pdp-review__title">Bought 6 â€” got 20% off!</div>
+        <p class="pdp-review__text">Loved the bundle deal. All 6 colors are gorgeous. The Jafsa size is perfect for my face shape.</p>
+      </div>
+    </div>
+
+    <button class="pdp-reviews__more">Read all 1,284 reviews</button>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section data-section-type="product-recommendations">
+  <div class="st-section__head">
+    <div class="st-section__eyebrow">Pairs Beautifully With</div>
+    <h2 class="st-section__title">You may also <em>love</em></h2>
+    <div class="st-section__rule"></div>
+  </div>
+  <div class="st-products-wrap">
+    <div class="st-carousel">
+      <a href="#" class="st-product">
+        <div class="st-product__media"><img src="./assets/color-cream.jpg" alt=""></div>
+        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Cream</div><div class="st-product__price">4.500 KWD</div></div>
+      </a>
+      <a href="#" class="st-product">
+        <div class="st-product__media"><img src="./assets/color-plum.jpg" alt=""></div>
+        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Plum</div><div class="st-product__price">4.500 KWD</div></div>
+      </a>
+      <a href="#" class="st-product">
+        <div class="st-product__media"><img src="./assets/color-charcoal.jpg" alt=""></div>
+        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Charcoal</div><div class="st-product__price">4.500 KWD</div></div>
+      </a>
+      <a href="#" class="st-product">
+        <div class="st-product__media"><img src="./assets/color-olive.jpg" alt=""></div>
+        <div class="st-product__body"><div class="st-product__name">Crinkle Hijab â€” Olive</div><div class="st-product__price">4.500 KWD</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="st-footer">
+  <div class="st-footer__inner">
+    <div class="st-footer__brand">
+      <img src="./assets/logo-brown.png" alt="Smack Touch">
+      <p>Smack Touch crafts thoughtfully-made hijabs and modest essentials for women across the GCC. Designed in Kuwait with quality you can feel.</p>
+      <div class="ar">Ø³Ù…Ø§Ùƒ ØªØ´</div>
+    </div>
+    <div class="st-footer__col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Hijabs</a></li>
+        <li><a href="#">Sleeves</a></li>
+        <li><a href="#">Hijab Tape</a></li>
+        <li><a href="#">Accessories</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </div>
+    <div class="st-footer__col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns & Exchange</a></li>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="st-footer__col">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Become a Stockist</a></li>
+        <li><a href="#">Store Locator</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="st-footer__bottom">
+    <div class="st-footer__copy">Â© 2026 SMACK TOUCH Â· Ø³ÙˆÙ‚ Ø§Ù„Ø²Ù„ Ø§Ù„Ù…Ø¨Ø§Ø±ÙƒÙŠØ© Â· KUWAIT</div>
+    <div class="st-footer__pay">
+      <span>KNET</span><span>VISA</span><span>MC</span><span>APPLE PAY</span><span>TABBY</span>
+    </div>
+    <div class="st-footer__social">
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.5-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M19.5 6.5a4.6 4.6 0 0 1-3.5-1.6V15a5 5 0 1 1-5-5v3a2 2 0 1 0 2 2V2h3a4.6 4.6 0 0 0 3.5 4z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE CTA -->
+<div class="pdp-sticky-cta" id="stickyCta">
+  <div class="pdp-sticky-cta__price">4.500 KWD</div>
+  <button class="pdp-sticky-cta__btn" id="stickyAtc">
+    <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+    Add to Cart
+  </button>
+</div>
+
+<!-- SIZE GUIDE MODAL -->
+<div class="pdp-size-modal" id="sizeModal">
+  <div class="pdp-size-modal__inner">
+    <button class="pdp-size-modal__close" id="closeSizeModal">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <h3>Size Guide</h3>
+    <p class="pdp-size-modal__sub">Our crinkle hijabs come in three signature cuts. Pick what suits your face shape and styling preference.</p>
+    <table class="pdp-size-table">
+      <tr>
+        <th>Size</th>
+        <th>Dimensions</th>
+        <th>Best For</th>
+      </tr>
+      <tr>
+        <td>Plain</td>
+        <td>160 Ã— 70 cm</td>
+        <td>Lighter wear, minimal drape</td>
+      </tr>
+      <tr>
+        <td>Jafsa</td>
+        <td>180 Ã— 75 cm</td>
+        <td>Standard fit, full drape</td>
+      </tr>
+      <tr>
+        <td>Small</td>
+        <td>150 Ã— 65 cm</td>
+        <td>Compact wrap, no excess fabric</td>
+      </tr>
+    </table>
+    <div class="pdp-size-modal__note">
+      <strong>Tip:</strong> Prefer fuller draping or wear an underscarf? Go with <strong>Jafsa</strong>. For a snug everyday wear, the <strong>Small</strong> cut is the favourite.
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="st-overlay" id="cartOverlay"></div>
+<div class="st-cart" id="cartDrawer">
+  <div class="st-cart__head">
+    <h3>Your Bag <span class="st-cart__count" data-cart-count-2>0</span></h3>
+    <button class="st-icon-btn" id="closeCart">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="st-cart__shipping" id="shipping"></div>
+  <div class="st-cart__offer" id="offer"></div>
+  <div class="st-cart__items" id="cartItems"></div>
+
+  <!-- Upsell strip -->
+  <div class="st-cart__upsell">
+    <div class="st-cart__upsell-title">Complete the look</div>
+    <div class="st-cart__upsell-list">
+      <div class="st-cart__upsell-item" data-upsell="tape">
+        <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <div class="st-cart__upsell-name">Hijab Tape</div>
+        <div class="st-cart__upsell-price">1.500 KWD</div>
+        <button class="st-cart__upsell-add">+ Add</button>
+      </div>
+      <div class="st-cart__upsell-item" data-upsell="pins">
+        <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4"/><line x1="11.5" y1="11.5" x2="20" y2="20"/></svg></div>
+        <div class="st-cart__upsell-name">Magnetic Pins</div>
+        <div class="st-cart__upsell-price">2.000 KWD</div>
+        <button class="st-cart__upsell-add">+ Add</button>
+      </div>
+      <div class="st-cart__upsell-item" data-upsell="bonnet">
+        <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><path d="M5 14 C 5 9, 8 6, 12 6 C 16 6, 19 9, 19 14"/><path d="M5 14 H 19 V 17 H 5 Z"/></svg></div>
+        <div class="st-cart__upsell-name">Undercap</div>
+        <div class="st-cart__upsell-price">2.500 KWD</div>
+        <button class="st-cart__upsell-add">+ Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="st-cart__totals" id="cartTotals" style="display:none;">
+    <div class="st-cart__row"><span>Subtotal</span><span data-subtotal>0.000 KWD</span></div>
+    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>âˆ’0.000 KWD</span></div>
+    <div class="st-cart__total"><span>Total</span><span data-total>0.000 KWD</span></div>
+    <button class="st-cart__checkout">Checkout</button>
+    <button class="st-cart__continue" id="continueShopping">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="st-toast" id="toast">
+  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  <span>Added to cart</span>
+</div>
+
+<script>
+  /* ============================================================
+     CART (same as homepage)
+     ============================================================ */
+  const cart = {
+    items: [],
+    SHIPPING_THRESHOLD: 25,
+    add(p) {
+      const key = `${p.id}-${p.color}-${p.size}`;
+      const existing = this.items.find(i => i.key === key);
+      if (existing) existing.qty += p.qty || 1;
+      else this.items.push({ ...p, key, qty: p.qty || 1 });
+      this.render();
+      this.toast();
+    },
+    remove(key) { this.items = this.items.filter(i => i.key !== key); this.render(); },
+    setQty(key, qty) {
+      const item = this.items.find(i => i.key === key);
+      if (item) {
+        if (qty <= 0) this.remove(key);
+        else { item.qty = qty; this.render(); }
+      }
+    },
+    subtotal() { return this.items.reduce((s, i) => s + i.price * i.qty, 0); },
+    totalQty() { return this.items.reduce((s, i) => s + i.qty, 0); },
+    discount() {
+      const q = this.totalQty();
+      if (q >= 6) return { pct: 20, label: 'Buy 6 â€” 20% off' };
+      if (q >= 2) return { pct: 10, label: 'Buy 2 â€” 10% off' };
+      return null;
+    },
+    total() {
+      const sub = this.subtotal();
+      const d = this.discount();
+      return d ? sub * (1 - d.pct / 100) : sub;
+    },
+    fmt(v) { return v.toFixed(3) + ' KWD'; },
+    render() {
+      const count = this.totalQty();
+      document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = count);
+      document.querySelectorAll('[data-cart-count-2]').forEach(el => el.textContent = count);
+      const itemsEl = document.getElementById('cartItems');
+      const totalsEl = document.getElementById('cartTotals');
+
+      if (this.items.length === 0) {
+        itemsEl.innerHTML = `<div class="st-cart__empty">
+          <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+          <p>Your bag is empty</p>
+          <button class="pdp-buynow" onclick="cart.close()" style="max-width:200px;margin:0 auto;">Continue Shopping</button>
+        </div>`;
+        totalsEl.style.display = 'none';
+      } else {
+        itemsEl.innerHTML = this.items.map(i => `
+          <div class="st-cart-item">
+            <div class="st-cart-item__img"><img src="${i.image}" alt=""></div>
+            <div class="st-cart-item__body">
+              <div>
+                <div class="st-cart-item__name">${i.name}</div>
+                <div class="st-cart-item__variant">${i.color}${i.size ? ' Â· ' + i.size : ''}</div>
+              </div>
+              <div class="st-cart-item__row">
+                <div class="st-cart-item__qty">
+                  <button onclick="cart.setQty('${i.key}', ${i.qty - 1})">âˆ’</button>
+                  <span>${i.qty}</span>
+                  <button onclick="cart.setQty('${i.key}', ${i.qty + 1})">+</button>
+                </div>
+                <div class="st-cart-item__price">${this.fmt(i.price * i.qty)}</div>
+              </div>
+            </div>
+            <button class="st-cart-item__close" onclick="cart.remove('${i.key}')" aria-label="Remove">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        `).join('');
+        const sub = this.subtotal();
+        const d = this.discount();
+        document.querySelector('[data-subtotal]').textContent = this.fmt(sub);
+        document.querySelector('[data-total]').textContent = this.fmt(this.total());
+        const dRow = document.getElementById('discountRow');
+        if (d) {
+          dRow.style.display = 'flex';
+          document.querySelector('[data-discount-label]').textContent = d.label;
+          document.querySelector('[data-discount]').textContent = 'âˆ’' + this.fmt(sub * d.pct / 100);
+        } else { dRow.style.display = 'none'; }
+        totalsEl.style.display = 'block';
+      }
+
+      // Free shipping bar (themed, no emoji)
+      const sub = this.subtotal();
+      const remaining = Math.max(0, this.SHIPPING_THRESHOLD - sub);
+      const pct = Math.min(100, (sub / this.SHIPPING_THRESHOLD) * 100);
+      const shipEl = document.getElementById('shipping');
+      shipEl.innerHTML = remaining > 0
+        ? `<div class="st-cart__shipping-msg"><strong>${remaining.toFixed(3)} KWD</strong> away from free shipping</div>
+           <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:${pct}%"></div></div>`
+        : `<div class="st-cart__shipping-msg is-met"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Free shipping unlocked</strong></div>
+           <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:100%"></div></div>`;
+
+      // Offer (themed, no emojis)
+      const offerEl = document.getElementById('offer');
+      const q = this.totalQty();
+      if (q === 0) { offerEl.innerHTML = `Buy <strong>2 hijabs</strong> â€” save <strong>10%</strong>  Â·  Buy <strong>6</strong> â€” save <strong>20%</strong>`; offerEl.classList.remove('is-applied'); }
+      else if (q < 2) { offerEl.innerHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong>`; offerEl.classList.remove('is-applied'); }
+      else if (q < 6) { offerEl.innerHTML = `<strong>10% off applied</strong>  Â·  Add <strong>${6 - q} more</strong> for 20% off`; offerEl.classList.add('is-applied'); }
+      else { offerEl.innerHTML = `<strong>20% off â€” biggest savings unlocked</strong>`; offerEl.classList.add('is-applied'); }
+    },
+    open() {
+      document.getElementById('cartDrawer').classList.add('is-open');
+      document.getElementById('cartOverlay').classList.add('is-open');
+      document.body.classList.add('is-locked');
+    },
+    close() {
+      document.getElementById('cartDrawer').classList.remove('is-open');
+      document.getElementById('cartOverlay').classList.remove('is-open');
+      document.body.classList.remove('is-locked');
+    },
+    toast() {
+      const t = document.getElementById('toast');
+      t.classList.add('is-shown');
+      clearTimeout(this._tId);
+      this._tId = setTimeout(() => t.classList.remove('is-shown'), 2000);
+    }
+  };
+
+  cart.render();
+
+  // Upsell magnet products
+  const UPSELLS = {
+    tape: { id: 'tape', name: 'Hijab Tape', color: 'Clear', size: '', price: 1.500, image: './assets/color-cream.jpg' },
+    pins: { id: 'pins', name: 'Magnetic Pins', color: 'Silver', size: '', price: 2.000, image: './assets/color-silver.jpg' },
+    bonnet: { id: 'bonnet', name: 'Undercap', color: 'Cream', size: '', price: 2.500, image: './assets/color-cream.jpg' }
+  };
+  document.querySelectorAll('.st-cart__upsell-item').forEach(it => {
+    it.querySelector('.st-cart__upsell-add').onclick = e => {
+      e.stopPropagation();
+      cart.add({ ...UPSELLS[it.dataset.upsell], qty: 1 });
+    };
+  });
+
+  /* ============================================================
+     PDP UI
+     ============================================================ */
+  const $ = s => document.querySelector(s);
+
+  // Gallery
+  const track = $('#galleryTrack');
+  const counter = $('#counter');
+  const thumbs = document.querySelectorAll('.pdp-thumb');
+  const slides = track.querySelectorAll('.pdp-gallery__slide');
+  let activeIdx = 0;
+  thumbs.forEach(btn => btn.onclick = () => {
+    track.scrollTo({ left: +btn.dataset.idx * track.clientWidth, behavior: 'smooth' });
+  });
+  track.addEventListener('scroll', () => {
+    const idx = Math.round(track.scrollLeft / track.clientWidth);
+    if (idx !== activeIdx) {
+      activeIdx = idx;
+      counter.textContent = `${idx + 1} / ${slides.length}`;
+      thumbs.forEach((t, i) => t.classList.toggle('is-active', i === idx));
+    }
+  });
+
+  // Color swatch â€” also swap main gallery first image
+  const colorImages = {
+    'Taupe': './assets/product-taupe-1.jpg',
+    'Cream': './assets/color-cream.jpg',
+    'Olive': './assets/color-olive.jpg',
+    'Light Grey': './assets/color-light-grey.jpg',
+    'Charcoal': './assets/color-charcoal.jpg',
+    'Plum': './assets/color-plum.jpg',
+    'Silver': './assets/color-silver.jpg',
+    'Ivory': './assets/color-white.jpg',
+  };
+  document.querySelectorAll('.pdp-swatch').forEach(s => {
+    s.onclick = () => {
+      document.querySelectorAll('.pdp-swatch').forEach(x => x.classList.remove('is-active'));
+      s.classList.add('is-active');
+      $('#selColor').textContent = s.dataset.name;
+      const img = colorImages[s.dataset.name];
+      if (img) $('#mainImg').src = img;
+      track.scrollTo({ left: 0, behavior: 'smooth' });
+    };
+  });
+
+  // Size
+  document.querySelectorAll('.pdp-size').forEach(b => {
+    b.onclick = () => {
+      if (b.classList.contains('is-disabled')) return;
+      document.querySelectorAll('.pdp-size').forEach(x => x.classList.remove('is-active'));
+      b.classList.add('is-active');
+      $('#selSize').textContent = b.firstChild.textContent.trim();
+    };
+  });
+
+  // Quantity
+  const qty = $('#qty');
+  $('#qtyDown').onclick = () => { qty.value = Math.max(1, +qty.value - 1); };
+  $('#qtyUp').onclick = () => { qty.value = Math.min(10, +qty.value + 1); };
+
+  // Accordion
+  document.querySelectorAll('.pdp-acc-head').forEach(h => {
+    h.onclick = () => h.closest('.pdp-acc-item').classList.toggle('is-open');
+  });
+
+  // ATC functional
+  function doAdd() {
+    const color = $('#selColor').textContent;
+    const size = $('#selSize').textContent;
+    cart.add({
+      id: 'crinkle-hijab',
+      name: 'Crinkle Hijab',
+      color, size,
+      price: 4.500,
+      image: colorImages[color] || './assets/product-taupe-1.jpg',
+      qty: +qty.value
+    });
+    setTimeout(() => cart.open(), 250);
+  }
+  $('#atcBtn').onclick = doAdd;
+  $('#stickyAtc').onclick = doAdd;
+  $('#buyNowBtn').onclick = () => { doAdd(); /* would redirect to checkout */ };
+
+  // Sticky CTA
+  const sticky = $('#stickyCta');
+  const triggerEl = document.querySelector('.pdp-actions');
+  new IntersectionObserver(([e]) => {
+    sticky.classList.toggle('is-shown', !e.isIntersecting && e.boundingClientRect.top < 0);
+  }).observe(triggerEl);
+
+  // Video slide
+  $('#videoSlide').onclick = function() {
+    if (this.querySelector('video')) return;
+    this.innerHTML = `<video autoplay muted controls playsinline style="width:100%;height:100%;object-fit:cover;"><source src="./assets/hero-video.mp4" type="video/mp4"></video>`;
+  };
+
+  // Size guide modal
+  $('#openSizeGuide').onclick = () => {
+    $('#sizeModal').classList.add('is-open');
+    document.body.classList.add('is-locked');
+  };
+  $('#closeSizeModal').onclick = () => {
+    $('#sizeModal').classList.remove('is-open');
+    document.body.classList.remove('is-locked');
+  };
+  $('#sizeModal').onclick = e => { if (e.target === $('#sizeModal')) $('#closeSizeModal').click(); };
+
+  // Cart open/close
+  $('#cartBtn').onclick = () => cart.open();
+  $('#cartBtnD').onclick = () => cart.open();
+  $('#closeCart').onclick = () => cart.close();
+  $('#cartOverlay').onclick = () => cart.close();
+  $('#continueShopping').onclick = () => cart.close();
+
+  // Search button (placeholder â€” links back to home for design preview)
+  $('#searchBtnD').onclick = () => { window.location.href = 'index.html'; };
+</script>
+
+</body>
+</html>
+

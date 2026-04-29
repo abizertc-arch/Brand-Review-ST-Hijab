@@ -1,0 +1,2288 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#FAF3E8" />
+<title>Smack Touch â€” Ø³Ù…Ø§Ùƒ ØªØ´</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     BRAND TOKENS
+     ============================================================ */
+  :root {
+    --brown-deep: #1A130D;
+    --brown: #2E231C;
+    --brown-soft: #4A382A;
+    --brown-tint: #6B5544;
+    --beige: #C9AF93;
+    --beige-soft: #E2CDB3;
+    --beige-pale: #F5EBDD;
+    --cream: #FAF3E8;
+    --line: rgba(46,35,28,.12);
+    --success: #5C7C5A;
+    --error: #B5564B;
+
+    --font-display: 'Cormorant Garamond', 'Cairo', serif;
+    --font-body: 'Inter', 'Cairo', sans-serif;
+    --font-arabic: 'Cairo', sans-serif;
+
+    --radius-sm: 6px;
+    --radius: 12px;
+    --radius-lg: 22px;
+
+    --shadow-sm: 0 2px 8px rgba(46,35,28,.06);
+    --shadow: 0 8px 24px rgba(46,35,28,.10);
+    --shadow-lg: 0 16px 48px rgba(46,35,28,.15);
+
+    --container: 1280px;
+    --gutter: 22px;
+    --gutter-d: 40px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { background: var(--cream); color: var(--brown); font-family: var(--font-body); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  body.is-locked { overflow: hidden; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  button { background: none; border: 0; color: inherit; font: inherit; cursor: pointer; }
+  input { font: inherit; }
+
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); }
+  @media (min-width: 1024px) { .container { padding: 0 var(--gutter-d); } }
+
+  /* ============================================================
+     HEADER Â· ANNOUNCEMENT BAR (fixed containment)
+     ============================================================ */
+  .st-announce {
+    background: var(--brown);
+    color: var(--beige);
+    overflow: hidden;
+    height: 36px;
+    position: relative;
+  }
+  .st-announce__track {
+    width: 100%;
+    animation: announceCycle 16s infinite;
+  }
+  .st-announce__msg {
+    height: 36px;
+    line-height: 36px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  @keyframes announceCycle {
+    0%, 22%   { transform: translateY(0); }
+    25%, 47%  { transform: translateY(-36px); }
+    50%, 72%  { transform: translateY(-72px); }
+    75%, 97%  { transform: translateY(-108px); }
+    100%      { transform: translateY(0); }
+  }
+
+  /* ============================================================
+     HEADER Â· MAIN
+     ============================================================ */
+  .st-header {
+    position: sticky; top: 0; z-index: 60;
+    background: rgba(250,243,232,.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .st-nav-wrap {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto;
+    align-items: center;
+    gap: 4px;
+    padding: 10px var(--gutter);
+  }
+
+  .st-icon-btn {
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    color: var(--brown);
+    transition: background .2s ease;
+    position: relative;
+  }
+  .st-icon-btn:active { transform: scale(.94); background: rgba(46,35,28,.06); }
+  .st-icon-btn svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .st-cart-badge {
+    position: absolute; top: 4px; right: 4px;
+    background: var(--brown); color: var(--beige);
+    font-size: 9px; font-weight: 700;
+    min-width: 16px; height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--cream);
+  }
+
+  .st-logo {
+    display: flex; align-items: center; justify-content: center;
+    height: 50px;
+    grid-column: 3;
+  }
+  .st-logo img { height: 100%; width: auto; object-fit: contain; }
+
+  /* Desktop nav â€” hidden on mobile, visible on desktop */
+  .st-nav-desktop { display: none; }
+  .st-nav-utility { display: none; }
+
+  @media (min-width: 1024px) {
+    .st-nav-wrap {
+      grid-template-columns: 1fr auto 1fr;
+      padding: 14px var(--gutter-d);
+      gap: 24px;
+    }
+    .st-icon-btn[data-mobile-only] { display: none; }
+    .st-logo { grid-column: 2; height: 60px; }
+    .st-nav-desktop {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      grid-column: 1;
+    }
+    .st-nav-desktop a {
+      font-size: 12px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--brown);
+      position: relative;
+      padding: 8px 0;
+      transition: color .2s ease;
+    }
+    .st-nav-desktop a:hover { color: var(--brown-soft); }
+    .st-nav-desktop a::after {
+      content: ''; position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 1px; background: var(--brown);
+      transform: scaleX(0);
+      transition: transform .25s ease;
+    }
+    .st-nav-desktop a:hover::after { transform: scaleX(1); }
+    .st-nav-desktop a.is-sale { color: var(--error); }
+
+    .st-nav-utility {
+      display: flex !important;
+      align-items: center;
+      gap: 4px;
+      grid-column: 3;
+      justify-content: flex-end;
+    }
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .st-hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--cream) 0%, var(--beige-pale) 100%);
+    overflow: hidden;
+  }
+  .st-hero__inner {
+    padding: 28px var(--gutter) 0;
+    position: relative;
+    z-index: 2;
+  }
+  .st-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px;
+    background: var(--brown);
+    color: var(--beige);
+    border-radius: 999px;
+    font-size: 10px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .st-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--beige);
+    animation: pulse 1.6s infinite ease-in-out;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+  .st-hero__title {
+    font-family: var(--font-display);
+    font-size: clamp(46px, 8vw, 88px);
+    line-height: 1;
+    color: var(--brown);
+    font-weight: 500;
+    letter-spacing: -1px;
+    margin-bottom: 14px;
+  }
+  .st-hero__title em { font-style: italic; color: var(--brown-soft); font-weight: 600; }
+  .st-hero__sub {
+    font-size: clamp(14px, 1.4vw, 17px);
+    line-height: 1.6;
+    color: rgba(46,35,28,.7);
+    max-width: 480px;
+    margin-bottom: 24px;
+  }
+
+  .st-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    transition: transform .2s ease;
+  }
+  .st-btn--primary {
+    background: var(--brown);
+    color: var(--beige);
+    box-shadow: 0 6px 18px rgba(46,35,28,.18);
+  }
+  .st-btn--primary:active { transform: scale(.97); }
+  .st-btn--primary:hover { background: var(--brown-soft); }
+  .st-btn svg { width: 16px; height: 16px; }
+
+  .st-hero__media {
+    margin-top: 28px;
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--beige);
+  }
+  .st-hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .st-hero__badge {
+    position: absolute; top: 18px; right: 18px;
+    background: rgba(250,243,232,.95);
+    color: var(--brown);
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    box-shadow: var(--shadow);
+  }
+
+  @media (min-width: 1024px) {
+    .st-hero { padding: 0 var(--gutter-d); }
+    .st-hero__grid {
+      max-width: var(--container);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 60px;
+      align-items: center;
+      min-height: 88vh;
+    }
+    .st-hero__inner { padding: 0; }
+    .st-hero__media { margin-top: 0; aspect-ratio: 4/5; max-height: 80vh; }
+  }
+
+  /* ============================================================
+     STATS
+     ============================================================ */
+  .st-stats {
+    background: var(--brown);
+    color: var(--beige-pale);
+    padding: 36px var(--gutter);
+    text-align: center;
+  }
+  .st-stats__num {
+    font-family: var(--font-display);
+    font-size: clamp(56px, 8vw, 84px);
+    font-weight: 600;
+    line-height: 1;
+    background: linear-gradient(180deg, var(--beige-soft), var(--beige));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .st-stats__label {
+    font-size: 11px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--beige);
+    margin-top: 6px;
+    font-weight: 600;
+  }
+  .st-stats__sub {
+    font-size: 14px;
+    color: rgba(245,235,221,.7);
+    margin-top: 10px;
+    font-style: italic;
+    font-family: var(--font-display);
+  }
+  .st-stars { display: inline-flex; gap: 3px; margin-top: 12px; }
+  .st-stars svg { width: 14px; height: 14px; fill: var(--beige); }
+
+  /* ============================================================
+     SECTION HEAD
+     ============================================================ */
+  .st-section { padding: 56px var(--gutter) 12px; }
+  @media (min-width: 1024px) { .st-section { padding: 80px var(--gutter-d) 12px; } }
+  .st-section__head { text-align: center; margin-bottom: 28px; }
+  .st-section__eyebrow {
+    font-size: 10px;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .st-section__title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3vw, 44px);
+    color: var(--brown);
+    font-weight: 500;
+    letter-spacing: -.3px;
+  }
+  .st-section__title em { font-style: italic; color: var(--brown-soft); }
+  .st-section__rule { width: 40px; height: 1px; background: var(--brown); margin: 12px auto 0; opacity: .4; }
+
+  /* ============================================================
+     COLLECTION GRID
+     ============================================================ */
+  .st-collection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .st-card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--beige-pale);
+    transition: transform .25s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .st-card:active { transform: scale(.98); }
+  .st-card.is-wide { grid-column: span 2; aspect-ratio: 16 / 10; }
+  .st-card__img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    transition: transform .5s ease;
+  }
+  .st-card:hover .st-card__img { transform: scale(1.04); }
+  .st-card__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 35%, rgba(26,19,13,.78) 100%);
+  }
+  .st-card__content {
+    position: absolute; left: 16px; right: 16px; bottom: 16px;
+    color: var(--cream);
+  }
+  .st-card__tag {
+    font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--beige); font-weight: 600; margin-bottom: 4px;
+  }
+  .st-card__title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .st-card.is-wide .st-card__title { font-size: 28px; font-style: italic; }
+  .st-card__meta { font-size: 11px; color: rgba(245,235,221,.75); margin-top: 4px; }
+
+  @media (min-width: 768px) {
+    .st-collection-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .st-card.is-wide { grid-column: span 4; aspect-ratio: 21 / 8; }
+    .st-card__title { font-size: 22px; }
+  }
+
+  /* ============================================================
+     PRODUCT CAROUSEL / GRID
+     ============================================================ */
+  .st-products-wrap { max-width: var(--container); margin: 0 auto; }
+  .st-carousel {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px var(--gutter) 24px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .st-carousel::-webkit-scrollbar { display: none; }
+  .st-product {
+    flex: 0 0 64%;
+    scroll-snap-align: start;
+    background: var(--beige-pale);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    transition: transform .25s ease;
+  }
+  .st-product:hover { transform: translateY(-3px); }
+  .st-product__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--beige);
+  }
+  .st-product__media img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+    transition: transform .5s ease;
+  }
+  .st-product:hover .st-product__media img { transform: scale(1.05); }
+  .st-product__quick {
+    position: absolute; bottom: 10px; left: 10px; right: 10px;
+    background: var(--brown); color: var(--beige);
+    border-radius: 999px;
+    height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .25s, transform .25s;
+  }
+  .st-product:hover .st-product__quick { opacity: 1; transform: translateY(0); }
+  .st-product__badge {
+    position: absolute; top: 10px; left: 10px;
+    background: var(--brown); color: var(--beige);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    padding: 5px 10px; border-radius: 999px;
+  }
+  .st-product__body { padding: 14px; }
+  .st-product__name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    color: var(--brown);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .st-product__rating {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 11px; color: var(--brown-soft);
+    margin-bottom: 8px;
+  }
+  .st-product__rating svg { width: 11px; height: 11px; fill: var(--beige); }
+  .st-product__price { font-size: 14px; color: var(--brown); font-weight: 600; }
+  .st-product__price del { color: var(--brown-tint); font-weight: 400; margin-right: 6px; font-size: 12px; }
+
+  @media (min-width: 768px) {
+    .st-carousel {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      padding: 4px var(--gutter-d) 24px;
+      overflow: visible;
+    }
+    .st-product { flex: none; }
+  }
+
+  /* ============================================================
+     VIDEO STORY
+     ============================================================ */
+  .st-video {
+    margin: 36px var(--gutter);
+    position: relative;
+    aspect-ratio: 9 / 12;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--brown);
+    box-shadow: var(--shadow-lg);
+    max-width: var(--container);
+  }
+  @media (min-width: 1024px) {
+    .st-video { margin: 60px auto; aspect-ratio: 21/9; max-width: calc(var(--container) - var(--gutter-d) * 2); }
+  }
+  .st-video video, .st-video__poster {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .st-video__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,19,13,.2) 0%, rgba(26,19,13,.85) 100%);
+  }
+  .st-video__content {
+    position: absolute; left: 22px; right: 22px; bottom: 24px;
+    color: var(--cream);
+    z-index: 2;
+  }
+  @media (min-width: 1024px) {
+    .st-video__content { left: 60px; bottom: 60px; max-width: 50%; }
+  }
+  .st-video__eyebrow { font-size: 10px; letter-spacing: .35em; text-transform: uppercase; color: var(--beige); font-weight: 600; margin-bottom: 8px; }
+  .st-video__title { font-family: var(--font-display); font-style: italic; font-size: clamp(32px, 5vw, 56px); line-height: 1.05; margin-bottom: 14px; }
+  .st-video__play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(250,243,232,.92);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown);
+    z-index: 3;
+    cursor: pointer;
+    transition: transform .25s ease;
+  }
+  .st-video__play:active { transform: translate(-50%, -50%) scale(.92); }
+  .st-video__play svg { width: 26px; height: 26px; fill: currentColor; margin-left: 3px; }
+
+  /* ============================================================
+     TUTORIAL REELS
+     ============================================================ */
+  .st-reels-wrap { max-width: var(--container); margin: 0 auto; }
+  .st-reels {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px var(--gutter) 24px;
+    scrollbar-width: none;
+  }
+  .st-reels::-webkit-scrollbar { display: none; }
+  .st-reel {
+    flex: 0 0 64%;
+    scroll-snap-align: start;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    background: var(--brown);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+  .st-reel img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+  }
+  .st-reel:hover img { transform: scale(1.04); }
+  .st-reel__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,19,13,0) 30%, rgba(26,19,13,.85) 100%);
+  }
+  .st-reel__play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(250,243,232,.85);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown);
+  }
+  .st-reel__play svg { width: 22px; height: 22px; fill: currentColor; margin-left: 3px; }
+  .st-reel__tag {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(46,35,28,.7);
+    color: var(--cream);
+    font-size: 9px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .st-reel__bottom {
+    position: absolute; bottom: 12px; left: 12px; right: 12px;
+    color: var(--cream);
+  }
+  .st-reel__title {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  .st-reel__meta {
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    opacity: .8;
+  }
+
+  @media (min-width: 768px) {
+    .st-reels {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 4px var(--gutter-d) 24px;
+      overflow: visible;
+    }
+    .st-reel { flex: none; }
+  }
+  @media (min-width: 1280px) {
+    .st-reels { grid-template-columns: repeat(5, 1fr); }
+  }
+
+  /* ============================================================
+     LOOKBOOK
+     ============================================================ */
+  .st-lookbook {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 var(--gutter);
+    margin: 12px auto 24px;
+    max-width: var(--container);
+  }
+  .st-lookbook img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover; object-position: center top;
+    border-radius: var(--radius);
+  }
+  @media (min-width: 768px) {
+    .st-lookbook { grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 0 var(--gutter-d); }
+  }
+
+  /* ============================================================
+     REVIEWS
+     ============================================================ */
+  .st-reviews { padding: 8px 0 28px; max-width: var(--container); margin: 0 auto; }
+  .st-reviews__head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--gutter);
+    margin-bottom: 18px;
+  }
+  @media (min-width: 1024px) { .st-reviews__head { padding: 0 var(--gutter-d); } }
+  .st-reviews__summary { display: flex; align-items: center; gap: 10px; }
+  .st-reviews__avg { font-family: var(--font-display); font-size: 36px; color: var(--brown); font-weight: 600; line-height: 1; }
+  .st-reviews__meta { font-size: 11px; color: var(--brown-soft); letter-spacing: .05em; }
+  .st-reviews__meta .stars { color: var(--beige); display: flex; gap: 2px; margin-bottom: 3px; }
+  .st-reviews__meta .stars svg { width: 12px; height: 12px; fill: var(--beige); }
+
+  .st-reviews__track {
+    display: flex; gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 var(--gutter) 8px;
+    scrollbar-width: none;
+  }
+  .st-reviews__track::-webkit-scrollbar { display: none; }
+  .st-review {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+    background: var(--beige-pale);
+    border-radius: var(--radius);
+    padding: 16px;
+    border: 1px solid var(--line);
+  }
+  .st-review__head { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .st-review__photo { width: 56px; height: 70px; object-fit: cover; object-position: center top; border-radius: var(--radius-sm); }
+  .st-review__author { font-size: 13px; font-weight: 600; color: var(--brown); }
+  .st-review__verified {
+    font-size: 9px;
+    background: var(--brown); color: var(--beige);
+    padding: 2px 8px; border-radius: 999px;
+    letter-spacing: .15em; margin-top: 2px;
+    display: inline-block; font-weight: 600;
+  }
+  .st-review__stars { display: flex; gap: 2px; margin: 4px 0 6px; }
+  .st-review__stars svg { width: 12px; height: 12px; fill: var(--beige); }
+  .st-review__text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--brown);
+  }
+  @media (min-width: 768px) {
+    .st-reviews__track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 0 var(--gutter-d) 8px;
+      overflow: visible;
+    }
+    .st-review { flex: none; }
+  }
+
+  /* ============================================================
+     FEATURE STRIP
+     ============================================================ */
+  .st-features {
+    margin: 24px var(--gutter);
+    padding: 22px 18px;
+    background: var(--beige-pale);
+    border-radius: var(--radius-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 14px;
+    border: 1px solid var(--line);
+    max-width: var(--container);
+  }
+  @media (min-width: 768px) {
+    .st-features { grid-template-columns: repeat(4, 1fr); margin: 36px auto; }
+  }
+  @media (min-width: 1024px) { .st-features { padding: 32px; } }
+  .st-feature {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    color: var(--brown);
+  }
+  .st-feature svg { width: 26px; height: 26px; stroke: var(--brown); fill: none; stroke-width: 1.5; margin-bottom: 8px; }
+  .st-feature__title { font-size: 12px; font-weight: 600; letter-spacing: .05em; }
+  .st-feature__sub { font-size: 10px; color: var(--brown-tint); margin-top: 2px; letter-spacing: .05em; }
+
+  /* ============================================================
+     NEWSLETTER
+     ============================================================ */
+  .st-newsletter {
+    margin: 0 var(--gutter) 24px;
+    padding: 30px 22px;
+    background: var(--brown);
+    color: var(--beige-pale);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    max-width: var(--container);
+  }
+  @media (min-width: 768px) {
+    .st-newsletter { margin: 0 auto 60px; padding: 60px 40px; }
+  }
+  .st-newsletter h3 {
+    font-family: var(--font-display); font-style: italic;
+    font-size: clamp(26px, 3vw, 40px); margin-bottom: 8px; color: var(--beige-pale);
+  }
+  .st-newsletter p {
+    font-size: 14px; color: rgba(245,235,221,.7);
+    margin-bottom: 18px; max-width: 360px;
+    margin-left: auto; margin-right: auto;
+  }
+  .st-newsletter__form {
+    display: flex; gap: 8px;
+    background: rgba(245,235,221,.1);
+    border: 1px solid rgba(201,175,147,.3);
+    border-radius: 999px;
+    padding: 4px 4px 4px 18px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .st-newsletter__input {
+    flex: 1; background: transparent; border: 0;
+    color: var(--beige-pale); font-size: 14px; outline: none;
+  }
+  .st-newsletter__input::placeholder { color: rgba(245,235,221,.5); }
+  .st-newsletter__btn {
+    background: var(--beige); color: var(--brown);
+    padding: 10px 18px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+
+  /* ============================================================
+     FOOTER (restructured)
+     ============================================================ */
+  .st-footer {
+    background: var(--cream);
+    border-top: 1px solid var(--line);
+    padding: 40px var(--gutter) 100px;
+  }
+  @media (min-width: 768px) { .st-footer { padding: 60px var(--gutter-d) 40px; } }
+
+  .st-footer__inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 768px) {
+    .st-footer__inner { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; }
+  }
+
+  .st-footer__brand img { height: 56px; margin-bottom: 14px; }
+  .st-footer__brand p {
+    font-size: 13px;
+    color: var(--brown-soft);
+    line-height: 1.6;
+    max-width: 320px;
+    margin-bottom: 16px;
+  }
+  .st-footer__brand .ar {
+    font-family: var(--font-arabic);
+    font-size: 14px;
+    color: var(--brown);
+    letter-spacing: .15em;
+  }
+
+  .st-footer__col h4 {
+    font-size: 11px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--brown);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .st-footer__col ul { list-style: none; }
+  .st-footer__col ul li { margin-bottom: 8px; }
+  .st-footer__col a {
+    font-size: 13px;
+    color: var(--brown-soft);
+    transition: color .2s ease;
+  }
+  .st-footer__col a:hover { color: var(--brown); }
+
+  .st-footer__bottom {
+    max-width: var(--container);
+    margin: 32px auto 0;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  @media (min-width: 768px) {
+    .st-footer__bottom { flex-direction: row; justify-content: space-between; }
+  }
+  .st-footer__pay {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  }
+  .st-footer__pay span {
+    background: var(--beige-pale);
+    color: var(--brown);
+    font-size: 9px; font-weight: 700;
+    padding: 5px 9px;
+    border-radius: 4px;
+    letter-spacing: .1em;
+  }
+  .st-footer__social { display: flex; gap: 10px; }
+  .st-footer__social a {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--beige-pale);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--brown);
+  }
+  .st-footer__social svg { width: 14px; height: 14px; fill: currentColor; }
+  .st-footer__copy { font-size: 11px; color: var(--brown-tint); letter-spacing: .1em; }
+
+  /* ============================================================
+     BOTTOM TAB BAR (mobile only)
+     ============================================================ */
+  .st-tabbar {
+    position: fixed;
+    left: 12px; right: 12px; bottom: 12px;
+    background: rgba(46,35,28,.96);
+    border-radius: 28px;
+    display: flex; justify-content: space-around;
+    padding: 10px 6px;
+    z-index: 50;
+    box-shadow: var(--shadow-lg);
+  }
+  @media (min-width: 1024px) { .st-tabbar { display: none; } }
+  .st-tab {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 6px 10px;
+    color: rgba(245,235,221,.55);
+    font-size: 10px;
+    transition: color .2s ease;
+  }
+  .st-tab svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .st-tab.is-active { color: var(--beige); }
+
+  /* ============================================================
+     SIDE MENU (mobile only)
+     ============================================================ */
+  .st-overlay {
+    position: fixed; inset: 0;
+    background: rgba(26,19,13,.55);
+    backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s ease;
+    z-index: 80;
+  }
+  .st-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+  .st-sidemenu {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 86%; max-width: 340px;
+    background: var(--cream);
+    transform: translateX(-100%);
+    transition: transform .35s cubic-bezier(.5,0,.2,1);
+    z-index: 90;
+    padding: 22px 22px 32px;
+    overflow-y: auto;
+  }
+  @media (min-width: 1024px) {
+    .st-sidemenu, .st-overlay { display: none !important; }
+  }
+  .st-sidemenu.is-open { transform: translateX(0); }
+  .st-sidemenu__head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .st-sidemenu__head .st-logo { height: 42px; grid-column: auto; }
+
+  .st-sidemenu__account {
+    padding: 16px;
+    background: var(--brown); color: var(--beige);
+    border-radius: var(--radius);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .st-sidemenu__account .avatar {
+    width: 40px; height: 40px;
+    background: var(--beige); color: var(--brown);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .st-sidemenu__account .avatar svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+  .st-sidemenu__account .name { font-weight: 700; font-size: 14px; color: var(--cream); }
+  .st-sidemenu__account .link { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--beige); }
+
+  .st-sidemenu__list { list-style: none; margin-top: 18px; }
+  .st-sidemenu__list li { border-bottom: 1px solid var(--line); }
+  .st-sidemenu__list a {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 6px;
+    color: var(--brown); font-size: 14px;
+    font-weight: 500;
+  }
+  .st-sidemenu__list a .icon {
+    width: 36px; height: 36px;
+    background: var(--beige-pale);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown);
+    flex-shrink: 0;
+  }
+  .st-sidemenu__list a .icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .st-sidemenu__list a .arrow {
+    margin-left: auto;
+    width: 16px; height: 16px;
+    stroke: var(--brown-tint);
+    fill: none; stroke-width: 1.7;
+  }
+
+  /* Bottom quick action row */
+  .st-sidemenu__quick {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 22px;
+    padding: 14px 6px;
+    background: var(--beige-pale);
+    border-radius: var(--radius);
+  }
+  .st-sidemenu__quick-item {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+    padding: 8px 4px;
+    border-radius: var(--radius-sm);
+    color: var(--brown);
+    transition: background .2s ease;
+  }
+  .st-sidemenu__quick-item:active { background: rgba(46,35,28,.06); }
+  .qi-icon {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown);
+  }
+  .qi-icon svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .qi-label { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--brown-soft); }
+
+  .st-sidemenu__lang {
+    display: flex; gap: 8px; margin-top: 18px;
+    background: var(--beige-pale);
+    padding: 4px;
+    border-radius: 999px;
+  }
+  .st-sidemenu__lang button {
+    flex: 1;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    border-radius: 999px;
+    color: var(--brown);
+  }
+  .st-sidemenu__lang button.is-active { background: var(--brown); color: var(--beige); }
+
+  /* ============================================================
+     SEARCH OVERLAY
+     ============================================================ */
+  .st-search {
+    position: fixed; inset: 0;
+    background: var(--cream);
+    z-index: 100;
+    transform: translateY(-100%);
+    transition: transform .35s cubic-bezier(.5,0,.2,1);
+    padding: 20px;
+    overflow-y: auto;
+  }
+  .st-search.is-open { transform: translateY(0); }
+  .st-search__head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 24px;
+    max-width: var(--container); margin-left: auto; margin-right: auto;
+  }
+  .st-search__input {
+    flex: 1;
+    background: var(--beige-pale);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 13px 22px;
+    color: var(--brown); font-size: 15px;
+    outline: none;
+  }
+  .st-search h4 {
+    font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--brown-soft); margin-bottom: 12px; font-weight: 600;
+    max-width: var(--container); margin-left: auto; margin-right: auto;
+  }
+  .st-tags {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px;
+    max-width: var(--container); margin-left: auto; margin-right: auto;
+  }
+  .st-tag {
+    padding: 8px 16px;
+    background: var(--beige-pale);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--brown); font-size: 13px;
+    cursor: pointer;
+  }
+  .st-tag:hover { background: var(--beige); }
+
+  /* ============================================================
+     CART DRAWER
+     ============================================================ */
+  .st-cart {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 100%;
+    max-width: 440px;
+    background: var(--cream);
+    z-index: 110;
+    transform: translateX(100%);
+    transition: transform .35s cubic-bezier(.5,0,.2,1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+  }
+  .st-cart.is-open { transform: translateX(0); }
+  .st-cart__head {
+    padding: 20px 22px 14px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .st-cart__head h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--brown);
+    font-weight: 600;
+  }
+  .st-cart__count {
+    background: var(--brown); color: var(--beige);
+    font-size: 10px; font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 8px;
+    letter-spacing: .1em;
+  }
+
+  /* Free shipping + offer (redesigned, themed, no emojis) */
+  .st-cart__shipping {
+    padding: 18px 22px 16px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+  }
+  .st-cart__shipping-msg {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+  .st-cart__shipping-msg strong {
+    color: var(--brown);
+    font-weight: 700;
+  }
+  .st-cart__shipping-msg.is-met { color: var(--brown); }
+  .st-cart__shipping-msg.is-met svg {
+    width: 12px; height: 12px;
+    stroke: currentColor; fill: none; stroke-width: 2.5;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .st-cart__shipping-bar {
+    height: 4px;
+    background: var(--beige-pale);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .st-cart__shipping-fill {
+    height: 100%;
+    background: var(--brown);
+    border-radius: 999px;
+    width: 0%;
+    transition: width .4s ease;
+  }
+
+  /* Offer message (clean, no emojis) */
+  .st-cart__offer {
+    padding: 14px 22px;
+    background: var(--beige-pale);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .st-cart__offer strong {
+    color: var(--brown);
+    font-weight: 700;
+  }
+  .st-cart__offer.is-applied {
+    background: var(--brown);
+    color: var(--beige);
+  }
+  .st-cart__offer.is-applied strong { color: var(--cream); }
+
+  /* Cart upsell strip */
+  .st-cart__upsell {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .st-cart__upsell-title {
+    font-size: 10px;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .st-cart__upsell-list {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .st-cart__upsell-list::-webkit-scrollbar { display: none; }
+  .st-cart__upsell-item {
+    flex: 0 0 130px;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    text-align: center;
+    transition: border-color .2s ease;
+    cursor: pointer;
+  }
+  .st-cart__upsell-item:hover { border-color: var(--brown); }
+  .st-cart__upsell-img {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--beige-pale);
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown);
+  }
+  .st-cart__upsell-img svg { width: 38px; height: 38px; stroke: currentColor; fill: none; stroke-width: 1.4; }
+  .st-cart__upsell-name {
+    font-size: 11px;
+    color: var(--brown);
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .st-cart__upsell-price {
+    font-size: 11px;
+    color: var(--brown-soft);
+    margin-bottom: 8px;
+  }
+  .st-cart__upsell-add {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--brown);
+    color: var(--brown);
+    height: 28px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    transition: all .2s ease;
+  }
+  .st-cart__upsell-add:hover { background: var(--brown); color: var(--beige); }
+
+  /* Items */
+  .st-cart__items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 22px;
+  }
+  .st-cart__empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--brown-soft);
+  }
+  .st-cart__empty svg { width: 60px; height: 60px; stroke: var(--brown-tint); fill: none; stroke-width: 1.2; margin-bottom: 14px; }
+  .st-cart__empty p { font-size: 14px; margin-bottom: 18px; }
+
+  .st-cart-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .st-cart-item:last-child { border-bottom: 0; }
+  .st-cart-item__img {
+    width: 80px; height: 100px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--beige);
+  }
+  .st-cart-item__img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .st-cart-item__body { display: flex; flex-direction: column; justify-content: space-between; padding-right: 4px; }
+  .st-cart-item__name {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--brown);
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .st-cart-item__variant { font-size: 11px; color: var(--brown-tint); margin-bottom: 8px; letter-spacing: .03em; }
+  .st-cart-item__row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .st-cart-item__qty {
+    display: flex; align-items: center;
+    background: var(--beige-pale);
+    border-radius: 999px;
+    padding: 0 2px;
+  }
+  .st-cart-item__qty button {
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown);
+    font-size: 14px;
+  }
+  .st-cart-item__qty span {
+    min-width: 22px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .st-cart-item__price {
+    font-size: 13px; font-weight: 700; color: var(--brown);
+    font-family: var(--font-body);
+  }
+  .st-cart-item__close {
+    position: absolute;
+    top: 14px; right: 0;
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brown-tint);
+    transition: color .2s ease;
+  }
+  .st-cart-item__close:hover { color: var(--brown); }
+  .st-cart-item__close svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; }
+
+  /* Totals */
+  .st-cart__totals {
+    padding: 16px 22px 20px;
+    border-top: 1px solid var(--line);
+    background: var(--beige-pale);
+  }
+  .st-cart__row {
+    display: flex; justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--brown-soft);
+  }
+  .st-cart__row.is-discount { color: var(--success); font-weight: 600; }
+  .st-cart__total {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brown);
+    margin: 12px 0 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-display);
+  }
+  .st-cart__checkout {
+    width: 100%;
+    background: var(--brown);
+    color: var(--beige);
+    height: 50px;
+    border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase;
+    margin-bottom: 8px;
+    transition: background .2s ease;
+  }
+  .st-cart__checkout:hover { background: var(--brown-soft); }
+  .st-cart__continue {
+    width: 100%;
+    height: 40px;
+    color: var(--brown-soft);
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+
+  /* Toast */
+  .st-toast {
+    position: fixed;
+    bottom: 90px; left: 50%;
+    transform: translate(-50%, 20px);
+    background: var(--brown);
+    color: var(--beige);
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .st-toast.is-shown { opacity: 1; transform: translate(-50%, 0); }
+  .st-toast svg { width: 16px; height: 16px; stroke: var(--beige); fill: none; stroke-width: 2.5; }
+
+  /* Reel modal */
+  .st-reel-modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.95);
+    z-index: 150;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .st-reel-modal.is-open { display: flex; }
+  .st-reel-modal video {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: var(--radius);
+    aspect-ratio: 9/16;
+    width: auto;
+    background: #000;
+  }
+  .st-reel-modal__close {
+    position: absolute; top: 20px; right: 20px;
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
+  }
+  .st-reel-modal__close svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 2; }
+</style>
+</head>
+<body>
+
+<!-- ========== ANNOUNCEMENT BAR (rotating) ========== -->
+<div class="st-announce" data-section-type="announcement">
+  <div class="st-announce__track">
+    <div class="st-announce__msg">FREE SHIPPING ON ORDERS OVER 25 KWD</div>
+    <div class="st-announce__msg">ðŸŽ BUY 2 â€” GET 10% OFF</div>
+    <div class="st-announce__msg">âœ¨ BUY 6 â€” GET 20% OFF</div>
+    <div class="st-announce__msg">FREE 14-DAY RETURNS</div>
+  </div>
+</div>
+
+<!-- ========== HEADER ========== -->
+<header class="st-header" data-section-type="header">
+  <div class="st-nav-wrap">
+    <button class="st-icon-btn" id="menuBtn" data-mobile-only aria-label="Open menu">
+      <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="14" y2="17"/></svg>
+    </button>
+    <button class="st-icon-btn" data-mobile-only aria-label="Account">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+    </button>
+
+    <!-- Desktop horizontal nav -->
+    <nav class="st-nav-desktop">
+      <a href="shop.html">Shop</a>
+      <a href="collection.html?cat=hijabs">Hijabs</a>
+      <a href="collection.html?cat=undercaps">Undercaps</a>
+      <a href="collection.html?cat=accessories">Pins</a>
+      <a href="collection.html?cat=sale" class="is-sale">Sale</a>
+    </nav>
+
+    <a href="index.html" class="st-logo" aria-label="Smack Touch">
+      <img src="./assets/logo-brown.png" alt="Smack Touch â€” Ø³Ù…Ø§Ùƒ ØªØ´">
+    </a>
+
+    <!-- Desktop utility -->
+    <div class="st-nav-utility">
+      <button class="st-icon-btn" id="searchBtnD" aria-label="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      </button>
+      <button class="st-icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </button>
+      <button class="st-icon-btn" id="cartBtnD" aria-label="Cart">
+        <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        <span class="st-cart-badge" data-cart-count>0</span>
+      </button>
+    </div>
+
+    <!-- Mobile right side -->
+    <button class="st-icon-btn" id="searchBtn" data-mobile-only aria-label="Search">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    </button>
+    <button class="st-icon-btn" id="cartBtn" data-mobile-only aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+      <span class="st-cart-badge" data-cart-count>0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ========== HERO ========== -->
+<section class="st-hero" data-section-type="hero-banner">
+  <div class="st-hero__grid">
+    <div class="st-hero__inner">
+      <span class="st-eyebrow"><span class="dot"></span>NEW LOOK Â· 2026 REBRAND</span>
+      <h1 class="st-hero__title">A new chapter<br/>of <em>elegance</em>.</h1>
+      <p class="st-hero__sub">We've reimagined Smack Touch â€” refined essentials for the modern modest wardrobe. Same craft, elevated soul.</p>
+      <a href="#collections" class="st-btn st-btn--primary">
+        Explore the Collection
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="st-hero__media">
+      <span class="st-hero__badge">Spring '26</span>
+      <img src="./assets/hero-main.jpg" alt="Smack Touch hero">
+    </div>
+  </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section class="st-stats" data-section-type="stat-bar">
+  <div class="st-stats__num" data-counter="11000">11,000+</div>
+  <div class="st-stats__label">Happy Customers</div>
+  <div class="st-stars">
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+    <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+  </div>
+  <div class="st-stats__sub">"trusted by the GCC's most stylish"</div>
+</section>
+
+<!-- ========== COLLECTIONS ========== -->
+<section class="st-section" id="collections" data-section-type="featured-collections">
+  <div class="st-section__head">
+    <div class="st-section__eyebrow">Shop The Edit</div>
+    <h2 class="st-section__title">Our <em>Collections</em></h2>
+    <div class="st-section__rule"></div>
+  </div>
+  <div class="st-collection-grid">
+    <a href="collection.html?cat=hijabs" class="st-card">
+      <img class="st-card__img" src="./assets/product-taupe-1.jpg" alt="">
+      <div class="st-card__overlay"></div>
+      <div class="st-card__content">
+        <div class="st-card__tag">Bestseller</div>
+        <div class="st-card__title">Hijabs</div>
+        <div class="st-card__meta">From 4.500 KWD</div>
+      </div>
+    </a>
+    <a href="collection.html?cat=undercaps" class="st-card">
+      <img class="st-card__img" src="./assets/color-cream.jpg" alt="">
+      <div class="st-card__overlay"></div>
+      <div class="st-card__content">
+        <div class="st-card__tag">Essential</div>
+        <div class="st-card__title">Undercaps</div>
+        <div class="st-card__meta">From 2.500 KWD</div>
+      </div>
+    </a>
+    <a href="collection.html?cat=accessories" class="st-card">
+      <img class="st-card__img" src="./assets/color-silver.jpg" alt="">
+      <div class="st-card__overlay"></div>
+      <div class="st-card__content">
+        <div class="st-card__tag">New</div>
+        <div class="st-card__title">Pins</div>
+        <div class="st-card__meta">From 2.000 KWD</div>
+      </div>
+    </a>
+    <a href="shop.html" class="st-card">
+      <img class="st-card__img" src="./assets/color-plum.jpg" alt="">
+      <div class="st-card__overlay"></div>
+      <div class="st-card__content">
+        <div class="st-card__tag">Up to 30% off</div>
+        <div class="st-card__title">Sale</div>
+        <div class="st-card__meta">Limited stock</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ========== BESTSELLERS ========== -->
+<section class="st-section" data-section-type="featured-products">
+  <div class="st-section__head">
+    <div class="st-section__eyebrow">Trending Now</div>
+    <h2 class="st-section__title">Bestsellers</h2>
+    <div class="st-section__rule"></div>
+  </div>
+  <div class="st-products-wrap">
+    <div class="st-carousel">
+      <a href="product.html" class="st-product">
+        <div class="st-product__media">
+          <span class="st-product__badge">Bestseller</span>
+          <img src="./assets/product-taupe-1.jpg" alt="">
+          <div class="st-product__quick">Quick view</div>
+        </div>
+        <div class="st-product__body">
+          <div class="st-product__name">Crinkle Hijab â€” Taupe</div>
+          <div class="st-product__rating">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            4.9 Â· 1,284 reviews
+          </div>
+          <div class="st-product__price"><del>6.500 KWD</del>4.500 KWD</div>
+        </div>
+      </a>
+      <a href="product.html" class="st-product">
+        <div class="st-product__media">
+          <img src="./assets/color-cream.jpg" alt="">
+          <div class="st-product__quick">Quick view</div>
+        </div>
+        <div class="st-product__body">
+          <div class="st-product__name">Crinkle Hijab â€” Cream</div>
+          <div class="st-product__rating">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            4.8 Â· 942 reviews
+          </div>
+          <div class="st-product__price">5.250 KWD</div>
+        </div>
+      </a>
+      <a href="product.html" class="st-product">
+        <div class="st-product__media">
+          <span class="st-product__badge">New</span>
+          <img src="./assets/color-plum.jpg" alt="">
+          <div class="st-product__quick">Quick view</div>
+        </div>
+        <div class="st-product__body">
+          <div class="st-product__name">Crinkle Hijab â€” Plum</div>
+          <div class="st-product__rating">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            4.9 Â· 421 reviews
+          </div>
+          <div class="st-product__price">3.250 KWD</div>
+        </div>
+      </a>
+      <a href="product.html" class="st-product">
+        <div class="st-product__media">
+          <img src="./assets/color-charcoal.jpg" alt="">
+          <div class="st-product__quick">Quick view</div>
+        </div>
+        <div class="st-product__body">
+          <div class="st-product__name">Crinkle Hijab â€” Charcoal</div>
+          <div class="st-product__rating">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            4.7 Â· 718 reviews
+          </div>
+          <div class="st-product__price">4.500 KWD</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VIDEO STORY ========== -->
+<section class="st-video" data-section-type="video-banner">
+  <img class="st-video__poster" src="./assets/hero-video-poster.jpg" alt="Behind the rebrand">
+  <div class="st-video__overlay"></div>
+  <button class="st-video__play" id="playVideo" aria-label="Play video">
+    <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+  </button>
+  <div class="st-video__content">
+    <div class="st-video__eyebrow">The Story</div>
+    <h3 class="st-video__title">Behind the<br/>rebrand.</h3>
+    <a href="#" class="st-btn st-btn--primary" style="background: var(--beige); color: var(--brown);">Watch Film</a>
+  </div>
+</section>
+
+<!-- ========== TUTORIAL REELS ========== -->
+<section class="st-section" data-section-type="tutorials">
+  <div class="st-section__head">
+    <div class="st-section__eyebrow">Style Guide</div>
+    <h2 class="st-section__title">How to <em>Style</em></h2>
+    <div class="st-section__rule"></div>
+  </div>
+  <div class="st-reels-wrap">
+    <div class="st-reels">
+      <button class="st-reel" data-video="./assets/tutorials/IMG_2286.mp4">
+        <img src="./assets/tutorials/IMG_2286.jpg" alt="">
+        <div class="st-reel__overlay"></div>
+        <span class="st-reel__tag">Tutorial</span>
+        <div class="st-reel__play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+        <div class="st-reel__bottom">
+          <div class="st-reel__title">Everyday Drape</div>
+          <div class="st-reel__meta">0:30 Â· @smacktouch</div>
+        </div>
+      </button>
+      <button class="st-reel" data-video="./assets/tutorials/IMG_2271.mp4">
+        <img src="./assets/tutorials/IMG_2271.jpg" alt="">
+        <div class="st-reel__overlay"></div>
+        <span class="st-reel__tag">Tutorial</span>
+        <div class="st-reel__play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+        <div class="st-reel__bottom">
+          <div class="st-reel__title">Office-Ready Wrap</div>
+          <div class="st-reel__meta">0:45 Â· @smacktouch</div>
+        </div>
+      </button>
+      <button class="st-reel" data-video="./assets/tutorials/IMG_2287.mp4">
+        <img src="./assets/tutorials/IMG_2287.jpg" alt="">
+        <div class="st-reel__overlay"></div>
+        <span class="st-reel__tag">Style Tip</span>
+        <div class="st-reel__play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+        <div class="st-reel__bottom">
+          <div class="st-reel__title">Wedding Style</div>
+          <div class="st-reel__meta">1:02 Â· @smacktouch</div>
+        </div>
+      </button>
+      <button class="st-reel" data-video="./assets/tutorials/IMG_2291.mp4">
+        <img src="./assets/tutorials/IMG_2291.jpg" alt="">
+        <div class="st-reel__overlay"></div>
+        <span class="st-reel__tag">Review</span>
+        <div class="st-reel__play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+        <div class="st-reel__bottom">
+          <div class="st-reel__title">Customer Look</div>
+          <div class="st-reel__meta">0:38 Â· @mariam.s</div>
+        </div>
+      </button>
+      <button class="st-reel" data-video="./assets/tutorials/IMG_2295.mp4">
+        <img src="./assets/tutorials/IMG_2295.jpg" alt="">
+        <div class="st-reel__overlay"></div>
+        <span class="st-reel__tag">Tutorial</span>
+        <div class="st-reel__play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+        <div class="st-reel__bottom">
+          <div class="st-reel__title">Quick Underscarf</div>
+          <div class="st-reel__meta">0:25 Â· @smacktouch</div>
+        </div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== LOOKBOOK ========== -->
+<section data-section-type="lookbook">
+  <div class="st-section__head" style="padding: 28px var(--gutter) 16px;">
+    <div class="st-section__eyebrow">Lookbook</div>
+    <h2 class="st-section__title">Spring '26 <em>Editorial</em></h2>
+    <div class="st-section__rule"></div>
+  </div>
+  <div class="st-lookbook">
+    <img src="./assets/lookbook-1.jpg" alt="">
+    <img src="./assets/lookbook-2.jpg" alt="">
+    <img src="./assets/lookbook-3.jpg" alt="">
+    <img src="./assets/lookbook-4.jpg" alt="">
+  </div>
+</section>
+
+<!-- ========== REVIEWS ========== -->
+<section class="st-reviews" data-section-type="reviews">
+  <div class="st-reviews__head">
+    <div>
+      <div class="st-section__eyebrow">Real Talk</div>
+      <div class="st-section__title" style="font-size: 24px;">Customer <em>Love</em></div>
+    </div>
+    <div class="st-reviews__summary">
+      <div class="st-reviews__avg">4.9</div>
+      <div class="st-reviews__meta">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+        </div>
+        4,892 reviews
+      </div>
+    </div>
+  </div>
+  <div class="st-reviews__track">
+    <div class="st-review">
+      <div class="st-review__head">
+        <img class="st-review__photo" src="./assets/review-1.jpg" alt="">
+        <div>
+          <div class="st-review__author">Mariam A.</div>
+          <span class="st-review__verified">Verified Â· Kuwait</span>
+          <div class="st-review__stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          </div>
+        </div>
+      </div>
+      <p class="st-review__text">"The new Smack Touch hijabs feel so soft and luxurious â€” the rebrand is everything. I'm obsessed."</p>
+    </div>
+    <div class="st-review">
+      <div class="st-review__head">
+        <img class="st-review__photo" src="./assets/review-2.jpg" alt="">
+        <div>
+          <div class="st-review__author">Fatima H.</div>
+          <span class="st-review__verified">Verified Â· KSA</span>
+          <div class="st-review__stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          </div>
+        </div>
+      </div>
+      <p class="st-review__text">"Quality is unmatched. The chiffon doesn't slip, doesn't wrinkle. Already on my third order."</p>
+    </div>
+    <div class="st-review">
+      <div class="st-review__head">
+        <img class="st-review__photo" src="./assets/review-3.jpg" alt="">
+        <div>
+          <div class="st-review__author">Noor K.</div>
+          <span class="st-review__verified">Verified Â· UAE</span>
+          <div class="st-review__stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
+          </div>
+        </div>
+      </div>
+      <p class="st-review__text">"Smack Touch packaging feels so premium now. The new logo is gorgeous â€” will recommend to everyone."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TRUST ICONS ========== -->
+<section class="st-features" data-section-type="trust-icons">
+  <div class="st-feature">
+    <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7z"/><path d="M16 7l-1-3H9L8 7"/></svg>
+    <div class="st-feature__title">Free Shipping</div>
+    <div class="st-feature__sub">Over 25 KWD</div>
+  </div>
+  <div class="st-feature">
+    <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/><polyline points="21 3 21 9 15 9"/></svg>
+    <div class="st-feature__title">Easy Returns</div>
+    <div class="st-feature__sub">Within 14 days</div>
+  </div>
+  <div class="st-feature">
+    <svg viewBox="0 0 24 24"><path d="M12 2 L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/></svg>
+    <div class="st-feature__title">Secure Payment</div>
+    <div class="st-feature__sub">KNET Â· Visa Â· Apple Pay</div>
+  </div>
+  <div class="st-feature">
+    <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9 8.5 8.5 0 0 1 8.5 8.5z"/></svg>
+    <div class="st-feature__title">24/7 Support</div>
+    <div class="st-feature__sub">WhatsApp anytime</div>
+  </div>
+</section>
+
+<!-- ========== NEWSLETTER ========== -->
+<section class="st-newsletter" data-section-type="email-signup">
+  <h3>Join the Touch</h3>
+  <p>Be first for new drops, private sales & rebrand exclusives.</p>
+  <form class="st-newsletter__form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!')">
+    <input class="st-newsletter__input" type="email" placeholder="your@email.com" required>
+    <button class="st-newsletter__btn" type="submit">Join</button>
+  </form>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="st-footer" data-section-type="footer">
+  <div class="st-footer__inner">
+    <div class="st-footer__brand">
+      <img src="./assets/logo-brown.png" alt="Smack Touch">
+      <p>Smack Touch crafts thoughtfully-made hijabs and modest essentials for women across the GCC. Designed in Kuwait with quality you can feel.</p>
+      <div class="ar">Ø³Ù…Ø§Ùƒ ØªØ´</div>
+    </div>
+    <div class="st-footer__col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="product.html">New Arrivals</a></li>
+        <li><a href="product.html">Hijabs</a></li>
+        <li><a href="product.html">Sleeves</a></li>
+        <li><a href="product.html">Hijab Tape</a></li>
+        <li><a href="product.html">Accessories</a></li>
+        <li><a href="product.html">Sale</a></li>
+      </ul>
+    </div>
+    <div class="st-footer__col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns & Exchange</a></li>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="st-footer__col">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Become a Stockist</a></li>
+        <li><a href="#">Store Locator</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="st-footer__bottom">
+    <div>
+      <div class="st-footer__copy">Â© 2026 SMACK TOUCH Â· Ø³ÙˆÙ‚ Ø§Ù„Ø²Ù„ Ø§Ù„Ù…Ø¨Ø§Ø±ÙƒÙŠØ© Â· KUWAIT</div>
+    </div>
+    <div class="st-footer__pay">
+      <span>KNET</span><span>VISA</span><span>MC</span><span>APPLE PAY</span><span>TABBY</span>
+    </div>
+    <div class="st-footer__social">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.5-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg></a>
+      <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M19.5 6.5a4.6 4.6 0 0 1-3.5-1.6V15a5 5 0 1 1-5-5v3a2 2 0 1 0 2 2V2h3a4.6 4.6 0 0 0 3.5 4z"/></svg></a>
+      <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== BOTTOM TAB BAR (Search instead of Wishlist) ========== -->
+<nav class="st-tabbar">
+  <a href="index.html" class="st-tab is-active">
+    <svg viewBox="0 0 24 24"><path d="M3 12 L12 3 L21 12"/><path d="M5 10v10h14V10"/></svg>
+    Home
+  </a>
+  <a href="shop.html" class="st-tab">
+    <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="14" rx="2"/><path d="M8 10h8"/></svg>
+    Shop
+  </a>
+  <button class="st-tab" id="searchBtnT">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    Search
+  </button>
+  <a href="#" class="st-tab">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+    Account
+  </a>
+</nav>
+
+<!-- ========== SIDE MENU (mobile) â€” icons + labels ========== -->
+<div class="st-overlay" id="menuOverlay"></div>
+<aside class="st-sidemenu" id="sideMenu">
+  <div class="st-sidemenu__head">
+    <a href="index.html" class="st-logo"><img src="./assets/logo-brown.png" alt="Smack Touch"></a>
+    <button class="st-icon-btn" id="closeMenu">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="st-sidemenu__account">
+    <div class="avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+    <div>
+      <div class="name">Welcome back</div>
+      <div class="link">Sign in / Register â†’</div>
+    </div>
+  </div>
+  <ul class="st-sidemenu__list">
+    <li><a href="collection.html?cat=hijabs">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M12 4 C 7 4, 5 12, 7 17 C 8 19, 10 20, 12 20 C 16 20, 18 17, 18 12 C 18 7, 16 4, 12 4 Z"/></svg></span>
+      Hijabs
+      <svg class="arrow" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </a></li>
+    <li><a href="collection.html?cat=undercaps">
+      <span class="icon"><svg viewBox="0 0 24 24"><path d="M5 14 C 5 9, 8 6, 12 6 C 16 6, 19 9, 19 14"/><path d="M5 14 H 19 V 17 H 5 Z"/></svg></span>
+      Undercaps
+      <svg class="arrow" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </a></li>
+    <li><a href="collection.html?cat=accessories">
+      <span class="icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4"/><line x1="11.5" y1="11.5" x2="20" y2="20"/></svg></span>
+      Pins
+      <svg class="arrow" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </a></li>
+    <li><a href="collection.html?cat=sale" style="color: var(--error);">
+      <span class="icon" style="background: rgba(181,86,75,.12); color: var(--error);"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor" stroke="none" font-weight="700">%</text></svg></span>
+      Sale â€” up to 30% off
+      <svg class="arrow" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+    </a></li>
+  </ul>
+
+  <!-- Service quick actions: 4 icon buttons in a single horizontal row -->
+  <div class="st-sidemenu__quick">
+    <a href="#" class="st-sidemenu__quick-item">
+      <span class="qi-icon"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M8 6 V4 a1 1 0 0 1 1 -1 h6 a1 1 0 0 1 1 1 V6"/><line x1="3" y1="11" x2="21" y2="11"/></svg></span>
+      <span class="qi-label">Track</span>
+    </a>
+    <a href="#" class="st-sidemenu__quick-item">
+      <span class="qi-icon"><svg viewBox="0 0 24 24"><path d="M21 12 a9 9 0 1 1 -9 -9"/><polyline points="21 3 21 9 15 9"/></svg></span>
+      <span class="qi-label">Returns</span>
+    </a>
+    <a href="#" class="st-sidemenu__quick-item">
+      <span class="qi-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9 8.5 8.5 0 0 1 8.5 8.5z"/></svg></span>
+      <span class="qi-label">Chat</span>
+    </a>
+    <a href="#" class="st-sidemenu__quick-item">
+      <span class="qi-icon"><svg viewBox="0 0 24 24"><path d="M12 22s7-7 7-13a7 7 0 0 0-14 0c0 6 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+      <span class="qi-label">Stores</span>
+    </a>
+  </div>
+
+  <div class="st-sidemenu__lang">
+    <button class="is-active">English</button>
+    <button>Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</button>
+  </div>
+</aside>
+
+<!-- ========== SEARCH OVERLAY ========== -->
+<div class="st-search" id="searchOverlay">
+  <div class="st-search__head">
+    <input type="text" class="st-search__input" placeholder="Search hijabs, sleeves...">
+    <button class="st-icon-btn" id="closeSearch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <h4>Trending</h4>
+  <div class="st-tags">
+    <span class="st-tag">Crinkle hijab</span>
+    <span class="st-tag">Pleated sleeves</span>
+    <span class="st-tag">Hijab tape</span>
+    <span class="st-tag">Underscarf</span>
+    <span class="st-tag">Satin</span>
+  </div>
+  <h4>Popular Categories</h4>
+  <div class="st-tags">
+    <span class="st-tag">Hijabs</span>
+    <span class="st-tag">Sleeves</span>
+    <span class="st-tag">Accessories</span>
+  </div>
+</div>
+
+<!-- ========== CART DRAWER ========== -->
+<div class="st-cart" id="cartDrawer">
+  <div class="st-cart__head">
+    <h3>Your Bag <span class="st-cart__count" data-cart-count-2>0</span></h3>
+    <button class="st-icon-btn" id="closeCart">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="st-cart__shipping" id="shipping"></div>
+  <div class="st-cart__offer" id="offer"></div>
+  <div class="st-cart__items" id="cartItems"></div>
+
+  <!-- Upsell strip -->
+  <div class="st-cart__upsell" id="upsellStrip">
+    <div class="st-cart__upsell-title">Complete the look</div>
+    <div class="st-cart__upsell-list">
+      <div class="st-cart__upsell-item" data-upsell="tape">
+        <div class="st-cart__upsell-img">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <div class="st-cart__upsell-name">Hijab Tape</div>
+        <div class="st-cart__upsell-price">1.500 KWD</div>
+        <button class="st-cart__upsell-add">+ Add</button>
+      </div>
+      <div class="st-cart__upsell-item" data-upsell="pins">
+        <div class="st-cart__upsell-img">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4"/><line x1="11.5" y1="11.5" x2="20" y2="20"/></svg>
+        </div>
+        <div class="st-cart__upsell-name">Magnetic Pins</div>
+        <div class="st-cart__upsell-price">2.000 KWD</div>
+        <button class="st-cart__upsell-add">+ Add</button>
+      </div>
+      <div class="st-cart__upsell-item" data-upsell="bonnet">
+        <div class="st-cart__upsell-img">
+          <svg viewBox="0 0 24 24"><path d="M5 14 C 5 9, 8 6, 12 6 C 16 6, 19 9, 19 14"/><path d="M5 14 H 19 V 17 H 5 Z"/></svg>
+        </div>
+        <div class="st-cart__upsell-name">Undercap</div>
+        <div class="st-cart__upsell-price">2.500 KWD</div>
+        <button class="st-cart__upsell-add">+ Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="st-cart__totals" id="cartTotals" style="display:none;">
+    <div class="st-cart__row"><span>Subtotal</span><span data-subtotal>0.000 KWD</span></div>
+    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>âˆ’0.000 KWD</span></div>
+    <div class="st-cart__total"><span>Total</span><span data-total>0.000 KWD</span></div>
+    <button class="st-cart__checkout">Checkout</button>
+    <button class="st-cart__continue" id="continueShopping">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- ========== TOAST ========== -->
+<div class="st-toast" id="toast">
+  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  <span>Added to cart</span>
+</div>
+
+<!-- ========== REEL MODAL ========== -->
+<div class="st-reel-modal" id="reelModal">
+  <button class="st-reel-modal__close" id="closeReel">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <video id="reelVideo" controls playsinline></video>
+</div>
+
+<script>
+  /* ============================================================
+     CART STATE (in-memory)
+     ============================================================ */
+  const cart = {
+    items: [],  // {id, name, color, size, price, qty, image}
+    SHIPPING_THRESHOLD: 25,
+    add(p) {
+      const key = `${p.id}-${p.color}-${p.size}`;
+      const existing = this.items.find(i => i.key === key);
+      if (existing) existing.qty += p.qty || 1;
+      else this.items.push({ ...p, key, qty: p.qty || 1 });
+      this.render();
+      this.toast();
+    },
+    remove(key) {
+      this.items = this.items.filter(i => i.key !== key);
+      this.render();
+    },
+    setQty(key, qty) {
+      const item = this.items.find(i => i.key === key);
+      if (item) {
+        if (qty <= 0) this.remove(key);
+        else { item.qty = qty; this.render(); }
+      }
+    },
+    subtotal() {
+      return this.items.reduce((s, i) => s + i.price * i.qty, 0);
+    },
+    totalQty() {
+      return this.items.reduce((s, i) => s + i.qty, 0);
+    },
+    discount() {
+      const q = this.totalQty();
+      if (q >= 6) return { pct: 20, label: 'Buy 6 â€” 20% off' };
+      if (q >= 2) return { pct: 10, label: 'Buy 2 â€” 10% off' };
+      return null;
+    },
+    total() {
+      const sub = this.subtotal();
+      const d = this.discount();
+      return d ? sub * (1 - d.pct / 100) : sub;
+    },
+    fmt(v) { return v.toFixed(3) + ' KWD'; },
+    render() {
+      const count = this.totalQty();
+      document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = count);
+      document.querySelectorAll('[data-cart-count-2]').forEach(el => el.textContent = count);
+
+      const itemsEl = document.getElementById('cartItems');
+      const totalsEl = document.getElementById('cartTotals');
+
+      if (this.items.length === 0) {
+        itemsEl.innerHTML = `<div class="st-cart__empty">
+          <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+          <p>Your bag is empty</p>
+          <button class="st-btn st-btn--primary" onclick="closeAllOverlays()">Continue Shopping</button>
+        </div>`;
+        totalsEl.style.display = 'none';
+      } else {
+        itemsEl.innerHTML = this.items.map(i => `
+          <div class="st-cart-item">
+            <div class="st-cart-item__img"><img src="${i.image}" alt=""></div>
+            <div class="st-cart-item__body">
+              <div>
+                <div class="st-cart-item__name">${i.name}</div>
+                <div class="st-cart-item__variant">${i.color}${i.size ? ' Â· ' + i.size : ''}</div>
+              </div>
+              <div class="st-cart-item__row">
+                <div class="st-cart-item__qty">
+                  <button onclick="cart.setQty('${i.key}', ${i.qty - 1})">âˆ’</button>
+                  <span>${i.qty}</span>
+                  <button onclick="cart.setQty('${i.key}', ${i.qty + 1})">+</button>
+                </div>
+                <div class="st-cart-item__price">${this.fmt(i.price * i.qty)}</div>
+              </div>
+            </div>
+            <button class="st-cart-item__close" onclick="cart.remove('${i.key}')" aria-label="Remove">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        `).join('');
+
+        const sub = this.subtotal();
+        const d = this.discount();
+        const total = this.total();
+        document.querySelector('[data-subtotal]').textContent = this.fmt(sub);
+        document.querySelector('[data-total]').textContent = this.fmt(total);
+        const dRow = document.getElementById('discountRow');
+        if (d) {
+          dRow.style.display = 'flex';
+          document.querySelector('[data-discount-label]').textContent = d.label;
+          document.querySelector('[data-discount]').textContent = 'âˆ’' + this.fmt(sub * d.pct / 100);
+        } else {
+          dRow.style.display = 'none';
+        }
+        totalsEl.style.display = 'block';
+      }
+
+      // Free shipping bar (themed, no emoji)
+      const sub = this.subtotal();
+      const remaining = Math.max(0, this.SHIPPING_THRESHOLD - sub);
+      const pct = Math.min(100, (sub / this.SHIPPING_THRESHOLD) * 100);
+      const shipEl = document.getElementById('shipping');
+      if (remaining > 0) {
+        shipEl.innerHTML = `
+          <div class="st-cart__shipping-msg"><strong>${remaining.toFixed(3)} KWD</strong> away from free shipping</div>
+          <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:${pct}%"></div></div>
+        `;
+      } else {
+        shipEl.innerHTML = `
+          <div class="st-cart__shipping-msg is-met">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <strong>Free shipping unlocked</strong>
+          </div>
+          <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:100%"></div></div>
+        `;
+      }
+
+      // Offer message (themed text only, no emojis)
+      const offerEl = document.getElementById('offer');
+      const q = this.totalQty();
+      if (q === 0) {
+        offerEl.innerHTML = `Buy <strong>2 hijabs</strong> â€” save <strong>10%</strong>  Â·  Buy <strong>6</strong> â€” save <strong>20%</strong>`;
+        offerEl.classList.remove('is-applied');
+      } else if (q < 2) {
+        offerEl.innerHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong>`;
+        offerEl.classList.remove('is-applied');
+      } else if (q < 6) {
+        offerEl.innerHTML = `<strong>10% off applied</strong>  Â·  Add <strong>${6 - q} more</strong> for 20% off`;
+        offerEl.classList.add('is-applied');
+      } else {
+        offerEl.innerHTML = `<strong>20% off â€” biggest savings unlocked</strong>`;
+        offerEl.classList.add('is-applied');
+      }
+    },
+    open() {
+      document.getElementById('cartDrawer').classList.add('is-open');
+      document.getElementById('menuOverlay').classList.add('is-open');
+      document.body.classList.add('is-locked');
+    },
+    close() {
+      document.getElementById('cartDrawer').classList.remove('is-open');
+      document.getElementById('menuOverlay').classList.remove('is-open');
+      document.body.classList.remove('is-locked');
+    },
+    toast() {
+      const t = document.getElementById('toast');
+      t.classList.add('is-shown');
+      clearTimeout(this._tId);
+      this._tId = setTimeout(() => t.classList.remove('is-shown'), 2000);
+    }
+  };
+
+  function closeAllOverlays() {
+    cart.close();
+    document.getElementById('sideMenu').classList.remove('is-open');
+    document.getElementById('searchOverlay').classList.remove('is-open');
+    document.body.classList.remove('is-locked');
+  }
+
+  // Demo: pre-fill cart with one item so you can see the drawer state immediately
+  cart.add({ id: 'p1', name: 'Crinkle Hijab â€” Taupe', color: 'Taupe', size: 'Jafsa', price: 4.500, image: './assets/product-taupe-1.jpg', qty: 1 });
+
+  // Upsell magnet products
+  const UPSELLS = {
+    tape: { id: 'tape', name: 'Hijab Tape', color: 'Clear', size: '', price: 1.500, image: './assets/color-cream.jpg' },
+    pins: { id: 'pins', name: 'Magnetic Pins', color: 'Silver', size: '', price: 2.000, image: './assets/color-silver.jpg' },
+    bonnet: { id: 'bonnet', name: 'Undercap', color: 'Cream', size: '', price: 2.500, image: './assets/color-cream.jpg' }
+  };
+  document.querySelectorAll('.st-cart__upsell-item').forEach(it => {
+    it.querySelector('.st-cart__upsell-add').onclick = e => {
+      e.stopPropagation();
+      const key = it.dataset.upsell;
+      cart.add({ ...UPSELLS[key], qty: 1 });
+    };
+  });
+
+  /* ============================================================
+     UI BINDINGS
+     ============================================================ */
+  const $ = s => document.querySelector(s);
+  const menu = $('#sideMenu'), overlay = $('#menuOverlay'), search = $('#searchOverlay');
+
+  $('#menuBtn').onclick = () => { menu.classList.add('is-open'); overlay.classList.add('is-open'); document.body.classList.add('is-locked'); };
+  $('#closeMenu').onclick = () => closeAllOverlays();
+  overlay.onclick = () => closeAllOverlays();
+
+  const openSearch = () => { search.classList.add('is-open'); document.body.classList.add('is-locked'); setTimeout(() => search.querySelector('.st-search__input').focus(), 300); };
+  $('#searchBtn').onclick = openSearch;
+  $('#searchBtnD').onclick = openSearch;
+  $('#searchBtnT').onclick = openSearch;
+  $('#closeSearch').onclick = () => { search.classList.remove('is-open'); document.body.classList.remove('is-locked'); };
+
+  $('#cartBtn').onclick = () => cart.open();
+  $('#cartBtnD').onclick = () => cart.open();
+  $('#closeCart').onclick = () => cart.close();
+  $('#continueShopping').onclick = () => cart.close();
+
+  // Counter
+  const counter = document.querySelector('[data-counter]');
+  let counted = false;
+  const animateCount = () => {
+    if (counted) return; counted = true;
+    const end = +counter.dataset.counter, t0 = performance.now();
+    const tick = t => {
+      const p = Math.min((t - t0) / 1500, 1);
+      counter.innerHTML = Math.floor(end * (1 - Math.pow(1 - p, 3))).toLocaleString() + '<span style="font-size:34px;">+</span>';
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  new IntersectionObserver(entries => entries.forEach(e => e.isIntersecting && animateCount()), { threshold: .5 }).observe(counter);
+
+  // Hero video
+  $('#playVideo').onclick = () => {
+    const wrap = document.querySelector('.st-video');
+    wrap.innerHTML = `<video autoplay controls playsinline style="width:100%;height:100%;object-fit:cover;"><source src="./assets/hero-video.mp4" type="video/mp4"></video>`;
+  };
+
+  // Reel modal
+  const reelModal = $('#reelModal');
+  const reelVideo = $('#reelVideo');
+  document.querySelectorAll('.st-reel').forEach(r => {
+    r.onclick = () => {
+      reelVideo.src = r.dataset.video;
+      reelVideo.load();
+      reelModal.classList.add('is-open');
+      document.body.classList.add('is-locked');
+      reelVideo.play().catch(()=>{});
+    };
+  });
+  $('#closeReel').onclick = () => {
+    reelModal.classList.remove('is-open');
+    reelVideo.pause();
+    reelVideo.removeAttribute('src');
+    reelVideo.load();
+    document.body.classList.remove('is-locked');
+  };
+  reelModal.onclick = e => { if (e.target === reelModal) $('#closeReel').click(); };
+</script>
+
+</body>
+</html>
+
