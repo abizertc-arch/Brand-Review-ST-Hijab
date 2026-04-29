@@ -933,7 +933,7 @@
     color: var(--brown-soft); font-weight: 700; margin-bottom: 12px;
     padding: 0 4px;
   }
-  .st-cart__upsell-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .st-cart__upsell-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-items: start; }
   @media (min-width: 480px) {
     .st-cart__upsell-list { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
     .st-cart__upsell-list::-webkit-scrollbar { display: none; }
@@ -946,6 +946,7 @@
     text-align: center;
     transition: border-color .2s ease;
     min-width: 0;
+    overflow: hidden;
   }
   @media (min-width: 480px) {
     .st-cart__upsell-item { flex: 0 0 130px; padding: 10px; }
@@ -960,7 +961,7 @@
     color: var(--brown);
   }
   .st-cart__upsell-img svg { width: 38px; height: 38px; stroke: currentColor; fill: none; stroke-width: 1.4; }
-  .st-cart__upsell-name { font-size: 11px; color: var(--brown); font-weight: 600; margin-bottom: 4px; line-height: 1.3; }
+  .st-cart__upsell-name { font-size: 11px; color: var(--brown); font-weight: 600; margin-bottom: 4px; line-height: 1.3; overflow: hidden; }
   .st-cart__upsell-price { font-size: 11px; color: var(--brown-soft); margin-bottom: 8px; }
   .st-cart__upsell-add {
     width: 100%;
@@ -975,9 +976,20 @@
   }
   .st-cart__upsell-add:hover { background: var(--brown); color: var(--beige); }
   @media (max-width: 480px) {
-    .st-cart__upsell-list { gap: 8px; }
-    .st-cart__upsell-name,
-    .st-cart__upsell-price { font-size: 10px; }
+    .st-cart__upsell-list { gap: 6px; }
+    .st-cart__upsell-item { padding: 6px; }
+    .st-cart__upsell-img { margin-bottom: 6px; }
+    .st-cart__upsell-img svg { width: 28px; height: 28px; }
+    .st-cart__upsell-name {
+      font-size: 10px;
+      line-height: 1.2;
+      min-height: 2.4em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    .st-cart__upsell-price { font-size: 10px; margin-bottom: 6px; }
+    .st-cart__upsell-add { height: 24px; font-size: 9px; letter-spacing: .12em; }
   }
   .st-cart__items { flex: 1; overflow-y: auto; padding: 8px 22px; }
   .st-cart__empty { padding: 60px 20px; text-align: center; color: var(--brown-soft); }
@@ -1941,4 +1953,3 @@
 
 </body>
 </html>
-
