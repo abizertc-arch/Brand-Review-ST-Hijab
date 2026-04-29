@@ -926,21 +926,29 @@
   .st-cart__offer.is-applied strong { color: var(--cream); }
 
   /* Cart upsell strip */
-  .st-cart__upsell { padding: 18px 22px; border-bottom: 1px solid var(--line); }
+  .st-cart__upsell { padding: 18px 14px; border-bottom: 1px solid var(--line); }
+  @media (min-width: 480px) { .st-cart__upsell { padding: 18px 22px; } }
   .st-cart__upsell-title {
     font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
     color: var(--brown-soft); font-weight: 700; margin-bottom: 12px;
+    padding: 0 4px;
   }
-  .st-cart__upsell-list { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
-  .st-cart__upsell-list::-webkit-scrollbar { display: none; }
+  .st-cart__upsell-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  @media (min-width: 480px) {
+    .st-cart__upsell-list { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+    .st-cart__upsell-list::-webkit-scrollbar { display: none; }
+  }
   .st-cart__upsell-item {
-    flex: 0 0 clamp(108px, 34vw, 124px);
     background: var(--cream);
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
-    padding: 10px 9px;
+    padding: 8px;
     text-align: center;
     transition: border-color .2s ease;
+    min-width: 0;
+  }
+  @media (min-width: 480px) {
+    .st-cart__upsell-item { flex: 0 0 130px; padding: 10px; }
   }
   .st-cart__upsell-item:hover { border-color: var(--brown); }
   .st-cart__upsell-img {
@@ -985,10 +993,10 @@
   .st-cart-item:last-child { border-bottom: 0; }
   .st-cart-item__img { width: 80px; height: 100px; border-radius: var(--radius-sm); overflow: hidden; background: var(--beige); }
   .st-cart-item__img img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-  .st-cart-item__body { display: flex; flex-direction: column; justify-content: space-between; padding-right: 4px; }
+  .st-cart-item__body { display: flex; flex-direction: column; padding-right: 4px; min-width: 0; min-height: 100px; }
   .st-cart-item__name { font-family: var(--font-body); font-size: 14px; color: var(--brown); font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
   .st-cart-item__variant { font-size: 11px; color: var(--brown-tint); margin-bottom: 8px; letter-spacing: .03em; }
-  .st-cart-item__row { display: flex; align-items: center; justify-content: space-between; }
+  .st-cart-item__row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; gap: 8px; }
   .st-cart-item__qty { display: flex; align-items: center; background: var(--beige-pale); border-radius: 999px; padding: 0 2px; }
   .st-cart-item__qty button { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: var(--brown); font-size: 14px; }
   .st-cart-item__qty span { min-width: 22px; text-align: center; font-size: 12px; font-weight: 700; }
@@ -1677,13 +1685,11 @@
           <div class="st-cart-item">
             <div class="st-cart-item__img"><img src="${i.image}" alt=""></div>
             <div class="st-cart-item__body">
-              <div>
-                <div class="st-cart-item__name">${i.name}</div>
-                <div class="st-cart-item__variant">${i.color}${i.size ? ' Â· ' + i.size : ''}</div>
-              </div>
+              <div class="st-cart-item__name">${i.name}</div>
+              <div class="st-cart-item__variant">${i.color}${i.size ? ' · ' + i.size : ''}</div>
               <div class="st-cart-item__row">
                 <div class="st-cart-item__qty">
-                  <button onclick="cart.setQty('${i.key}', ${i.qty - 1})">âˆ’</button>
+                  <button onclick="cart.setQty('${i.key}', ${i.qty - 1})">−</button>
                   <span>${i.qty}</span>
                   <button onclick="cart.setQty('${i.key}', ${i.qty + 1})">+</button>
                 </div>
@@ -1926,13 +1932,4 @@
   new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
-        if (node.nodeType === Node.TEXT_NODE) node.nodeValue = normalizeCopy(node.nodeValue);
-        if (node.nodeType === Node.ELEMENT_NODE) normalizeDom(node);
-      });
-    });
-  }).observe(document.body, { childList: true, subtree: true });
-</script>
-
-</body>
-</html>
-
+        if (node.nodeType === Node
