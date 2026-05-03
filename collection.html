@@ -119,45 +119,135 @@
     font-weight: 500;
   }
 
-  /* COLLECTION HERO */
+  /* COLLECTION HERO — split layout */
   .col-hero {
     position: relative;
-    height: 220px;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
+    height: 72px;
+    display: flex; align-items: stretch;
     overflow: hidden;
     border-bottom: 1px solid var(--line);
   }
-  @media (min-width: 1024px) { .col-hero { height: 320px; } }
-  .col-hero__bg {
-    position: absolute; inset: 0;
-    background: linear-gradient(120deg, var(--beige-pale) 0%, var(--cream) 50%, var(--beige-pale) 100%);
+  @media (min-width: 1024px) { .col-hero { height: 90px; } }
+  .col-hero__bg { position: absolute; inset: 0; background: var(--beige-pale); }
+  .col-hero__left {
+    position: relative; z-index: 2;
+    display: flex; align-items: center;
+    padding: 0 var(--gutter);
+    border-right: 1px solid var(--line);
+    flex-shrink: 0;
   }
-  .col-hero__content { position: relative; z-index: 2; padding: 0 var(--gutter); }
-  .col-hero__crumb {
-    font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
-    color: var(--brown-soft); font-weight: 600; margin-bottom: 12px;
+  .col-hero__shop-link {
+    font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--brown-tint); font-weight: 700;
+    text-decoration: none;
   }
-  .col-hero__crumb a { color: var(--brown-tint); }
-  .col-hero__crumb .sep { margin: 0 6px; opacity: .5; }
+  .col-hero__shop-link:hover { color: var(--brown); }
+  .col-hero__right {
+    position: relative; z-index: 2;
+    flex: 1;
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 12px;
+    padding: 0 var(--gutter);
+  }
   .col-hero__title {
     font-family: var(--font-display);
-    font-size: clamp(36px, 5vw, 60px);
+    font-size: clamp(22px, 3.5vw, 38px);
     color: var(--brown);
     font-weight: 500;
     line-height: 1;
-    letter-spacing: -.5px;
+    letter-spacing: -.4px;
   }
-  .col-hero__sub {
-    font-size: 13px;
-    color: var(--brown-soft);
-    margin-top: 10px;
-    max-width: 460px;
-    margin-left: auto; margin-right: auto;
-    line-height: 1.5;
+  .col-hero__icon {
+    width: 32px; height: 32px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--brown); border-radius: 50%;
   }
+  .col-hero__icon svg { width: 16px; height: 16px; stroke: var(--beige); fill: none; stroke-width: 1.5; }
+  /* hide old elements */
+  .col-hero__crumb, .col-hero__content, .col-hero__sub { display: none; }
 
-  /* TOOLBAR â€” sort, filter, count */
+  /* SUB-COLLECTIONS NAV */
+  .col-subcollections {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 12px var(--gutter) 0;
+  }
+  @media (min-width: 1024px) { .col-subcollections { padding: 16px var(--gutter-d) 0; } }
+  .col-subcollections__title {
+    font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--brown-tint); font-weight: 700; margin-bottom: 8px;
+  }
+  .col-subcollections__grid {
+    display: flex; gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .col-subcollections__grid::-webkit-scrollbar { display: none; }
+  .col-sub-chip {
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    background: var(--beige-pale);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    color: var(--brown);
+    white-space: nowrap;
+    transition: all .2s ease;
+    text-decoration: none;
+  }
+  .col-sub-chip:hover { background: var(--brown); color: var(--beige); border-color: var(--brown); }
+  .col-sub-chip:hover .col-sub-chip__icon { background: rgba(250,243,232,.2); color: var(--beige); }
+  .col-sub-chip.is-active { background: var(--brown); color: var(--beige); border-color: var(--brown); }
+  .col-sub-chip.is-active .col-sub-chip__icon { background: rgba(250,243,232,.2); color: var(--beige); }
+  .col-sub-chip__icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all .2s ease;
+    overflow: hidden;
+  }
+  .col-sub-chip__icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+  .col-sub-chip__icon img { width: 28px; height: 28px; object-fit: cover; border-radius: 50%; }
+  .col-sub-chip__count {
+    font-size: 10px; font-weight: 700;
+    background: rgba(46,35,28,.08);
+    padding: 2px 7px;
+    border-radius: 999px;
+    letter-spacing: .05em;
+  }
+  .col-sub-chip:hover .col-sub-chip__count,
+  .col-sub-chip.is-active .col-sub-chip__count { background: rgba(250,243,232,.15); }
+
+  /* PROMO BANNER in grid — compact */
+  .col-promo-banner {
+    grid-column: 1 / -1;
+    background: var(--brown);
+    color: var(--beige);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .col-promo-banner__icon { display: none; }
+  .col-promo-banner__text { flex: 1; }
+  .col-promo-banner__title { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin: 0; }
+  .col-promo-banner__sub { display: none; }
+  .col-promo-banner__cta {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    background: var(--beige);
+    color: var(--brown);
+    border-radius: 999px;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase;
+    text-decoration: none;
+    transition: background .2s ease;
+  }
+  .col-promo-banner__cta:hover { background: var(--cream); }
+
+  /* TOOLBAR â€" sort, filter, count */
   .col-toolbar {
     position: sticky; top: 102px;
     z-index: 40;
@@ -254,7 +344,7 @@
   .col-product__wishlist.is-active { color: var(--error); }
   .col-product__wishlist.is-active svg { fill: var(--error); }
 
-  /* Product body â€” title, rating, price, ATC */
+  /* Product body â€" title, rating, price, ATC */
   .col-product__body {
     padding: 12px 8px 12px;
     display: flex;
@@ -285,7 +375,7 @@
   }
   .col-product__rating svg { width: 10px; height: 10px; fill: var(--beige); }
 
-  /* Price â€” same font everywhere (Inter sans-serif) */
+  /* Price â€" same font everywhere (Inter sans-serif) */
   .col-product__price {
     display: flex; align-items: baseline; gap: 6px;
     margin-bottom: 10px;
@@ -1043,25 +1133,92 @@
   .st-tab.is-active { color: var(--beige); }
 
   /* FOOTER */
-  .st-footer { background: var(--cream); border-top: 1px solid var(--line); padding: 40px var(--gutter) 100px; }
-  @media (min-width: 768px) { .st-footer { padding: 60px var(--gutter-d) 40px; } }
+  .st-footer {
+    background: var(--brown);
+    color: var(--beige);
+    padding: 28px var(--gutter) 100px;
+    border-top: none;
+  }
+  @media (min-width: 768px) { .st-footer { padding: 60px var(--gutter-d) 40px; background: var(--cream); color: var(--brown); border-top: 1px solid var(--line); } }
+
+  /* MOBILE: brand bar */
+  .st-footer__brand {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(250,243,232,.12);
+    margin-bottom: 20px;
+  }
+  @media (min-width: 768px) { .st-footer__brand { display: block; border-bottom: none; margin-bottom: 0; padding-bottom: 0; } }
+  .st-footer__brand img {
+    height: 36px;
+    filter: brightness(0) invert(1); /* white logo on dark bg */
+  }
+  @media (min-width: 768px) { .st-footer__brand img { height: 56px; filter: none; margin-bottom: 14px; display: block; } }
+  .st-footer__brand p { display: none; }
+  @media (min-width: 768px) { .st-footer__brand p { display: block; font-size: 13px; color: var(--brown-soft); line-height: 1.6; max-width: 320px; margin-bottom: 16px; } }
+  .st-footer__brand .ar { display: none; }
+  @media (min-width: 768px) { .st-footer__brand .ar { display: block; font-family: var(--font-arabic); font-size: 14px; color: var(--brown); letter-spacing: .15em; } }
+
+  /* social icons */
+  .st-footer__social { display: flex; gap: 14px; align-items: center; }
+  @media (min-width: 768px) { .st-footer__social { margin-top: 18px; } }
+  .st-footer__social a {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: 1px solid rgba(250,243,232,.2);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--beige);
+    transition: border-color .2s, background .2s;
+  }
+  @media (min-width: 768px) {
+    .st-footer__social a { border-color: var(--line); color: var(--brown-soft); }
+    .st-footer__social a:hover { border-color: var(--brown); background: var(--beige-pale); }
+  }
+  .st-footer__social svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.7; }
+
+  /* desktop footer inner grid */
   .st-footer__inner {
     max-width: var(--container); margin: 0 auto;
-    display: grid; grid-template-columns: 1fr; gap: 32px;
+    display: block;
   }
-  @media (min-width: 768px) { .st-footer__inner { grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; } }
-  .st-footer__brand img { height: 56px; margin-bottom: 14px; }
-  .st-footer__brand p { font-size: 13px; color: var(--brown-soft); line-height: 1.6; max-width: 320px; margin-bottom: 16px; }
-  .st-footer__brand .ar { font-family: var(--font-arabic); font-size: 14px; color: var(--brown); letter-spacing: .15em; }
-  .st-footer__col h4 { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--brown); font-weight: 700; margin-bottom: 14px; }
+  @media (min-width: 768px) { .st-footer__inner { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; } }
+
+  /* mobile: link columns as 2-col grid */
+  .st-footer__links-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    margin-bottom: 24px;
+  }
+  @media (min-width: 768px) { .st-footer__links-grid { display: contents; } }
+
+  .st-footer__col h4 {
+    font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+    color: rgba(250,243,232,.5);
+    font-weight: 700; margin-bottom: 10px;
+  }
+  @media (min-width: 768px) { .st-footer__col h4 { color: var(--brown); letter-spacing: .25em; margin-bottom: 14px; font-size: 11px; } }
   .st-footer__col ul { list-style: none; }
-  .st-footer__col ul li { margin-bottom: 8px; }
-  .st-footer__col a { font-size: 13px; color: var(--brown-soft); }
-  .st-footer__bottom { max-width: var(--container); margin: 32px auto 0; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-  @media (min-width: 768px) { .st-footer__bottom { flex-direction: row; justify-content: space-between; } }
-  .st-footer__pay { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-  .st-footer__pay span { background: var(--beige-pale); color: var(--brown); font-size: 9px; font-weight: 700; padding: 5px 9px; border-radius: 4px; letter-spacing: .1em; }
-  .st-footer__copy { font-size: 11px; color: var(--brown-tint); letter-spacing: .1em; }
+  .st-footer__col ul li { margin-bottom: 10px; }
+  .st-footer__col a { font-size: 13px; color: rgba(250,243,232,.75); text-decoration: none; }
+  @media (min-width: 768px) { .st-footer__col a { color: var(--brown-soft); } }
+  .st-footer__col a:active { opacity: .6; }
+
+  /* payment + copyright */
+  .st-footer__bottom {
+    max-width: var(--container); margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(250,243,232,.12);
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  @media (min-width: 768px) { .st-footer__bottom { border-top-color: var(--line); flex-direction: row; justify-content: space-between; align-items: center; margin-top: 32px; padding-top: 22px; } }
+  .st-footer__pay { display: flex; gap: 8px; flex-wrap: wrap; }
+  .st-footer__pay span {
+    background: rgba(250,243,232,.1);
+    color: rgba(250,243,232,.7);
+    font-size: 9px; font-weight: 700;
+    padding: 5px 9px; border-radius: 4px; letter-spacing: .1em;
+  }
+  @media (min-width: 768px) { .st-footer__pay span { background: var(--beige-pale); color: var(--brown); } }
+  .st-footer__copy { font-size: 11px; color: rgba(250,243,232,.4); letter-spacing: .08em; }
+  @media (min-width: 768px) { .st-footer__copy { color: var(--brown-tint); } }
 </style>
 </head>
 <body>
@@ -1070,8 +1227,8 @@
 <div class="st-announce">
   <div class="st-announce__track">
     <div class="st-announce__msg">FREE SHIPPING ON ORDERS OVER 25 KWD</div>
-    <div class="st-announce__msg">BUY 2 â€” GET 10% OFF</div>
-    <div class="st-announce__msg">BUY 6 â€” GET 20% OFF</div>
+    <div class="st-announce__msg">BUY 2 â€" GET 10% OFF</div>
+    <div class="st-announce__msg">BUY 6 â€" GET 20% OFF</div>
     <div class="st-announce__msg">FREE 14-DAY RETURNS</div>
   </div>
 </div>
@@ -1118,16 +1275,90 @@
 <!-- COLLECTION HERO -->
 <section class="col-hero">
   <div class="col-hero__bg"></div>
-  <div class="col-hero__content">
-    <div class="col-hero__crumb">
-      <a href="index.html">Home</a><span class="sep">/</span>
-      <a href="shop.html">Shop</a><span class="sep">/</span>
-      <span style="color: var(--brown);" id="crumbCat">Hijabs</span>
-    </div>
+  <div class="col-hero__left">
+    <a href="shop.html" class="col-hero__shop-link">Shop /</a>
+  </div>
+  <div class="col-hero__right">
     <h1 class="col-hero__title" id="colTitle">Hijabs</h1>
-    <p class="col-hero__sub" id="colSub">Our signature crinkle hijabs in 8 colours â€” soft, breathable, hand-finished edges.</p>
+    <div class="col-hero__icon">
+      <svg viewBox="0 0 24 24"><path d="M12 3C8 3 4 6 4 10c0 3 1.5 5.5 4 7l4 3 4-3c2.5-1.5 4-4 4-7 0-4-4-7-8-7z"/><path d="M8 10c0-2 1.8-4 4-4"/></svg>
+    </div>
   </div>
 </section>
+
+<!-- SUB-COLLECTIONS: Quick Filter Chips -->
+<div class="col-subcollections">
+  <div class="col-subcollections__title">Shop by Fabric</div>
+  <div class="col-subcollections__grid">
+    <a href="collection.html?fabric=chiffon" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-cream.jpg" alt="Chiffon"></span>
+      Chiffon
+      <span class="col-sub-chip__count">14</span>
+    </a>
+    <a href="collection.html?fabric=satin" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-silver.jpg" alt="Satin"></span>
+      Satin
+      <span class="col-sub-chip__count">8</span>
+    </a>
+    <a href="collection.html?fabric=silk" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-white.jpg" alt="Silk"></span>
+      Silk
+      <span class="col-sub-chip__count">6</span>
+    </a>
+    <a href="collection.html?fabric=cotton" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-light-grey.jpg" alt="Cotton"></span>
+      Cotton
+      <span class="col-sub-chip__count">7</span>
+    </a>
+    <a href="collection.html?fabric=turkey" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/product-taupe-1.jpg" alt="Turkey"></span>
+      Turkey
+      <span class="col-sub-chip__count">5</span>
+    </a>
+    <a href="collection.html?fabric=crystal" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-plum.jpg" alt="Crystal"></span>
+      Crystal
+      <span class="col-sub-chip__count">5</span>
+    </a>
+    <a href="collection.html?fabric=thailandi" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-olive.jpg" alt="Thailandi"></span>
+      Thailandi
+      <span class="col-sub-chip__count">4</span>
+    </a>
+  </div>
+</div>
+
+<!-- SUB-COLLECTIONS: Shop by Feel — chip row -->
+<div class="col-subcollections" style="margin-top: 0;">
+  <div class="col-subcollections__title">Shop by Feel</div>
+  <div class="col-subcollections__grid">
+    <a href="collection.html?feel=smooth" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-cream.jpg" alt="Smooth"></span>
+      Smooth
+      <span class="col-sub-chip__count">10</span>
+    </a>
+    <a href="collection.html?feel=crushed" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/product-taupe-2.jpg" alt="Crushed"></span>
+      Crushed
+      <span class="col-sub-chip__count">12</span>
+    </a>
+    <a href="collection.html?feel=khashyan" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/color-charcoal.jpg" alt="Khashyan"></span>
+      Khashyan
+      <span class="col-sub-chip__count">8</span>
+    </a>
+    <a href="collection.html?occasion=everyday" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/lookbook-1.jpg" alt="Everyday"></span>
+      Everyday
+      <span class="col-sub-chip__count">18</span>
+    </a>
+    <a href="collection.html?occasion=occasion" class="col-sub-chip">
+      <span class="col-sub-chip__icon"><img src="./assets/lookbook-2.jpg" alt="Occasions"></span>
+      Occasions
+      <span class="col-sub-chip__count">14</span>
+    </a>
+  </div>
+</div>
 
 <!-- TOOLBAR -->
 <div class="col-toolbar">
@@ -1144,7 +1375,7 @@
   </div>
 </div>
 
-<!-- PRODUCTS GRID â€” 2 per row mobile, 4 desktop -->
+<!-- PRODUCTS GRID â€" 2 per row mobile, 4 desktop -->
 <div class="col-grid" id="grid"></div>
 
 <!-- LOAD MORE -->
@@ -1194,8 +1425,8 @@
       <h4>Price</h4>
       <ul class="col-filter-list">
         <li><span class="check"></span>Under 3 KWD<span class="count">8</span></li>
-        <li><span class="check"></span>3 â€“ 5 KWD<span class="count">22</span></li>
-        <li><span class="check"></span>5 â€“ 7 KWD<span class="count">10</span></li>
+        <li><span class="check"></span>3 â€" 5 KWD<span class="count">22</span></li>
+        <li><span class="check"></span>5 â€" 7 KWD<span class="count">10</span></li>
         <li><span class="check"></span>Above 7 KWD<span class="count">2</span></li>
       </ul>
     </div>
@@ -1408,42 +1639,55 @@
   <div class="st-footer__inner">
     <div class="st-footer__brand">
       <img src="./assets/logo-brown.png" alt="Smack Touch">
+      <div class="st-footer__social">
+        <a href="#" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" aria-label="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+        </a>
+        <a href="#" aria-label="Snapchat">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.5 2 6 4.5 6 8v1c0 .5-.5 1-1 1.5C4.5 11 4 11.5 4 12c0 .5.5 1 1.5 1.2.5.1.8.5.6 1-.2.5-.5 1-.5 1.5 0 .5.5.8 1 .8.3 0 .7-.1 1-.2C8.5 17 10 18.5 12 18.5s3.5-1.5 4.4-2.2c.3.1.7.2 1 .2.5 0 1-.3 1-.8 0-.5-.3-1-.5-1.5-.2-.5.1-.9.6-1C19.5 13 20 12.5 20 12c0-.5-.5-1-1-1.5C18.5 10 18 9.5 18 9V8c0-3.5-2.5-6-6-6z"/></svg>
+        </a>
+      </div>
       <p>Smack Touch crafts thoughtfully-made hijabs and modest essentials for women across the GCC.</p>
-      <div class="ar">Ø³Ù…Ø§Ùƒ ØªØ´</div>
+      <div class="ar">سماك تش</div>
     </div>
-    <div class="st-footer__col">
-      <h4>Shop</h4>
-      <ul>
-        <li><a href="collection.html?cat=hijabs">Hijabs</a></li>
-        <li><a href="collection.html?cat=undercaps">Undercaps</a></li>
-        <li><a href="collection.html?cat=accessories">Accessories</a></li>
-        <li><a href="collection.html?cat=turbans">Turbans</a></li>
-        <li><a href="collection.html?cat=kums">Kums</a></li>
-      </ul>
-    </div>
-    <div class="st-footer__col">
-      <h4>Help</h4>
-      <ul>
-        <li><a href="#">Track Order</a></li>
-        <li><a href="#">Returns & Exchange</a></li>
-        <li><a href="#">Size Guide</a></li>
-        <li><a href="#">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="st-footer__col">
-      <h4>About</h4>
-      <ul>
-        <li><a href="#">Our Story</a></li>
-        <li><a href="#">Sustainability</a></li>
-        <li><a href="#">Press</a></li>
-      </ul>
+    <div class="st-footer__links-grid">
+      <div class="st-footer__col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="collection.html?cat=hijabs">Hijabs</a></li>
+          <li><a href="collection.html?cat=undercaps">Undercaps</a></li>
+          <li><a href="collection.html?cat=accessories">Accessories</a></li>
+          <li><a href="collection.html?cat=turbans">Turbans</a></li>
+          <li><a href="collection.html?cat=kums">Kums</a></li>
+        </ul>
+      </div>
+      <div class="st-footer__col">
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Size Guide</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="st-footer__col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="st-footer__bottom">
-    <div class="st-footer__copy">Â© 2026 SMACK TOUCH Â· Ø³ÙˆÙ‚ Ø§Ù„Ø²Ù„ Ø§Ù„Ù…Ø¨Ø§Ø±ÙƒÙŠØ© Â· KUWAIT</div>
     <div class="st-footer__pay">
       <span>KNET</span><span>VISA</span><span>MC</span><span>APPLE PAY</span><span>TABBY</span>
     </div>
+    <div class="st-footer__copy">© 2026 SMACK TOUCH · KUWAIT</div>
   </div>
 </footer>
 
@@ -1452,14 +1696,14 @@
      PRODUCT DATA + RENDER
      ============================================================ */
   const PRODUCTS = [
-    { id: 'p1', name: 'Crinkle Hijab â€” Taupe',     img: './assets/product-taupe-1.jpg',  price: 4.500, compare: 6.500, rating: 4.9, reviews: 1284, badge: 'Bestseller', colors: ['#7a6555', '#c9af93', '#e2cdb3'] },
-    { id: 'p2', name: 'Crinkle Hijab â€” Cream',     img: './assets/color-cream.jpg',      price: 4.500, compare: null,  rating: 4.8, reviews: 942,  badge: null, colors: ['#e8d6bb', '#f5ebdd'] },
-    { id: 'p3', name: 'Chiffon Hijab â€” Plum',      img: './assets/color-plum.jpg',       price: 5.250, compare: 7.000, rating: 4.9, reviews: 421,  badge: 'New', colors: ['#6b3a4a', '#8c5165'] },
-    { id: 'p4', name: 'Satin Hijab â€” Charcoal',    img: './assets/color-charcoal.jpg',   price: 5.750, compare: null,  rating: 4.7, reviews: 718,  badge: null, colors: ['#2e2a30', '#4a4448'] },
-    { id: 'p5', name: 'Crinkle Hijab â€” Olive',     img: './assets/color-olive.jpg',      price: 4.500, compare: null,  rating: 4.8, reviews: 612,  badge: null, colors: ['#6b6b4e', '#8b8b65'] },
-    { id: 'p6', name: 'Crinkle Hijab â€” Light Grey',img: './assets/color-light-grey.jpg', price: 4.500, compare: null,  rating: 4.9, reviews: 524,  badge: null, colors: ['#bcc0bc', '#d8dcd6'] },
-    { id: 'p7', name: 'Crystal Hijab â€” Silver',    img: './assets/color-silver.jpg',     price: 6.250, compare: 8.000, rating: 4.6, reviews: 389,  badge: 'Sale', colors: ['#c0c4c8', '#a8acb0'] },
-    { id: 'p8', name: 'Crinkle Hijab â€” Ivory',     img: './assets/color-white.jpg',      price: 4.500, compare: null,  rating: 4.9, reviews: 866,  badge: null, colors: ['#faf3e8', '#e2d8c8'] }
+    { id: 'p1', name: 'Crinkle Hijab â€" Taupe',     img: './assets/product-taupe-1.jpg',  price: 4.500, compare: 6.500, rating: 4.9, reviews: 1284, badge: 'Bestseller', colors: ['#7a6555', '#c9af93', '#e2cdb3'] },
+    { id: 'p2', name: 'Crinkle Hijab â€" Cream',     img: './assets/color-cream.jpg',      price: 4.500, compare: null,  rating: 4.8, reviews: 942,  badge: null, colors: ['#e8d6bb', '#f5ebdd'] },
+    { id: 'p3', name: 'Chiffon Hijab â€" Plum',      img: './assets/color-plum.jpg',       price: 5.250, compare: 7.000, rating: 4.9, reviews: 421,  badge: 'New', colors: ['#6b3a4a', '#8c5165'] },
+    { id: 'p4', name: 'Satin Hijab â€" Charcoal',    img: './assets/color-charcoal.jpg',   price: 5.750, compare: null,  rating: 4.7, reviews: 718,  badge: null, colors: ['#2e2a30', '#4a4448'] },
+    { id: 'p5', name: 'Crinkle Hijab â€" Olive',     img: './assets/color-olive.jpg',      price: 4.500, compare: null,  rating: 4.8, reviews: 612,  badge: null, colors: ['#6b6b4e', '#8b8b65'] },
+    { id: 'p6', name: 'Crinkle Hijab â€" Light Grey',img: './assets/color-light-grey.jpg', price: 4.500, compare: null,  rating: 4.9, reviews: 524,  badge: null, colors: ['#bcc0bc', '#d8dcd6'] },
+    { id: 'p7', name: 'Crystal Hijab â€" Silver',    img: './assets/color-silver.jpg',     price: 6.250, compare: 8.000, rating: 4.6, reviews: 389,  badge: 'Sale', colors: ['#c0c4c8', '#a8acb0'] },
+    { id: 'p8', name: 'Crinkle Hijab â€" Ivory',     img: './assets/color-white.jpg',      price: 4.500, compare: null,  rating: 4.9, reviews: 866,  badge: null, colors: ['#faf3e8', '#e2d8c8'] }
   ];
 
   function star() {
@@ -1470,7 +1714,18 @@
 
   function renderGrid() {
     const grid = document.getElementById('grid');
-    grid.innerHTML = PRODUCTS.map(p => `
+    const promoBanner = `
+      <div class="col-promo-banner">
+        <div class="col-promo-banner__icon">
+          <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <div class="col-promo-banner__text">
+          <div class="col-promo-banner__title">Buy 2 Save 10% &middot; Buy 6 Save 20%</div>
+          <div class="col-promo-banner__sub">Mix &amp; match any hijabs. Discount auto-applies at checkout.</div>
+        </div>
+        <a href="shop.html" class="col-promo-banner__cta">Shop All</a>
+      </div>`;
+    const cards = PRODUCTS.map(p => `
       <div class="col-product" data-id="${p.id}">
         <div class="col-product__media">
           ${p.badge ? `<span class="col-product__badge ${p.badge === 'Sale' ? 'col-product__badge--sale' : ''}">${p.badge}</span>` : ''}
@@ -1485,7 +1740,7 @@
           <div class="col-product__meta">
             <a href="product.html" class="col-product__name">${p.name}</a>
             <div class="col-product__rating">
-            ${star()} ${p.rating} Â· ${p.reviews.toLocaleString()} reviews
+            ${star()} ${p.rating} &middot; ${p.reviews.toLocaleString()} reviews
           </div>
             <div class="col-product__colors">
             ${p.colors.map(c => `<span style="background:${c};"></span>`).join('')}
@@ -1501,20 +1756,22 @@
           </button>
         </div>
       </div>
-    `).join('');
+    `);
+    cards.splice(4, 0, promoBanner);
+    grid.innerHTML = cards.join('');
   }
 
   /* ============================================================
      COLLECTION ROUTING (read URL params)
      ============================================================ */
   const COLLECTION_TITLES = {
-    hijabs:      { t: 'Hijabs',       s: 'Our signature crinkle hijabs in 8 colours â€” soft, breathable, hand-finished edges.', n: 42 },
+    hijabs:      { t: 'Hijabs',       s: 'Our signature crinkle hijabs in 8 colours â€" soft, breathable, hand-finished edges.', n: 42 },
     undercaps:   { t: 'Undercaps',    s: 'Comfortable inner caps to wear under your hijab.', n: 12 },
     accessories: { t: 'Pins',         s: 'Pins, magnets, and finishing touches.', n: 18 },
     turbans:     { t: 'Turbans',      s: 'Modern wraps for an easy, polished look.', n: 8 },
     kums:        { t: 'Kums',         s: 'Detachable sleeves to complete your modest look.', n: 14 },
     new:         { t: 'New Arrivals', s: 'Just-dropped pieces from our 2026 collection.', n: 12 },
-    sale:        { t: 'Sale',         s: 'Up to 30% off â€” limited stock on selected styles.', n: 14 }
+    sale:        { t: 'Sale',         s: 'Up to 30% off â€" limited stock on selected styles.', n: 14 }
   };
   const FABRIC_TITLES = {
     chiffon:     { t: 'Chiffon Hijabs',   s: 'Featherlight, breathable chiffon weave.', n: 14 },
@@ -1525,9 +1782,9 @@
     crystal:     { t: 'Crystal Hijabs',   s: 'Subtle shimmering shine.', n: 5 }
   };
   const TYPE_TITLES = {
-    plain:       { t: 'Plain Cut',  s: '160 Ã— 70 cm â€” a lighter daily drape.', n: 15 },
-    jafsa:       { t: 'Jafsa Cut',  s: '180 Ã— 75 cm â€” our signature full drape.', n: 22 },
-    mini:        { t: 'Mini Cut',   s: '150 Ã— 65 cm â€” compact, no excess fabric.', n: 5 }
+    plain:       { t: 'Plain Cut',  s: '160 Ã— 70 cm â€" a lighter daily drape.', n: 15 },
+    jafsa:       { t: 'Jafsa Cut',  s: '180 Ã— 75 cm â€" our signature full drape.', n: 22 },
+    mini:        { t: 'Mini Cut',   s: '150 Ã— 65 cm â€" compact, no excess fabric.', n: 5 }
   };
   const FEEL_TITLES = {
     normal:      { t: 'Normal Feel',   s: 'Everyday weave, balanced texture.', n: 12 },
@@ -1578,8 +1835,8 @@
     totalQty() { return this.items.reduce((s, i) => s + i.qty, 0); },
     discount() {
       const q = this.totalQty();
-      if (q >= 6) return { pct: 20, label: 'Buy 6 â€” 20% off' };
-      if (q >= 2) return { pct: 10, label: 'Buy 2 â€” 10% off' };
+      if (q >= 6) return { pct: 20, label: 'Buy 6 â€" 20% off' };
+      if (q >= 2) return { pct: 10, label: 'Buy 2 â€" 10% off' };
       return null;
     },
     total() {
@@ -1646,10 +1903,10 @@
 
       const offerEl = document.getElementById('offer');
       const q = this.totalQty();
-      if (q === 0) { offerEl.innerHTML = `Buy <strong>2 hijabs</strong> â€” save <strong>10%</strong>  Â·  Buy <strong>6</strong> â€” save <strong>20%</strong>`; offerEl.classList.remove('is-applied'); }
+      if (q === 0) { offerEl.innerHTML = `Buy <strong>2 hijabs</strong> â€" save <strong>10%</strong>  Â·  Buy <strong>6</strong> â€" save <strong>20%</strong>`; offerEl.classList.remove('is-applied'); }
       else if (q < 2) { offerEl.innerHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong>`; offerEl.classList.remove('is-applied'); }
       else if (q < 6) { offerEl.innerHTML = `<strong>10% off applied</strong>  Â·  Add <strong>${6 - q} more</strong> for 20% off`; offerEl.classList.add('is-applied'); }
-      else { offerEl.innerHTML = `<strong>20% off â€” biggest savings unlocked</strong>`; offerEl.classList.add('is-applied'); }
+      else { offerEl.innerHTML = `<strong>20% off â€" biggest savings unlocked</strong>`; offerEl.classList.add('is-applied'); }
     },
     open() {
       document.getElementById('cartDrawer').classList.add('is-open');
@@ -1774,7 +2031,7 @@
     const baseName = p.name.split('Ã¢â‚¬â€')[0].trim();
     cart.add({
       id: p.id,
-      name: p.name.split(' ').slice(0, -1).join(' ').replace(/[â€”-]$/, '').trim(),
+      name: p.name.split(' ').slice(0, -1).join(' ').replace(/[â€"-]$/, '').trim(),
       color: '',
       size: '',
       price: p.price,
@@ -1803,7 +2060,7 @@
   }
 
   function getQuickShopBaseName(name) {
-    return name.replace(/\s+[â€”â€“-]\s+[^â€”â€“-]+$/, '').trim();
+    return name.replace(/\s+[â€"â€"-]\s+[^â€"â€"-]+$/, '').trim();
   }
 
   function addCurrentQuickShopToCart() {
@@ -1822,92 +2079,6 @@
     closeQuickShop();
     setTimeout(() => cart.open(), 300);
   }
-
-  function openQuickShop(id) {
-    const p = PRODUCTS.find(x => x.id === id);
-    if (!p) return;
-    qsCurrentProduct = p;
-
-    document.getElementById('qsName').textContent = p.name;
-    document.getElementById('qsReview').innerHTML = `${star()} ${p.rating} Ã‚Â· ${p.reviews.toLocaleString()} reviews`;
-    document.getElementById('qsReview').innerHTML = `${star()} ${p.rating} &middot; ${p.reviews.toLocaleString()} reviews`;
-    document.getElementById('qsPrice').textContent = fmt(p.price);
-    document.getElementById('qsCompare').textContent = p.compare ? fmt(p.compare) : '';
-    document.getElementById('qsCompare').style.display = p.compare ? 'inline' : 'none';
-    document.getElementById('qsDesktopName').textContent = p.name;
-    document.getElementById('qsDesktopReview').innerHTML = `${star()} ${p.rating} &middot; ${p.reviews.toLocaleString()} reviews`;
-    document.getElementById('qsDesktopPrice').textContent = fmt(p.price);
-    document.getElementById('qsDesktopCompare').textContent = p.compare ? fmt(p.compare) : '';
-    document.getElementById('qsDesktopCompare').style.display = p.compare ? 'inline' : 'none';
-
-    // Default selection â€” extract color from name if applicable
-    const colorMatch = p.name.split('â€”')[1]?.trim() || 'Taupe';
-    const initial = COLOR_IMAGES[colorMatch] ? colorMatch : 'Taupe';
-    document.getElementById('qsColor').textContent = initial;
-    document.getElementById('qsDesktopColor').textContent = initial;
-    document.getElementById('qsSize').textContent = 'Jafsa';
-    document.getElementById('qsDesktopSize').textContent = 'Jafsa';
-    document.getElementById('qsQty').value = 1;
-    document.getElementById('qsDesktopQty').value = 1;
-    renderQuickShopGallery(p, initial, COLOR_IMAGES[initial] || p.img, 'qsImgMobile', 'qsThumbs');
-    renderQuickShopGallery(p, initial, COLOR_IMAGES[initial] || p.img, 'qsDesktopImg', 'qsDesktopThumbs');
-
-    // Render swatches
-    const onColorSelect = (color) => {
-      document.getElementById('qsColor').textContent = color;
-      document.getElementById('qsDesktopColor').textContent = color;
-      renderQuickShopGallery(p, color, COLOR_IMAGES[color], 'qsImgMobile', 'qsThumbs');
-      renderQuickShopGallery(p, color, COLOR_IMAGES[color], 'qsDesktopImg', 'qsDesktopThumbs');
-      renderQuickShopSwatches('qsSwatches', color, onColorSelect);
-      renderQuickShopSwatches('qsDesktopSwatches', color, onColorSelect);
-    };
-    renderQuickShopSwatches('qsSwatches', initial, onColorSelect);
-    renderQuickShopSwatches('qsDesktopSwatches', initial, onColorSelect);
-
-    // Reset size
-    document.querySelectorAll('.qs-size').forEach((b) => {
-      b.classList.toggle('is-active', b.textContent.trim() === 'Jafsa');
-    });
-
-    document.getElementById('qsDrawer').classList.add('is-open');
-    document.getElementById('filterOverlay').classList.add('is-open');
-    document.body.classList.add('is-locked');
-  }
-
-  document.getElementById('qsClose').onclick = closeQuickShop;
-  function closeQuickShop() {
-    document.getElementById('qsDrawer').classList.remove('is-open');
-    document.getElementById('filterOverlay').classList.remove('is-open');
-    document.body.classList.remove('is-locked');
-  }
-
-  document.querySelectorAll('.qs-size').forEach(b => {
-    b.onclick = () => {
-      document.querySelectorAll('.qs-size').forEach(x => x.classList.remove('is-active'));
-      b.classList.add('is-active');
-      document.getElementById('qsSize').textContent = b.textContent.trim();
-    };
-  });
-
-  const qsQ = document.getElementById('qsQty');
-  document.getElementById('qsQtyDown').onclick = () => { qsQ.value = Math.max(1, +qsQ.value - 1); };
-  document.getElementById('qsQtyUp').onclick   = () => { qsQ.value = Math.min(10, +qsQ.value + 1); };
-
-  document.getElementById('qsAtc').onclick = () => {
-    if (!qsCurrentProduct) return;
-    const color = document.getElementById('qsColor').textContent;
-    const size  = document.getElementById('qsSize').textContent;
-    cart.add({
-      id: qsCurrentProduct.id,
-      name: qsCurrentProduct.name.split('â€”')[0].trim(),
-      color, size,
-      price: qsCurrentProduct.price,
-      image: COLOR_IMAGES[color] || qsCurrentProduct.img,
-      qty: +qsQ.value
-    });
-    closeQuickShop();
-    setTimeout(() => cart.open(), 300);
-  };
 
   function openQuickShop(id) {
     const p = PRODUCTS.find(x => x.id === id);
@@ -1999,8 +2170,8 @@
   };
 
   const TEXT_FIXES = [
-    ['â€”', '—'],
-    ['â€“', '–'],
+    ['â€"', '—'],
+    ['â€"', '–'],
     ['Â·', '·'],
     ['Ã‚Â·', '·'],
     ['âˆ’', '−'],
