@@ -1376,7 +1376,104 @@
 </div>
 
 <!-- PRODUCTS GRID â€" 2 per row mobile, 4 desktop -->
-<div class="col-grid" id="grid"></div>
+<div class="col-grid" id="grid">
+  <div class="col-product" data-id="p1">
+    <div class="col-product__media">
+      <span class="col-product__badge">Bestseller</span>
+      <button class="col-product__wishlist" type="button" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
+      </button>
+      <a href="product.html" aria-label="Crinkle Hijab - Taupe">
+        <img src="./assets/product-taupe-1.jpg" alt="Crinkle Hijab - Taupe" loading="lazy">
+      </a>
+    </div>
+    <div class="col-product__body">
+      <div class="col-product__meta">
+        <a href="product.html" class="col-product__name">Crinkle Hijab - Taupe</a>
+        <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.9 &middot; 1,284 reviews</div>
+        <div class="col-product__price">
+          <span class="col-product__price-current">4.500 KWD</span>
+          <span class="col-product__price-compare">6.500 KWD</span>
+        </div>
+      </div>
+      <button class="col-product__atc" type="button" onclick="window.openQuickShop && window.openQuickShop('p1')">
+        <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        Choose Color
+      </button>
+    </div>
+  </div>
+  <div class="col-product" data-id="p2">
+    <div class="col-product__media">
+      <button class="col-product__wishlist" type="button" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
+      </button>
+      <a href="product.html" aria-label="Crinkle Hijab - Cream">
+        <img src="./assets/color-cream.jpg" alt="Crinkle Hijab - Cream" loading="lazy">
+      </a>
+    </div>
+    <div class="col-product__body">
+      <div class="col-product__meta">
+        <a href="product.html" class="col-product__name">Crinkle Hijab - Cream</a>
+        <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.8 &middot; 942 reviews</div>
+        <div class="col-product__price">
+          <span class="col-product__price-current">4.500 KWD</span>
+        </div>
+      </div>
+      <button class="col-product__atc" type="button" onclick="window.openQuickShop && window.openQuickShop('p2')">
+        <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        Choose Color
+      </button>
+    </div>
+  </div>
+  <div class="col-product" data-id="p3">
+    <div class="col-product__media">
+      <button class="col-product__wishlist" type="button" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
+      </button>
+      <a href="product.html" aria-label="Crinkle Hijab - Olive">
+        <img src="./assets/color-olive.jpg" alt="Crinkle Hijab - Olive" loading="lazy">
+      </a>
+    </div>
+    <div class="col-product__body">
+      <div class="col-product__meta">
+        <a href="product.html" class="col-product__name">Crinkle Hijab - Olive</a>
+        <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.8 &middot; 612 reviews</div>
+        <div class="col-product__price">
+          <span class="col-product__price-current">4.500 KWD</span>
+        </div>
+      </div>
+      <button class="col-product__atc" type="button" onclick="window.openQuickShop && window.openQuickShop('p3')">
+        <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        Choose Color
+      </button>
+    </div>
+  </div>
+  <div class="col-product" data-id="p4">
+    <div class="col-product__media">
+      <span class="col-product__badge col-product__badge--sale">Sale</span>
+      <button class="col-product__wishlist" type="button" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
+      </button>
+      <a href="product.html" aria-label="Chiffon Hijab - Plum">
+        <img src="./assets/color-plum.jpg" alt="Chiffon Hijab - Plum" loading="lazy">
+      </a>
+    </div>
+    <div class="col-product__body">
+      <div class="col-product__meta">
+        <a href="product.html" class="col-product__name">Chiffon Hijab - Plum</a>
+        <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.9 &middot; 421 reviews</div>
+        <div class="col-product__price">
+          <span class="col-product__price-current">5.250 KWD</span>
+          <span class="col-product__price-compare">7.000 KWD</span>
+        </div>
+      </div>
+      <button class="col-product__atc" type="button" onclick="window.openQuickShop && window.openQuickShop('p4')">
+        <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
+        Choose Color
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- LOAD MORE -->
 <div class="col-loadmore">
@@ -2079,6 +2176,14 @@
     closeQuickShop();
     setTimeout(() => cart.open(), 300);
   }
+
+  function closeQuickShop() {
+    document.getElementById('qsDrawer').classList.remove('is-open');
+    document.getElementById('filterOverlay').classList.remove('is-open');
+    document.body.classList.remove('is-locked');
+  }
+
+  document.getElementById('qsClose').onclick = closeQuickShop;
 
   function openQuickShop(id) {
     const p = PRODUCTS.find(x => x.id === id);
