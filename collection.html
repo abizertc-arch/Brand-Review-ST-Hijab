@@ -202,15 +202,16 @@
   .col-sub-chip.is-active { background: var(--brown); color: var(--beige); border-color: var(--brown); }
   .col-sub-chip.is-active .col-sub-chip__icon { background: rgba(250,243,232,.2); color: var(--beige); }
   .col-sub-chip__icon {
-    width: 28px; height: 28px; border-radius: 50%;
+    width: 22px; height: 22px; border-radius: 50%;
     background: var(--cream);
-    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
     transition: all .2s ease;
-    overflow: hidden;
+    border: 1px solid var(--line);
   }
-  .col-sub-chip__icon svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.6; }
-  .col-sub-chip__icon img { width: 28px; height: 28px; object-fit: cover; border-radius: 50%; }
+  .col-sub-chip__icon svg { width: 13px; height: 13px; stroke: var(--brown); fill: none; stroke-width: 1.6; }
+  .col-sub-chip:hover .col-sub-chip__icon { background: rgba(250,243,232,.18); border-color: rgba(250,243,232,.3); }
+  .col-sub-chip:hover .col-sub-chip__icon svg { stroke: var(--beige); }
   .col-sub-chip__count {
     font-size: 10px; font-weight: 700;
     background: rgba(46,35,28,.08);
@@ -1281,7 +1282,7 @@
   <div class="col-hero__right">
     <h1 class="col-hero__title" id="colTitle">Hijabs</h1>
     <div class="col-hero__icon">
-      <svg viewBox="0 0 24 24"><path d="M12 3C8 3 4 6 4 10c0 3 1.5 5.5 4 7l4 3 4-3c2.5-1.5 4-4 4-7 0-4-4-7-8-7z"/><path d="M8 10c0-2 1.8-4 4-4"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg>
     </div>
   </div>
 </section>
@@ -1291,37 +1292,37 @@
   <div class="col-subcollections__title">Shop by Fabric</div>
   <div class="col-subcollections__grid">
     <a href="collection.html?fabric=chiffon" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-cream.jpg" alt="Chiffon"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Chiffon
       <span class="col-sub-chip__count">14</span>
     </a>
     <a href="collection.html?fabric=satin" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-silver.jpg" alt="Satin"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Satin
       <span class="col-sub-chip__count">8</span>
     </a>
     <a href="collection.html?fabric=silk" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-white.jpg" alt="Silk"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Silk
       <span class="col-sub-chip__count">6</span>
     </a>
     <a href="collection.html?fabric=cotton" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-light-grey.jpg" alt="Cotton"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Cotton
       <span class="col-sub-chip__count">7</span>
     </a>
     <a href="collection.html?fabric=turkey" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/product-taupe-1.jpg" alt="Turkey"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Turkey
       <span class="col-sub-chip__count">5</span>
     </a>
     <a href="collection.html?fabric=crystal" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-plum.jpg" alt="Crystal"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Crystal
       <span class="col-sub-chip__count">5</span>
     </a>
     <a href="collection.html?fabric=thailandi" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-olive.jpg" alt="Thailandi"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Thailandi
       <span class="col-sub-chip__count">4</span>
     </a>
@@ -1333,27 +1334,27 @@
   <div class="col-subcollections__title">Shop by Feel</div>
   <div class="col-subcollections__grid">
     <a href="collection.html?feel=smooth" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-cream.jpg" alt="Smooth"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Smooth
       <span class="col-sub-chip__count">10</span>
     </a>
     <a href="collection.html?feel=crushed" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/product-taupe-2.jpg" alt="Crushed"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Crushed
       <span class="col-sub-chip__count">12</span>
     </a>
     <a href="collection.html?feel=khashyan" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/color-charcoal.jpg" alt="Khashyan"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Khashyan
       <span class="col-sub-chip__count">8</span>
     </a>
     <a href="collection.html?occasion=everyday" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/lookbook-1.jpg" alt="Everyday"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Everyday
       <span class="col-sub-chip__count">18</span>
     </a>
     <a href="collection.html?occasion=occasion" class="col-sub-chip">
-      <span class="col-sub-chip__icon"><img src="./assets/lookbook-2.jpg" alt="Occasions"></span>
+      <span class="col-sub-chip__icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="2.5"/><path d="M5 14c0-3.9 3.1-7 7-7s7 3.1 7 7v1c-2.5 1.5-4.5 2-7 2s-4.5-.5-7-2v-1z"/></svg></span>
       Occasions
       <span class="col-sub-chip__count">14</span>
     </a>
