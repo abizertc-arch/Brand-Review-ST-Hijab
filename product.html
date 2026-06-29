@@ -318,10 +318,10 @@
     object-position: center top;
   }
 
-  .pdp-gallery__badges { display: none; }
+  .pdp-gallery__badges { display: contents; }
 
   .pdp-tagline {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center; gap: 6px;
     margin-bottom: 10px;
     min-height: 18px;
   }
@@ -336,11 +336,18 @@
     color: #7a5c1e;
   }
   .pdp-tagline--best::before { content: "★ "; }
-  .pdp-tagline--sale {
-    font-size: 10px; font-weight: 700;
+  .pdp-sale-badge {
+    position: absolute;
+    top: 0; right: 0;
+    background: #7a1a1a;
+    color: #fde8e8;
+    font-size: 11px; font-weight: 700;
     letter-spacing: .06em; text-transform: uppercase;
-    color: #7a1a1a;
-    margin-left: auto;
+    padding: 5px 9px 5px 11px;
+    border-radius: 0 0 0 10px;
+    pointer-events: none;
+    z-index: 5;
+    white-space: nowrap;
   }
 
   .pdp-gallery__counter {
@@ -1413,10 +1420,7 @@
   <div class="pdp-main__gallery">
     <section class="pdp-gallery" data-section-type="main-product">
       <div class="pdp-gallery__main">
-        <div class="pdp-gallery__badges">
-          <span class="pdp-badge pdp-badge--bestseller">★</span>
-          <span class="pdp-badge pdp-badge--sale">30% Off</span>
-        </div>
+        <span class="pdp-sale-badge">30% Off</span>
         <div class="pdp-gallery__track" id="galleryTrack">
           <div class="pdp-gallery__slide"><img src="./assets/product-taupe-1.jpg" alt="Front" id="mainImg"></div>
           <div class="pdp-gallery__slide"><img src="./assets/product-taupe-2.jpg" alt="Side"></div>
@@ -1452,8 +1456,6 @@
     <section class="pdp-info">
       <div class="pdp-tagline">
         <span class="pdp-tagline--best">Bestseller</span>
-        <span class="pdp-tagline--dot"></span>
-        <span class="pdp-tagline--sale">30% Off</span>
       </div>
       <h1 class="pdp-info__title">Crinkle Hijab</h1>
 

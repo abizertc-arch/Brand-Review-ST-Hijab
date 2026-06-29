@@ -307,7 +307,7 @@
   .col-product:hover { transform: translateY(-3px); }
   .col-product__media {
     position: relative;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 2 / 3;
     overflow: hidden;
     background: var(--beige-pale);
     border-radius: var(--radius);
@@ -325,32 +325,44 @@
   .col-product:hover .col-product__media img { transform: scale(1.05); }
   /* Tagline row — text only, no backgrounds, below image */
   .col-product__tagline {
-    height: 20px;
-    display: flex; align-items: center; justify-content: flex-end; gap: 6px;
-    padding: 0 10px;
-    margin-top: 8px;
+    min-height: 18px;
+    display: flex; align-items: center; gap: 6px;
+    padding: 0;
+    margin-top: 2px;
     overflow: hidden;
     white-space: nowrap;
+  }
+  .col-product__tagline:empty {
+    min-height: 0;
+    margin-top: 0;
   }
   .col-product__tagline--new {
     font-size: 9px; font-weight: 500;
     letter-spacing: .12em; text-transform: uppercase;
     color: #3a6b3a;
   }
+  .col-product__tagline--new::before { content: "✦ "; font-size: 7px; }
   .col-product__tagline--best {
     font-size: 9px; font-weight: 500;
     letter-spacing: .12em; text-transform: uppercase;
     color: #7a5c1e;
   }
   .col-product__tagline--best::before { content: "★ "; }
-  .col-product__tagline--dot {
-    width: 3px; height: 3px; border-radius: 50%;
-    background: var(--beige); flex-shrink: 0;
-  }
-  .col-product__tagline--sale {
+  /* no dot needed anymore — tagline is single badge only */
+  .col-product__tagline--dot { display: none; }
+  /* sale overlay — top-right of image */
+  .col-product__sale-badge {
+    position: absolute;
+    top: 0; right: 0;
+    background: #7a1a1a;
+    color: #fde8e8;
     font-size: 9px; font-weight: 700;
     letter-spacing: .06em; text-transform: uppercase;
-    color: #7a1a1a;
+    padding: 5px 8px 5px 10px;
+    border-radius: 0 var(--radius) 0 8px;
+    pointer-events: none;
+    z-index: 4;
+    white-space: nowrap;
   }
   /* no image overlays */
   .col-product__badges { display: none; }
@@ -358,7 +370,7 @@
 
   /* Product body â€" title, rating, price, ATC */
   .col-product__body {
-    padding: 12px 8px 12px;
+    padding: 6px 8px 12px;
     display: flex;
     flex-direction: column;
   }
@@ -1391,6 +1403,7 @@
 <div class="col-grid" id="grid">
   <div class="col-product" data-id="p1">
     <div class="col-product__media">
+      <span class="col-product__sale-badge">30% Off</span>
       <a href="product.html" aria-label="Crinkle Hijab - Taupe">
         <img src="./assets/product-taupe-1.jpg" alt="Crinkle Hijab - Taupe" loading="lazy">
       </a>
@@ -1398,8 +1411,6 @@
     <div class="col-product__body">
       <div class="col-product__tagline">
         <span class="col-product__tagline--best">Bestseller</span>
-        <span class="col-product__tagline--dot"></span>
-        <span class="col-product__tagline--sale">30% Off</span>
       </div>
       <div class="col-product__meta">
         <a href="product.html" class="col-product__name">Crinkle Hijab - Taupe</a>
@@ -1463,14 +1474,12 @@
   </div>
   <div class="col-product" data-id="p4">
     <div class="col-product__media">
+      <span class="col-product__sale-badge">30% Off</span>
       <a href="product.html" aria-label="Chiffon Hijab - Plum">
         <img src="./assets/color-plum.jpg" alt="Chiffon Hijab - Plum" loading="lazy">
       </a>
     </div>
     <div class="col-product__body">
-      <div class="col-product__tagline">
-        <span class="col-product__tagline--sale">30% Off</span>
-      </div>
       <div class="col-product__meta">
         <a href="product.html" class="col-product__name">Chiffon Hijab - Plum</a>
         <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.9 &middot; 421 reviews</div>
@@ -1837,12 +1846,13 @@
     const cards = PRODUCTS.map(p => `
       <div class="col-product" data-id="${p.id}">
         <div class="col-product__media">
+          ${p.discount ? `<span class="col-product__sale-badge">${p.discount}% Off</span>` : ''}
           <a href="product.html" aria-label="${p.name}">
             <img src="${p.img}" alt="${p.name}" loading="lazy">
           </a>
         </div>
         <div class="col-product__body">
-          <div class="col-product__tagline">${p.badge === 'Bestseller' ? `<span class="col-product__tagline--best">Bestseller</span>` : (p.badge === 'New' || p.badge === 'New Arrival') ? `<span class="col-product__tagline--new">New Arrival</span>` : ''}${p.badge && p.discount ? `<span class="col-product__tagline--dot"></span>` : ''}${p.discount ? `<span class="col-product__tagline--sale">${p.discount}% Off</span>` : ''}</div>
+          <div class="col-product__tagline">${p.badge === 'Bestseller' ? `<span class="col-product__tagline--best">Bestseller</span>` : (p.badge === 'New' || p.badge === 'New Arrival') ? `<span class="col-product__tagline--new">New Arrival</span>` : ''}</div>
           <div class="col-product__meta">
             <a href="product.html" class="col-product__name">${p.name}</a>
             <div class="col-product__rating">
