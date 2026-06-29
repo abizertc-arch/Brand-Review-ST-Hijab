@@ -121,15 +121,17 @@
 
   @media (min-width: 1024px) {
     .st-nav-wrap {
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: auto 1fr auto;
       padding: 14px var(--gutter-d);
       gap: 24px;
     }
     .st-icon-btn[data-mobile-only] { display: none; }
-    .st-logo { grid-column: 2; height: 60px; }
+    .st-logo { grid-column: 1; justify-self: start; height: 60px; }
     .st-nav-desktop {
       display: flex; align-items: center; gap: 32px;
-      grid-column: 1;
+      grid-column: 2;
+      justify-self: center;
+      justify-content: center;
     }
     .st-nav-desktop a {
       font-size: 12px; letter-spacing: .15em; text-transform: uppercase;
@@ -316,18 +318,30 @@
     object-position: center top;
   }
 
-  .pdp-gallery__badges {
-    position: absolute; top: 14px; left: 14px;
-    display: flex; flex-direction: column; gap: 6px;
-    z-index: 5;
+  .pdp-gallery__badges { display: none; }
+
+  .pdp-tagline {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+    min-height: 18px;
   }
-  .pdp-badge {
-    background: var(--brown); color: var(--beige);
-    font-size: 9px; font-weight: 700;
-    letter-spacing: .15em; text-transform: uppercase;
-    padding: 5px 10px; border-radius: 999px;
+  .pdp-tagline--new {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: #3a6b3a;
   }
-  .pdp-badge--sale { background: var(--error); color: white; }
+  .pdp-tagline--best {
+    font-size: 10px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: #7a5c1e;
+  }
+  .pdp-tagline--best::before { content: "★ "; }
+  .pdp-tagline--sale {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: #7a1a1a;
+    margin-left: auto;
+  }
 
   .pdp-gallery__counter {
     position: absolute; bottom: 14px; right: 14px;
@@ -1400,8 +1414,8 @@
     <section class="pdp-gallery" data-section-type="main-product">
       <div class="pdp-gallery__main">
         <div class="pdp-gallery__badges">
-          <span class="pdp-badge">Bestseller</span>
-          <span class="pdp-badge pdp-badge--sale">30% OFF</span>
+          <span class="pdp-badge pdp-badge--bestseller">★</span>
+          <span class="pdp-badge pdp-badge--sale">30% Off</span>
         </div>
         <div class="pdp-gallery__track" id="galleryTrack">
           <div class="pdp-gallery__slide"><img src="./assets/product-taupe-1.jpg" alt="Front" id="mainImg"></div>
@@ -1436,6 +1450,11 @@
   <!-- RIGHT: Info -->
   <div class="pdp-main__info">
     <section class="pdp-info">
+      <div class="pdp-tagline">
+        <span class="pdp-tagline--best">Bestseller</span>
+        <span class="pdp-tagline--dot"></span>
+        <span class="pdp-tagline--sale">30% Off</span>
+      </div>
       <h1 class="pdp-info__title">Crinkle Hijab</h1>
 
       <div class="pdp-rating">

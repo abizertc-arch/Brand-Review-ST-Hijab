@@ -75,10 +75,10 @@
   .st-nav-desktop { display: none; }
   .st-nav-utility { display: none; }
   @media (min-width: 1024px) {
-    .st-nav-wrap { grid-template-columns: 1fr auto 1fr; padding: 14px var(--gutter-d); gap: 24px; }
+    .st-nav-wrap { grid-template-columns: auto 1fr auto; padding: 14px var(--gutter-d); gap: 24px; }
     .st-icon-btn[data-mobile-only] { display: none; }
-    .st-logo { grid-column: 2; height: 60px; }
-    .st-nav-desktop { display: flex; align-items: center; gap: 32px; grid-column: 1; }
+    .st-logo { grid-column: 1; justify-self: start; height: 60px; }
+    .st-nav-desktop { display: flex; align-items: center; justify-self: center; justify-content: center; gap: 32px; grid-column: 2; }
     .st-nav-desktop a { font-size: 12px; letter-spacing: .15em; text-transform: uppercase; font-weight: 500; color: var(--brown); padding: 8px 0; }
     .st-nav-desktop a.is-sale { color: var(--error); }
     .st-nav-utility { display: flex !important; align-items: center; gap: 4px; grid-column: 3; justify-content: flex-end; }
@@ -323,27 +323,38 @@
     transition: transform .5s ease;
   }
   .col-product:hover .col-product__media img { transform: scale(1.05); }
-  .col-product__badge {
-    position: absolute; top: 8px; left: 8px;
-    background: var(--brown); color: var(--beige);
-    font-size: 8px; font-weight: 700;
-    letter-spacing: .15em; text-transform: uppercase;
-    padding: 4px 8px; border-radius: 999px;
+  /* Tagline row — text only, no backgrounds, below image */
+  .col-product__tagline {
+    height: 20px;
+    display: flex; align-items: center; justify-content: flex-end; gap: 6px;
+    padding: 0 10px;
+    margin-top: 8px;
+    overflow: hidden;
+    white-space: nowrap;
   }
-  .col-product__badge--sale { background: var(--error); color: white; }
-  .col-product__wishlist {
-    position: absolute; top: 8px; right: 8px;
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: rgba(250,243,232,.92);
-    backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--brown);
-    transition: color .2s ease;
+  .col-product__tagline--new {
+    font-size: 9px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: #3a6b3a;
   }
-  .col-product__wishlist svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.7; }
-  .col-product__wishlist.is-active { color: var(--error); }
-  .col-product__wishlist.is-active svg { fill: var(--error); }
+  .col-product__tagline--best {
+    font-size: 9px; font-weight: 500;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: #7a5c1e;
+  }
+  .col-product__tagline--best::before { content: "★ "; }
+  .col-product__tagline--dot {
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--beige); flex-shrink: 0;
+  }
+  .col-product__tagline--sale {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: #7a1a1a;
+  }
+  /* no image overlays */
+  .col-product__badges { display: none; }
+  .col-product__wishlist { display: none; }
 
   /* Product body â€" title, rating, price, ATC */
   .col-product__body {
@@ -1380,15 +1391,16 @@
 <div class="col-grid" id="grid">
   <div class="col-product" data-id="p1">
     <div class="col-product__media">
-      <span class="col-product__badge">Bestseller</span>
-      <button class="col-product__wishlist" type="button" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
-        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
-      </button>
       <a href="product.html" aria-label="Crinkle Hijab - Taupe">
         <img src="./assets/product-taupe-1.jpg" alt="Crinkle Hijab - Taupe" loading="lazy">
       </a>
     </div>
     <div class="col-product__body">
+      <div class="col-product__tagline">
+        <span class="col-product__tagline--best">Bestseller</span>
+        <span class="col-product__tagline--dot"></span>
+        <span class="col-product__tagline--sale">30% Off</span>
+      </div>
       <div class="col-product__meta">
         <a href="product.html" class="col-product__name">Crinkle Hijab - Taupe</a>
         <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.9 &middot; 1,284 reviews</div>
@@ -1405,14 +1417,14 @@
   </div>
   <div class="col-product" data-id="p2">
     <div class="col-product__media">
-      <button class="col-product__wishlist" type="button" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
-        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
-      </button>
       <a href="product.html" aria-label="Crinkle Hijab - Cream">
         <img src="./assets/color-cream.jpg" alt="Crinkle Hijab - Cream" loading="lazy">
       </a>
     </div>
     <div class="col-product__body">
+      <div class="col-product__tagline">
+        <span class="col-product__tagline--new">New Arrival</span>
+      </div>
       <div class="col-product__meta">
         <a href="product.html" class="col-product__name">Crinkle Hijab - Cream</a>
         <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.8 &middot; 942 reviews</div>
@@ -1451,15 +1463,14 @@
   </div>
   <div class="col-product" data-id="p4">
     <div class="col-product__media">
-      <span class="col-product__badge col-product__badge--sale">Sale</span>
-      <button class="col-product__wishlist" type="button" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
-        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
-      </button>
       <a href="product.html" aria-label="Chiffon Hijab - Plum">
         <img src="./assets/color-plum.jpg" alt="Chiffon Hijab - Plum" loading="lazy">
       </a>
     </div>
     <div class="col-product__body">
+      <div class="col-product__tagline">
+        <span class="col-product__tagline--sale">30% Off</span>
+      </div>
       <div class="col-product__meta">
         <a href="product.html" class="col-product__name">Chiffon Hijab - Plum</a>
         <div class="col-product__rating"><svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg> 4.9 &middot; 421 reviews</div>
@@ -1826,15 +1837,12 @@
     const cards = PRODUCTS.map(p => `
       <div class="col-product" data-id="${p.id}">
         <div class="col-product__media">
-          ${p.badge ? `<span class="col-product__badge ${p.badge === 'Sale' ? 'col-product__badge--sale' : ''}">${p.badge}</span>` : ''}
-          <button class="col-product__wishlist" onclick="event.preventDefault(); this.classList.toggle('is-active');" aria-label="Wishlist">
-            <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/></svg>
-          </button>
           <a href="product.html" aria-label="${p.name}">
             <img src="${p.img}" alt="${p.name}" loading="lazy">
           </a>
         </div>
         <div class="col-product__body">
+          <div class="col-product__tagline">${p.badge === 'Bestseller' ? `<span class="col-product__tagline--best">Bestseller</span>` : (p.badge === 'New' || p.badge === 'New Arrival') ? `<span class="col-product__tagline--new">New Arrival</span>` : ''}${p.badge && p.discount ? `<span class="col-product__tagline--dot"></span>` : ''}${p.discount ? `<span class="col-product__tagline--sale">${p.discount}% Off</span>` : ''}</div>
           <div class="col-product__meta">
             <a href="product.html" class="col-product__name">${p.name}</a>
             <div class="col-product__rating">
