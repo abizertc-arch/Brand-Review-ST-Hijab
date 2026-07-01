@@ -92,10 +92,10 @@
   .st-nav-desktop { display: none; }
   .st-nav-utility { display: none; }
   @media (min-width: 1024px) {
-    .st-nav-wrap { grid-template-columns: 1fr auto 1fr; padding: 14px var(--gutter-d); gap: 24px; }
+    .st-nav-wrap { grid-template-columns: auto 1fr auto; padding: 14px var(--gutter-d); gap: 24px; }
     .st-icon-btn[data-mobile-only] { display: none; }
-    .st-logo { grid-column: 2; height: 60px; }
-    .st-nav-desktop { display: flex; align-items: center; gap: 32px; grid-column: 1; }
+    .st-logo { grid-column: 1; justify-self: start; height: 60px; }
+    .st-nav-desktop { display: flex; align-items: center; justify-self: center; justify-content: center; gap: 32px; grid-column: 2; }
     .st-nav-desktop a {
       font-size: 12px; letter-spacing: .15em; text-transform: uppercase;
       font-weight: 500; color: var(--brown);
@@ -625,7 +625,7 @@
 <!-- ANNOUNCEMENT -->
 <div class="st-announce">
   <div class="st-announce__track">
-    <div class="st-announce__msg">FREE SHIPPING ON ORDERS OVER 25 KWD</div>
+    <div class="st-announce__msg">FREE SHIPPING ON ORDERS OVER AED 100</div>
     <div class="st-announce__msg">BUY 2 â€” GET 10% OFF</div>
     <div class="st-announce__msg">BUY 6 â€” GET 20% OFF</div>
     <div class="st-announce__msg">FREE 14-DAY RETURNS</div>
@@ -906,27 +906,27 @@
       <div class="st-cart__upsell-item" data-upsell="tape">
         <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
         <div class="st-cart__upsell-name">Hijab Tape</div>
-        <div class="st-cart__upsell-price">1.500 KWD</div>
+        <div class="st-cart__upsell-price">AED 18</div>
         <button class="st-cart__upsell-add" type="button">+ Add</button>
       </div>
       <div class="st-cart__upsell-item" data-upsell="pins">
         <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4"/><line x1="11.5" y1="11.5" x2="20" y2="20"/></svg></div>
         <div class="st-cart__upsell-name">Magnetic Pins</div>
-        <div class="st-cart__upsell-price">2.000 KWD</div>
+        <div class="st-cart__upsell-price">AED 24</div>
         <button class="st-cart__upsell-add" type="button">+ Add</button>
       </div>
       <div class="st-cart__upsell-item" data-upsell="bonnet">
         <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><path d="M5 14 C 5 9, 8 6, 12 6 C 16 6, 19 9, 19 14"/><path d="M5 14 H 19 V 17 H 5 Z"/></svg></div>
         <div class="st-cart__upsell-name">Undercap</div>
-        <div class="st-cart__upsell-price">2.500 KWD</div>
+        <div class="st-cart__upsell-price">AED 30</div>
         <button class="st-cart__upsell-add" type="button">+ Add</button>
       </div>
     </div>
   </div>
   <div class="st-cart__totals" id="cartTotals" style="display:none;">
-    <div class="st-cart__row"><span>Subtotal</span><span data-subtotal>0.000 KWD</span></div>
-    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>−0.000 KWD</span></div>
-    <div class="st-cart__total"><span>Total</span><span data-total>0.000 KWD</span></div>
+    <div class="st-cart__row"><span>Subtotal</span><span data-subtotal>AED 0</span></div>
+    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>−AED 0</span></div>
+    <div class="st-cart__total"><span>Total</span><span data-total>AED 0</span></div>
     <button class="st-cart__checkout" type="button">Checkout</button>
     <button class="st-cart__continue" id="continueShopping" type="button">Continue Shopping</button>
   </div>
@@ -942,7 +942,7 @@
   <div class="shop-trust__item">
     <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7z"/><path d="M16 7l-1-3H9L8 7"/></svg>
     <div class="t1">Free Shipping</div>
-    <div class="t2">Over 25 KWD</div>
+    <div class="t2">Over AED 100</div>
   </div>
   <div class="shop-trust__item">
     <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/><polyline points="21 3 21 9 15 9"/></svg>
@@ -1038,7 +1038,7 @@
 <script>
   const cart = {
     items: [],
-    SHIPPING_THRESHOLD: 25,
+    SHIPPING_THRESHOLD: 100,
     add(product) {
       const key = `${product.id}-${product.color || ''}-${product.size || ''}`;
       const existing = this.items.find(item => item.key === key);
@@ -1073,7 +1073,7 @@
       const discount = this.discount();
       return discount ? subtotal * (1 - discount.pct / 100) : subtotal;
     },
-    fmt(value) { return `${value.toFixed(3)} KWD`; },
+    fmt(value) { return 'AED ' + Math.round(value); },
     render() {
       const count = this.totalQty();
       document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = count);
@@ -1125,7 +1125,7 @@
       const remaining = Math.max(0, this.SHIPPING_THRESHOLD - subtotal);
       const progress = Math.min(100, (subtotal / this.SHIPPING_THRESHOLD) * 100);
       document.getElementById('shipping').innerHTML = remaining > 0
-        ? `<div class="st-cart__shipping-msg"><strong>${remaining.toFixed(3)} KWD</strong> away from free shipping</div><div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:${progress}%"></div></div>`
+        ? `<div class="st-cart__shipping-msg"><strong>AED ${Math.round(remaining)}</strong> away from free shipping</div><div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:${progress}%"></div></div>`
         : `<div class="st-cart__shipping-msg"><strong>Free shipping unlocked</strong></div><div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:100%"></div></div>`;
 
       const qty = this.totalQty();
