@@ -1141,16 +1141,19 @@
 
   .st-cart {
     position: fixed;
-    top: 0; right: 0; bottom: 0;
-    width: 100%; max-width: 440px;
+    bottom: 0; left: 0; right: 0;
+    width: 100%; max-width: 100%;
+    max-height: 92vh;
     background: var(--cream);
     z-index: 110;
-    transform: translateX(100%);
-    transition: transform .35s cubic-bezier(.5,0,.2,1);
+    transform: translateY(100%);
+    transition: transform .38s cubic-bezier(.4,0,.2,1);
     display: flex; flex-direction: column;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 -8px 40px rgba(46,35,28,.18);
+    border-radius: 18px 18px 0 0;
+    overflow: hidden;
   }
-  .st-cart.is-open { transform: translateX(0); }
+  .st-cart.is-open { transform: translateY(0); }
   .st-cart__head {
     padding: 20px 22px 14px;
     border-bottom: 1px solid var(--line);
@@ -2175,13 +2178,17 @@
       if (!this.discountApplied) return null;
       return this.discount();
     },
+    hijabSubtotal() {
+      return this.items.reduce((s, i) => s + (i.isGift ? 0 : i.price * i.qty), 0);
+    },
     total() {
-      const sub = this.subtotal();
       const d = this.activeDiscount();
-      return d ? sub * (1 - d.pct / 100) : sub;
+      const giftTotal = this.items.reduce((s, i) => s + (i.isGift ? i.price * i.qty : 0), 0);
+      return d ? this.hijabSubtotal() * (1 - d.pct / 100) + giftTotal : this.subtotal();
     },
     applyDiscount() {
-      this.items = this.items.filter(i => i.id !== 'free-gift');
+      // Convert free gift wrap to paid (AED 40) — keep in cart, discount doesn't apply to it
+      this.items = this.items.map(i => i.id === 'free-gift' ? { ...i, price: 40 } : i);
       this.giftApplied = false;
       this.discountApplied = true;
       this.render();
@@ -2270,17 +2277,17 @@
 
       let rowHTML = '';
       if (q === 0) {
-        rowHTML = `Buy <strong>2</strong> for <strong>10% off</strong> · Buy <strong>6</strong> for <strong>20% off</strong>`;
+        rowHTML = `Buy <strong>2</strong> — <strong>10% off</strong> &nbsp;·&nbsp; <strong>6</strong> — <strong>20% off</strong>`;
       } else if (q < 2) {
-        rowHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong> · 6 for <strong>20% off</strong>`;
+        rowHTML = `Add <strong>${2 - q}</strong> for <strong>10% off</strong> &nbsp;·&nbsp; <strong>6</strong> for <strong>20%</strong>`;
       } else if (this.discountApplied && d) {
-        const next = q < 6 ? ` · Add <strong>${6 - q} more</strong> for <strong>20% off</strong>` : '';
+        const next = q < 6 ? ` &nbsp;·&nbsp; +<strong>${6 - q}</strong> for <strong>20%</strong>` : '';
         rowHTML = `<strong>${d.pct}% off applied</strong>${next}`;
         offerEl.classList.add('is-applied');
       } else {
         const applyBtn = `<button class="st-cart__apply-btn" onclick="cart.applyDiscount()">Apply</button>`;
-        const next = q < 6 ? ` · Add <strong>${6 - q} more</strong> for <strong>20% off</strong>` : '';
-        rowHTML = `Eligible for <strong>${potentialD.pct}% off</strong>${next} ${applyBtn}`;
+        const next = q < 6 ? ` &nbsp;·&nbsp; +<strong>${6 - q}</strong> for <strong>20%</strong>` : '';
+        rowHTML = `<strong>${potentialD.pct}% off</strong> eligible${next} ${applyBtn}`;
       }
       offerEl.innerHTML = `<div class="st-cart__offer-row">${rowHTML}</div>${tierBar}`;
 
