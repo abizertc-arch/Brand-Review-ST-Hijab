@@ -1191,26 +1191,24 @@
   .st-cart__shipping-fill { height: 100%; background: var(--brown); border-radius: 999px; width: 0%; transition: width .4s ease; }
 
   .st-cart__offer {
-    padding: 10px 18px 12px;
+    padding: 9px 18px;
     background: var(--beige-pale);
     border-bottom: 1px solid var(--line);
-    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
     color: var(--brown-soft); font-weight: 600;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
   }
-  .st-cart__offer-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .st-cart__offer-fill {
+    position: absolute; top: 0; left: 0; height: 100%;
+    background: rgba(74,52,36,0.10);
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .st-cart__offer-row { position: relative; z-index: 1; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
   .st-cart__offer strong { color: var(--brown); font-weight: 700; }
+  .st-cart__offer.is-applied { background: rgba(74,52,36,0.08); }
   .st-cart__offer.is-applied .st-cart__offer-row { color: var(--brown); }
-  /* tier bar */
-  .st-cart__tier-bar { display: flex; align-items: center; gap: 0; height: 20px; }
-  .st-cart__tier-track { flex: 1; height: 3px; background: var(--line); border-radius: 999px; overflow: hidden; position: relative; }
-  .st-cart__tier-fill { height: 100%; background: var(--brown); border-radius: 999px; transition: width .4s ease; }
-  .st-cart__tier-dot {
-    width: 7px; height: 7px; border-radius: 50%; background: var(--line); border: 1.5px solid var(--beige);
-    flex-shrink: 0; position: relative; z-index: 1; transition: background .3s;
-  }
-  .st-cart__tier-dot.is-reached { background: var(--brown); border-color: var(--brown); }
-  .st-cart__tier-label { font-size: 9px; letter-spacing: .08em; color: var(--brown-soft); white-space: nowrap; padding: 0 4px; font-weight: 700; }
-  .st-cart__tier-label.is-reached { color: var(--brown); }
 
   /* Gift banner */
   #giftBanner { margin: 0 -22px 14px; }
@@ -1227,10 +1225,13 @@
   .st-cart__gift-wrap-free { font-size: 12px; font-weight: 800; color: #2d6a35; }
   .st-cart__gift-wrap-paid { font-size: 12px; font-weight: 700; color: var(--brown); }
   .st-cart__gift-btn {
-    background: var(--brown); color: var(--cream); border: none; border-radius: 6px;
-    padding: 6px 13px; font-size: 10px; font-weight: 700; letter-spacing: .08em;
-    text-transform: uppercase; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    background: var(--brown); color: var(--beige); border: none; border-radius: 50%;
+    width: 34px; height: 34px; padding: 0; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background .2s ease; cursor: pointer;
   }
+  .st-cart__gift-btn:hover { background: var(--brown-soft); }
+  .st-cart__gift-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
   .st-cart__gift-progress-bar { height: 3px; background: var(--line); border-radius: 999px; overflow: hidden; }
   .st-cart__gift-progress-fill { height: 100%; background: #9a7230; border-radius: 999px; transition: width .4s ease; }
   .st-cart__gift-progress-msg { font-size: 10px; color: var(--brown-soft); margin-top: 5px; letter-spacing: .06em; text-transform: uppercase; }
@@ -1334,7 +1335,8 @@
     .st-cart__upsell-price { font-size: 11px; margin-bottom: 8px; }
     .st-cart__upsell-add { width: 100%; min-width: 0; height: 28px; padding: 0; }
   }
-  .st-cart__items { flex: 1; overflow-y: auto; padding: 8px 22px; }
+  .st-cart__scroll { flex: 1; overflow-y: auto; }
+  .st-cart__items { padding: 8px 22px; }
   .st-cart__empty { padding: 60px 20px; text-align: center; color: var(--brown-soft); }
   .st-cart__empty svg { width: 60px; height: 60px; stroke: var(--brown-tint); fill: none; stroke-width: 1.2; margin-bottom: 14px; }
   .st-cart-item {
@@ -1370,7 +1372,19 @@
   .st-cart__totals { padding: 16px 22px 20px; border-top: 1px solid var(--line); background: var(--beige-pale); }
   .st-cart__row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: var(--brown-soft); }
   .st-cart__row.is-discount { color: var(--success); font-weight: 600; }
-  .st-cart__total { display: flex; justify-content: space-between; align-items: baseline; font-size: 18px; font-weight: 700; color: var(--brown); margin: 12px 0 14px; padding-top: 12px; border-top: 1px solid var(--line); font-family: var(--font-display); }
+  .st-cart__total {
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--brown); margin: 12px 0 14px; padding-top: 12px; border-top: 1px solid var(--line);
+  }
+  .st-cart__total span:first-child {
+    font-family: var(--font-display); font-size: 20px; font-weight: 600;
+    letter-spacing: .04em; font-style: italic;
+  }
+  .st-cart__total span:last-child {
+    font-family: var(--font-body); font-size: 16px; font-weight: 700;
+    letter-spacing: .06em; font-variant-numeric: lining-nums tabular-nums;
+    text-transform: uppercase;
+  }
   .st-cart__checkout {
     width: 100%; background: var(--brown); color: var(--beige);
     height: 50px; border-radius: 999px;
@@ -2086,29 +2100,30 @@
   </div>
   <div class="st-cart__shipping" id="shipping"></div>
   <div class="st-cart__offer" id="offer"></div>
-  <div class="st-cart__items" id="cartItems"></div>
-
-  <!-- Upsell strip -->
-  <div class="st-cart__upsell">
-    <div class="st-cart__upsell-title">You may also like</div>
-    <div class="st-cart__upsell-list">
-      <div class="st-cart__upsell-item" data-upsell="tape">
-        <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
-        <div class="st-cart__upsell-name">Hijab Tape</div>
-        <div class="st-cart__upsell-price">AED 18</div>
-        <button class="st-cart__upsell-add">+ Add</button>
-      </div>
-      <div class="st-cart__upsell-item" data-upsell="pins">
-        <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4"/><line x1="11.5" y1="11.5" x2="20" y2="20"/></svg></div>
-        <div class="st-cart__upsell-name">Magnetic Pins</div>
-        <div class="st-cart__upsell-price">AED 24</div>
-        <button class="st-cart__upsell-add">+ Add</button>
-      </div>
-      <div class="st-cart__upsell-item" data-upsell="bonnet">
-        <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><path d="M5 14 C 5 9, 8 6, 12 6 C 16 6, 19 9, 19 14"/><path d="M5 14 H 19 V 17 H 5 Z"/></svg></div>
-        <div class="st-cart__upsell-name">Undercap</div>
-        <div class="st-cart__upsell-price">AED 30</div>
-        <button class="st-cart__upsell-add">+ Add</button>
+  <div class="st-cart__scroll">
+    <div id="cartItems"></div>
+    <!-- Upsell strip — scrolls with items -->
+    <div class="st-cart__upsell">
+      <div class="st-cart__upsell-title">You may also like</div>
+      <div class="st-cart__upsell-list">
+        <div class="st-cart__upsell-item" data-upsell="tape">
+          <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="st-cart__upsell-name">Hijab Tape</div>
+          <div class="st-cart__upsell-price">AED 18</div>
+          <button class="st-cart__upsell-add">+ Add</button>
+        </div>
+        <div class="st-cart__upsell-item" data-upsell="pins">
+          <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4"/><line x1="11.5" y1="11.5" x2="20" y2="20"/></svg></div>
+          <div class="st-cart__upsell-name">Magnetic Pins</div>
+          <div class="st-cart__upsell-price">AED 24</div>
+          <button class="st-cart__upsell-add">+ Add</button>
+        </div>
+        <div class="st-cart__upsell-item" data-upsell="bonnet">
+          <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><path d="M5 14 C 5 9, 8 6, 12 6 C 16 6, 19 9, 19 14"/><path d="M5 14 H 19 V 17 H 5 Z"/></svg></div>
+          <div class="st-cart__upsell-name">Undercap</div>
+          <div class="st-cart__upsell-price">AED 30</div>
+          <button class="st-cart__upsell-add">+ Add</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2165,7 +2180,7 @@
       }
     },
     subtotal() { return this.items.reduce((s, i) => s + i.price * i.qty, 0); },
-    totalQty() { return this.items.reduce((s, i) => s + i.qty, 0); },
+    totalQty() { return this.items.reduce((s, i) => s + (i.isGift ? 0 : i.qty), 0); },
     discount() {
       const q = this.totalQty();
       if (q >= 6) return { pct: 20, label: 'Buy 6 — 20% off' };
@@ -2224,7 +2239,7 @@
                 <div class="st-cart-item__price">${i.price === 0 ? 'Free' : this.fmt(i.price * i.qty)}</div>
               </div>
             </div>
-            <button class="st-cart-item__close" onclick="cart.remove('${i.key}')" aria-label="Remove">
+            <button class="st-cart-item__close" onclick="${i.isGift ? 'cart.removeGift()' : `cart.remove('${i.key}')`}" aria-label="Remove">
               <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
@@ -2252,26 +2267,14 @@
         : `<div class="st-cart__shipping-msg is-met"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Free shipping unlocked</strong></div>
            <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:100%"></div></div>`;
 
-      // Offer strip with tier bar
+      // Offer strip — background fill shows progress, text in one line
       const offerEl = document.getElementById('offer');
       const q = this.totalQty();
       const potentialD = this.discount();
       offerEl.classList.remove('is-applied');
 
-      // Tier bar: 0 → 2 → 6
-      const tier1 = Math.min(q, 2), tier2 = Math.min(q, 6);
-      const pct1 = Math.round((tier1 / 2) * 100);
-      const pct2 = Math.round(((tier2 - 2) / 4) * 100);
-      const dot0 = true, dot1 = q >= 2, dot2 = q >= 6;
-      const tierBar = `<div class="st-cart__tier-bar">
-        <span class="st-cart__tier-label${dot0 ? ' is-reached' : ''}">0</span>
-        <div class="st-cart__tier-track"><div class="st-cart__tier-fill" style="width:${pct1}%"></div></div>
-        <div class="st-cart__tier-dot${dot1 ? ' is-reached' : ''}"></div>
-        <span class="st-cart__tier-label${dot1 ? ' is-reached' : ''}">10%</span>
-        <div class="st-cart__tier-track"><div class="st-cart__tier-fill" style="width:${pct2}%"></div></div>
-        <div class="st-cart__tier-dot${dot2 ? ' is-reached' : ''}"></div>
-        <span class="st-cart__tier-label${dot2 ? ' is-reached' : ''}">20%</span>
-      </div>`;
+      // Fill: 0–2 items = 0–50%, 2–6 items = 50–100%
+      const fillPct = q === 0 ? 0 : q <= 2 ? Math.round((q / 2) * 50) : Math.min(100, Math.round(50 + ((q - 2) / 4) * 50));
 
       let rowHTML = '';
       if (q === 0) {
@@ -2283,19 +2286,22 @@
         rowHTML = `<strong>${d.pct}% off applied</strong>${next}`;
         offerEl.classList.add('is-applied');
       } else {
-        const applyBtn = `<button class="st-cart__apply-btn" onclick="cart.applyDiscount()">Apply</button>`;
+        const freeGiftInCart = this.items.some(i => i.isGift && i.price === 0);
+        const applyBtn = freeGiftInCart ? '' : `<button class="st-cart__apply-btn" onclick="cart.applyDiscount()">Apply</button>`;
         const next = q < 6 ? ` &nbsp;·&nbsp; Add <strong>${6 - q} more</strong> → <strong>20%</strong>` : '';
         rowHTML = `<strong>${potentialD.pct}% off</strong> unlocked${next} ${applyBtn}`;
       }
-      offerEl.innerHTML = `<div class="st-cart__offer-row">${rowHTML}</div>${tierBar}`;
+      offerEl.innerHTML = `<div class="st-cart__offer-fill" style="width:${fillPct}%"></div><div class="st-cart__offer-row">${rowHTML}</div>`;
 
       // Free gift wrap at AED 400 — show only after threshold passed
       const giftEl = document.getElementById('giftBanner');
-      const giftClaimed = this.items.some(i => i.id === 'free-gift');
+      const giftItem = this.items.find(i => i.id === 'free-gift');
       const giftSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`;
       const xBtn = `<button class="st-cart__gift-remove" onclick="cart.removeGift()" aria-label="Remove"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
-      if (giftClaimed) {
+      if (giftItem && giftItem.price === 0) {
         giftEl.innerHTML = `<div class="st-cart__gift">${giftSvg}<span class="st-cart__gift-text">Gift wrap added — free!</span>${xBtn}</div>`;
+      } else if (giftItem && giftItem.price > 0) {
+        giftEl.innerHTML = `<div class="st-cart__gift">${giftSvg}<span class="st-cart__gift-text">Gift wrap added — AED 40</span>${xBtn}</div>`;
       } else if (sub >= this.GIFT_THRESHOLD) {
         giftEl.innerHTML = `<div class="st-cart__gift-wrap-card">
           <div class="st-cart__gift-wrap-row">
@@ -2303,7 +2309,7 @@
             <span class="st-cart__gift-wrap-name">Gift Wrap</span>
             <span class="st-cart__gift-wrap-price-strike">AED 40</span>
             <span class="st-cart__gift-wrap-free">FREE</span>
-            <button class="st-cart__gift-btn" onclick="cart.claimGift()">Add Free</button>
+            <button class="st-cart__gift-btn" onclick="cart.claimGift()" aria-label="Add free"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
           </div>
         </div>`;
       } else {
@@ -2314,6 +2320,7 @@
             ${giftSvg}
             <span class="st-cart__gift-wrap-name">Gift Wrap</span>
             <span class="st-cart__gift-wrap-paid">AED 40</span>
+            <button class="st-cart__gift-btn" onclick="cart.claimGiftPaid()" aria-label="Add to cart"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></button>
           </div>
           <div class="st-cart__gift-progress-bar"><div class="st-cart__gift-progress-fill" style="width:${pct}%"></div></div>
           <div class="st-cart__gift-progress-msg">Add <strong>AED ${needed} more</strong> to get it free</div>
@@ -2332,6 +2339,12 @@
     },
     removeGift() {
       this.items = this.items.filter(i => i.id !== 'free-gift');
+      this.giftApplied = false;
+      this.render();
+    },
+    claimGiftPaid() {
+      this.items = this.items.filter(i => i.id !== 'free-gift');
+      this.items.push({ id: 'free-gift', name: 'Gift Wrap', color: '', size: '', price: 40, qty: 1, image: './assets/color-cream.jpg', isGift: true });
       this.giftApplied = false;
       this.render();
     },
