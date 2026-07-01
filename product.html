@@ -2105,6 +2105,7 @@
      ============================================================ */
   const cart = window.cart = {
     items: [],
+    giftApplied: false,
     SHIPPING_THRESHOLD: 100,
     GIFT_THRESHOLD: 400,
     add(p) {
@@ -2126,9 +2127,10 @@
     subtotal() { return this.items.reduce((s, i) => s + i.price * i.qty, 0); },
     totalQty() { return this.items.reduce((s, i) => s + i.qty, 0); },
     discount() {
+      if (this.giftApplied) return null;
       const q = this.totalQty();
-      if (q >= 6) return { pct: 20, label: 'Buy 6 â€" 20% off' };
-      if (q >= 2) return { pct: 10, label: 'Buy 2 â€" 10% off' };
+      if (q >= 6) return { pct: 20, label: 'Buy 6 — 20% off' };
+      if (q >= 2) return { pct: 10, label: 'Buy 2 — 10% off' };
       return null;
     },
     total() {
@@ -2205,16 +2207,15 @@
       else if (q < 6) { offerEl.innerHTML = `<strong>10% off applied</strong>  ·  Add <strong>${6 - q} more</strong> for 20% off`; offerEl.classList.add('is-applied'); }
       else { offerEl.innerHTML = `<strong>20% off — biggest savings unlocked</strong>`; offerEl.classList.add('is-applied'); }
 
-      // Free gift at Dhs. 400
+      // Free gift wrap at Dhs. 400 — show only after threshold passed
       const giftEl = document.getElementById('giftBanner');
       const giftClaimed = this.items.some(i => i.id === 'free-gift');
       if (giftClaimed) {
-        giftEl.innerHTML = `<div class="st-cart__gift is-claimed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Free gift added to your order!</div>`;
+        giftEl.innerHTML = `<div class="st-cart__gift is-claimed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Free gift wrap added — code <strong>GIFT10</strong> applied!</div>`;
       } else if (sub >= this.GIFT_THRESHOLD) {
-        giftEl.innerHTML = `<div class="st-cart__gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> You qualify for a <strong>free gift card!</strong> <button class="st-cart__gift-btn" onclick="cart.claimGift()">Claim</button></div>`;
+        giftEl.innerHTML = `<div class="st-cart__gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> You've unlocked a <strong>free gift wrap!</strong> <button class="st-cart__gift-btn" onclick="cart.claimGift()">Apply</button></div>`;
       } else {
-        const giftRemaining = this.GIFT_THRESHOLD - sub;
-        giftEl.innerHTML = `<div class="st-cart__gift-progress">Add <strong>Dhs. ${Math.round(giftRemaining)}</strong> more to unlock a <strong>free gift card</strong></div>`;
+        giftEl.innerHTML = '';
       }
     },
     open() {
@@ -2229,7 +2230,8 @@
     },
     claimGift() {
       this.items = this.items.filter(i => i.id !== 'free-gift');
-      this.items.push({ id: 'free-gift', name: 'Gift Card', color: 'Digital', size: '', price: 0, qty: 1, image: './assets/color-cream.jpg', isGift: true });
+      this.items.push({ id: 'free-gift', name: 'Gift Wrap', color: 'GIFT10', size: '', price: 0, qty: 1, image: './assets/color-cream.jpg', isGift: true });
+      this.giftApplied = true;
       this.render();
     },
     toast() {
