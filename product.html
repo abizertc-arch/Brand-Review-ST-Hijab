@@ -1231,10 +1231,10 @@
   .st-cart__gift.is-claimed svg { stroke: #2d6a35; }
   .st-cart__gift-remove {
     margin-left: auto; background: transparent; color: #2d6a35;
-    border: 1px solid #2d6a35; border-radius: 5px;
-    padding: 4px 10px; font-size: 10px; font-weight: 700;
-    letter-spacing: .08em; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    border: none; padding: 2px; cursor: pointer; line-height: 1;
+    opacity: .7; flex-shrink: 0;
   }
+  .st-cart__gift-remove:hover { opacity: 1; }
   .st-cart__apply-btn {
     flex-shrink: 0; background: var(--brown); color: var(--cream); border: none;
     border-radius: 6px; padding: 5px 12px; font-size: 10px; font-weight: 700;
@@ -2261,7 +2261,7 @@
       const giftClaimed = this.items.some(i => i.id === 'free-gift');
       const giftSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`;
       if (giftClaimed) {
-        giftEl.innerHTML = `<div class="st-cart__gift is-claimed">${giftSvg}<span class="st-cart__gift-text">Free gift wrap added!</span><button class="st-cart__gift-remove" onclick="cart.removeGift()">Remove</button></div>`;
+        giftEl.innerHTML = `<div class="st-cart__gift is-claimed">${giftSvg}<span class="st-cart__gift-text">Gift wrap added to your order — enjoy!</span><button class="st-cart__gift-remove" onclick="cart.removeGift()" aria-label="Remove gift wrap"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`;
       } else if (sub >= this.GIFT_THRESHOLD) {
         giftEl.innerHTML = `<div class="st-cart__gift">${giftSvg}<span class="st-cart__gift-text">You've unlocked a <strong>free gift wrap!</strong></span><button class="st-cart__gift-btn" onclick="cart.claimGift()">Apply</button></div>`;
       } else {
