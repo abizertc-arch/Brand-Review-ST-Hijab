@@ -653,6 +653,15 @@
     font-size: 13px; line-height: 1.65; color: var(--brown-soft);
   }
   .pdp-acc-body__inner { padding: 0 0 18px; }
+  .pdp-acc-body__inner--reels { padding: 0; }
+  .pdp-reels { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0 14px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+  .pdp-reels::-webkit-scrollbar { display: none; }
+  .pdp-reel { flex-shrink: 0; width: 110px; scroll-snap-align: start; }
+  .pdp-reel__thumb { position: relative; aspect-ratio: 9/16; border-radius: 10px; overflow: hidden; background: var(--beige-pale); cursor: pointer; }
+  .pdp-reel__thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .pdp-reel__play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.25); }
+  .pdp-reel__play svg { width: 28px; height: 28px; filter: drop-shadow(0 1px 3px rgba(0,0,0,.4)); }
+  .pdp-reel__label { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px 6px 6px; background: linear-gradient(transparent, rgba(0,0,0,.55)); color: #fff; font-size: 9px; font-weight: 600; letter-spacing: .05em; text-align: center; }
   .pdp-acc-item.is-open .pdp-acc-body { max-height: 800px; }
   .pdp-feature-list { list-style: none; margin-top: 8px; }
   .pdp-feature-list li {
@@ -1194,6 +1203,17 @@
   .st-cart__offer.is-applied { background: var(--brown); color: var(--beige); }
   .st-cart__offer.is-applied strong { color: var(--cream); }
 
+  /* Gift banner */
+  #giftBanner { border-bottom: 1px solid var(--line); }
+  .st-cart__gift-progress { padding: 10px 18px; font-size: 11px; color: var(--brown-soft); text-align: center; }
+  .st-cart__gift-progress strong { color: var(--brown); }
+  .st-cart__gift { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: #f9f2e7; font-size: 12px; color: var(--brown); font-weight: 500; }
+  .st-cart__gift svg { width: 18px; height: 18px; flex-shrink: 0; stroke: #9a7230; }
+  .st-cart__gift strong { font-weight: 700; }
+  .st-cart__gift-btn { margin-left: auto; background: var(--brown); color: var(--cream); border: none; border-radius: 6px; padding: 6px 14px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+  .st-cart__gift.is-claimed { background: #edf5ed; color: #2d6a35; }
+  .st-cart__gift.is-claimed svg { stroke: #2d6a35; }
+
   /* Cart upsell strip */
   .st-cart__upsell { padding: 18px 14px; border-bottom: 1px solid var(--line); }
   @media (min-width: 480px) { .st-cart__upsell { padding: 18px 22px; } }
@@ -1347,7 +1367,7 @@
 <!-- ANNOUNCEMENT BAR -->
 <div class="st-announce">
   <div class="st-announce__track">
-    <div class="st-announce__msg">FREE SHIPPING ON ORDERS OVER 25 KWD</div>
+    <div class="st-announce__msg">FREE SHIPPING ON ORDERS OVER Dhs. 100</div>
     <div class="st-announce__msg">ðŸŽ BUY 2 â€" GET 10% OFF</div>
     <div class="st-announce__msg">âœ¨ BUY 6 â€" GET 20% OFF</div>
     <div class="st-announce__msg">FREE 14-DAY RETURNS</div>
@@ -1403,11 +1423,11 @@
 <div class="pdp-mobile-bar">
   <div class="pdp-mobile-bar__meta">
     <div class="pdp-mobile-bar__title">Crinkle Hijab</div>
-    <div class="pdp-mobile-bar__reviews">4.9 · 1,284 reviews</div>
+    <div class="pdp-mobile-bar__reviews">5.0 · 1,284 reviews</div>
   </div>
   <div class="pdp-mobile-bar__price">
-    <span class="pdp-mobile-bar__current">4.500 KWD</span>
-    <span class="pdp-mobile-bar__compare">6.500 KWD</span>
+    <span class="pdp-mobile-bar__current">Dhs. 54</span>
+    <span class="pdp-mobile-bar__compare">Dhs. 78</span>
     <span class="pdp-mobile-bar__save">
       <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg>
       30% OFF
@@ -1468,14 +1488,14 @@
           <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
           <svg viewBox="0 0 24 24"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/></svg>
         </div>
-        <a href="#reviews" class="pdp-rating__text">4.9 Â· 1,284 reviews</a>
+        <a href="#reviews" class="pdp-rating__text">5.0 · 1,284 reviews</a>
       </div>
 
       <!-- PRICE â€" clean, sans-serif, no extra wording -->
       <div class="pdp-price-block">
         <div class="pdp-price-row">
-          <span class="pdp-price-current">4.500 KWD</span>
-          <span class="pdp-price-compare">6.500 KWD</span>
+          <span class="pdp-price-current">Dhs. 54</span>
+          <span class="pdp-price-compare">Dhs. 78</span>
           <span class="pdp-price-save"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#fff" stroke="none"/></svg>30% OFF</span>
         </div>
       </div>
@@ -1551,7 +1571,7 @@
       <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
       <div class="pdp-delivery__text">
         <div class="pdp-delivery__label">Order now, get it by May 6</div>
-        <div class="pdp-delivery__detail">Free delivery in Kuwait over 25 KWD</div>
+        <div class="pdp-delivery__detail">Free delivery in UAE over Dhs. 100</div>
       </div>
     </div>
 
@@ -1592,7 +1612,7 @@
       <div class="pdp-trust__item">
         <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7z"/><path d="M16 7l-1-3H9L8 7"/></svg>
         <div class="t1">Free Shipping</div>
-        <div class="t2">Over 25 KWD</div>
+        <div class="t2">Over Dhs. 100</div>
       </div>
       <div class="pdp-trust__item">
         <svg viewBox="0 0 24 24"><path d="M12 2 L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/><polyline points="9 12 11 14 15 10"/></svg>
@@ -1608,6 +1628,44 @@
 
     <!-- ACCORDION -->
     <div class="pdp-accordion">
+      <div class="pdp-acc-item">
+        <button class="pdp-acc-head">
+          Ideas &amp; Tutorials
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="pdp-acc-body"><div class="pdp-acc-body__inner pdp-acc-body__inner--reels">
+          <div class="pdp-reels">
+            <div class="pdp-reel">
+              <div class="pdp-reel__thumb">
+                <img src="./assets/product-taupe-2.jpg" alt="How to style">
+                <div class="pdp-reel__play"><svg viewBox="0 0 24 24" fill="white"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+                <div class="pdp-reel__label">Simple Wrap</div>
+              </div>
+            </div>
+            <div class="pdp-reel">
+              <div class="pdp-reel__thumb">
+                <img src="./assets/product-taupe-3.jpg" alt="Layered look">
+                <div class="pdp-reel__play"><svg viewBox="0 0 24 24" fill="white"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+                <div class="pdp-reel__label">Layered Look</div>
+              </div>
+            </div>
+            <div class="pdp-reel">
+              <div class="pdp-reel__thumb">
+                <img src="./assets/product-taupe-4.jpg" alt="Everyday style">
+                <div class="pdp-reel__play"><svg viewBox="0 0 24 24" fill="white"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+                <div class="pdp-reel__label">Everyday Style</div>
+              </div>
+            </div>
+            <div class="pdp-reel">
+              <div class="pdp-reel__thumb">
+                <img src="./assets/product-taupe-5.jpg" alt="Formal drape">
+                <div class="pdp-reel__play"><svg viewBox="0 0 24 24" fill="white"><polygon points="6 4 20 12 6 20 6 4"/></svg></div>
+                <div class="pdp-reel__label">Formal Drape</div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+      </div>
       <div class="pdp-acc-item is-open">
         <button class="pdp-acc-head">
           Description
@@ -1639,7 +1697,7 @@
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
         <div class="pdp-acc-body"><div class="pdp-acc-body__inner">
-          Free shipping in Kuwait above 25 KWD. GCC delivery 2â€"4 business days. International 5â€"7 days. 14-day returns on unworn items.
+          Free shipping in UAE above Dhs. 100. GCC delivery 2–4 business days. International 5–7 days. All sales are final — we do not accept returns or exchanges.
         </div></div>
       </div>
       <div class="pdp-acc-item">
@@ -1807,11 +1865,11 @@
           <div class="st-product__body">
             <div class="st-product__name">Crinkle Hijab - Cream</div>
             <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.8 · 942 reviews</div>
-            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+            <div class="st-product__price-row"><div class="st-product__price">Dhs. 54</div></div>
           </div>
         </a>
         <div class="st-product__body" style="padding-top:0;">
-          <button class="st-product__atc" type="button" data-rec-id="crinkle-cream" data-rec-name="Crinkle Hijab" data-rec-color="Cream" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-cream.jpg">Add to Cart</button>
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-cream" data-rec-name="Crinkle Hijab" data-rec-color="Cream" data-rec-size="Jafsa" data-rec-price="54" data-rec-image="./assets/color-cream.jpg">Add to Cart</button>
         </div>
       </article>
       <article class="st-product">
@@ -1820,11 +1878,11 @@
           <div class="st-product__body">
             <div class="st-product__name">Crinkle Hijab - Plum</div>
             <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.9 · 421 reviews</div>
-            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+            <div class="st-product__price-row"><div class="st-product__price">Dhs. 54</div></div>
           </div>
         </a>
         <div class="st-product__body" style="padding-top:0;">
-          <button class="st-product__atc" type="button" data-rec-id="crinkle-plum" data-rec-name="Crinkle Hijab" data-rec-color="Plum" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-plum.jpg">Add to Cart</button>
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-plum" data-rec-name="Crinkle Hijab" data-rec-color="Plum" data-rec-size="Jafsa" data-rec-price="54" data-rec-image="./assets/color-plum.jpg">Add to Cart</button>
         </div>
       </article>
       <article class="st-product">
@@ -1833,11 +1891,11 @@
           <div class="st-product__body">
             <div class="st-product__name">Crinkle Hijab - Charcoal</div>
             <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.7 · 618 reviews</div>
-            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+            <div class="st-product__price-row"><div class="st-product__price">Dhs. 54</div></div>
           </div>
         </a>
         <div class="st-product__body" style="padding-top:0;">
-          <button class="st-product__atc" type="button" data-rec-id="crinkle-charcoal" data-rec-name="Crinkle Hijab" data-rec-color="Charcoal" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-charcoal.jpg">Add to Cart</button>
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-charcoal" data-rec-name="Crinkle Hijab" data-rec-color="Charcoal" data-rec-size="Jafsa" data-rec-price="54" data-rec-image="./assets/color-charcoal.jpg">Add to Cart</button>
         </div>
       </article>
       <article class="st-product">
@@ -1846,11 +1904,11 @@
           <div class="st-product__body">
             <div class="st-product__name">Crinkle Hijab - Olive</div>
             <div class="st-product__review"><svg viewBox="0 0 24 24"><path d="M12 3.6l2.6 5.4 6 .9-4.3 4.2 1 5.9L12 17.1 6.7 20l1-5.9L3.4 9.9l6-.9L12 3.6z"/></svg>4.8 · 612 reviews</div>
-            <div class="st-product__price-row"><div class="st-product__price">4.500 KWD</div></div>
+            <div class="st-product__price-row"><div class="st-product__price">Dhs. 54</div></div>
           </div>
         </a>
         <div class="st-product__body" style="padding-top:0;">
-          <button class="st-product__atc" type="button" data-rec-id="crinkle-olive" data-rec-name="Crinkle Hijab" data-rec-color="Olive" data-rec-size="Jafsa" data-rec-price="4.5" data-rec-image="./assets/color-olive.jpg">Add to Cart</button>
+          <button class="st-product__atc" type="button" data-rec-id="crinkle-olive" data-rec-name="Crinkle Hijab" data-rec-color="Olive" data-rec-size="Jafsa" data-rec-price="54" data-rec-image="./assets/color-olive.jpg">Add to Cart</button>
         </div>
       </article>
     </div>
@@ -1913,7 +1971,7 @@
 
 <!-- STICKY MOBILE CTA -->
 <div class="pdp-sticky-cta" id="stickyCta">
-  <div class="pdp-sticky-cta__price">4.500 KWD</div>
+  <div class="pdp-sticky-cta__price">Dhs. 54</div>
   <button class="pdp-sticky-cta__btn" id="stickyAtc">
     <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
     Add to Cart
@@ -1988,6 +2046,7 @@
   </div>
   <div class="st-cart__shipping" id="shipping"></div>
   <div class="st-cart__offer" id="offer"></div>
+  <div id="giftBanner"></div>
   <div class="st-cart__items" id="cartItems"></div>
 
   <!-- Upsell strip -->
@@ -1997,28 +2056,28 @@
       <div class="st-cart__upsell-item" data-upsell="tape">
         <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
         <div class="st-cart__upsell-name">Hijab Tape</div>
-        <div class="st-cart__upsell-price">1.500 KWD</div>
+        <div class="st-cart__upsell-price">Dhs. 18</div>
         <button class="st-cart__upsell-add">+ Add</button>
       </div>
       <div class="st-cart__upsell-item" data-upsell="pins">
         <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="4"/><line x1="11.5" y1="11.5" x2="20" y2="20"/></svg></div>
         <div class="st-cart__upsell-name">Magnetic Pins</div>
-        <div class="st-cart__upsell-price">2.000 KWD</div>
+        <div class="st-cart__upsell-price">Dhs. 24</div>
         <button class="st-cart__upsell-add">+ Add</button>
       </div>
       <div class="st-cart__upsell-item" data-upsell="bonnet">
         <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><path d="M5 14 C 5 9, 8 6, 12 6 C 16 6, 19 9, 19 14"/><path d="M5 14 H 19 V 17 H 5 Z"/></svg></div>
         <div class="st-cart__upsell-name">Undercap</div>
-        <div class="st-cart__upsell-price">2.500 KWD</div>
+        <div class="st-cart__upsell-price">Dhs. 30</div>
         <button class="st-cart__upsell-add">+ Add</button>
       </div>
     </div>
   </div>
 
   <div class="st-cart__totals" id="cartTotals" style="display:none;">
-    <div class="st-cart__row"><span>Subtotal</span><span data-subtotal>0.000 KWD</span></div>
-    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>âˆ’0.000 KWD</span></div>
-    <div class="st-cart__total"><span>Total</span><span data-total>0.000 KWD</span></div>
+    <div class="st-cart__row"><span>Subtotal</span><span data-subtotal>Dhs. 0</span></div>
+    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>âˆ’Dhs. 0</span></div>
+    <div class="st-cart__total"><span>Total</span><span data-total>Dhs. 0</span></div>
     <button class="st-cart__checkout">Checkout</button>
     <button class="st-cart__continue" id="continueShopping">Continue Shopping</button>
   </div>
@@ -2046,7 +2105,8 @@
      ============================================================ */
   const cart = window.cart = {
     items: [],
-    SHIPPING_THRESHOLD: 25,
+    SHIPPING_THRESHOLD: 100,
+    GIFT_THRESHOLD: 400,
     add(p) {
       const key = `${p.id}-${p.color}-${p.size}`;
       const existing = this.items.find(i => i.key === key);
@@ -2076,7 +2136,7 @@
       const d = this.discount();
       return d ? sub * (1 - d.pct / 100) : sub;
     },
-    fmt(v) { return v.toFixed(3) + ' KWD'; },
+    fmt(v) { return 'Dhs. ' + Math.round(v); },
     render() {
       const count = this.totalQty();
       document.querySelectorAll('[data-cart-count]').forEach(el => el.textContent = count);
@@ -2115,7 +2175,6 @@
           </div>
         `).join('');
         const sub = this.subtotal();
-        const d = this.discount();
         document.querySelector('[data-subtotal]').textContent = this.fmt(sub);
         document.querySelector('[data-total]').textContent = this.fmt(this.total());
         const dRow = document.getElementById('discountRow');
@@ -2133,7 +2192,7 @@
       const pct = Math.min(100, (sub / this.SHIPPING_THRESHOLD) * 100);
       const shipEl = document.getElementById('shipping');
       shipEl.innerHTML = remaining > 0
-        ? `<div class="st-cart__shipping-msg"><strong>${remaining.toFixed(3)} KWD</strong> away from free shipping</div>
+        ? `<div class="st-cart__shipping-msg"><strong>Dhs. ${Math.round(remaining)}</strong> away from free shipping</div>
            <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:${pct}%"></div></div>`
         : `<div class="st-cart__shipping-msg is-met"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Free shipping unlocked</strong></div>
            <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:100%"></div></div>`;
@@ -2141,10 +2200,22 @@
       // Offer (themed, no emojis)
       const offerEl = document.getElementById('offer');
       const q = this.totalQty();
-      if (q === 0) { offerEl.innerHTML = `Buy <strong>2 hijabs</strong> â€" save <strong>10%</strong>  Â·  Buy <strong>6</strong> â€" save <strong>20%</strong>`; offerEl.classList.remove('is-applied'); }
+      if (q === 0) { offerEl.innerHTML = `Buy <strong>2 hijabs</strong> — save <strong>10%</strong>  ·  Buy <strong>6</strong> — save <strong>20%</strong>`; offerEl.classList.remove('is-applied'); }
       else if (q < 2) { offerEl.innerHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong>`; offerEl.classList.remove('is-applied'); }
-      else if (q < 6) { offerEl.innerHTML = `<strong>10% off applied</strong>  Â·  Add <strong>${6 - q} more</strong> for 20% off`; offerEl.classList.add('is-applied'); }
-      else { offerEl.innerHTML = `<strong>20% off â€" biggest savings unlocked</strong>`; offerEl.classList.add('is-applied'); }
+      else if (q < 6) { offerEl.innerHTML = `<strong>10% off applied</strong>  ·  Add <strong>${6 - q} more</strong> for 20% off`; offerEl.classList.add('is-applied'); }
+      else { offerEl.innerHTML = `<strong>20% off — biggest savings unlocked</strong>`; offerEl.classList.add('is-applied'); }
+
+      // Free gift at Dhs. 400
+      const giftEl = document.getElementById('giftBanner');
+      const giftClaimed = this.items.some(i => i.id === 'free-gift');
+      if (giftClaimed) {
+        giftEl.innerHTML = `<div class="st-cart__gift is-claimed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Free gift added to your order!</div>`;
+      } else if (sub >= this.GIFT_THRESHOLD) {
+        giftEl.innerHTML = `<div class="st-cart__gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> You qualify for a <strong>free gift card!</strong> <button class="st-cart__gift-btn" onclick="cart.claimGift()">Claim</button></div>`;
+      } else {
+        const giftRemaining = this.GIFT_THRESHOLD - sub;
+        giftEl.innerHTML = `<div class="st-cart__gift-progress">Add <strong>Dhs. ${Math.round(giftRemaining)}</strong> more to unlock a <strong>free gift card</strong></div>`;
+      }
     },
     open() {
       document.getElementById('cartDrawer').classList.add('is-open');
@@ -2155,6 +2226,11 @@
       document.getElementById('cartDrawer').classList.remove('is-open');
       document.getElementById('cartOverlay').classList.remove('is-open');
       document.body.classList.remove('is-locked');
+    },
+    claimGift() {
+      this.items = this.items.filter(i => i.id !== 'free-gift');
+      this.items.push({ id: 'free-gift', name: 'Gift Card', color: 'Digital', size: '', price: 0, qty: 1, image: './assets/color-cream.jpg', isGift: true });
+      this.render();
     },
     toast() {
       const t = document.getElementById('toast');
@@ -2168,9 +2244,9 @@
 
   // Upsell magnet products
   const UPSELLS = {
-    tape: { id: 'tape', name: 'Hijab Tape', color: 'Clear', size: '', price: 1.500, image: './assets/color-cream.jpg' },
-    pins: { id: 'pins', name: 'Magnetic Pins', color: 'Silver', size: '', price: 2.000, image: './assets/color-silver.jpg' },
-    bonnet: { id: 'bonnet', name: 'Undercap', color: 'Cream', size: '', price: 2.500, image: './assets/color-cream.jpg' }
+    tape: { id: 'tape', name: 'Hijab Tape', color: 'Clear', size: '', price: 18, image: './assets/color-cream.jpg' },
+    pins: { id: 'pins', name: 'Magnetic Pins', color: 'Silver', size: '', price: 24, image: './assets/color-silver.jpg' },
+    bonnet: { id: 'bonnet', name: 'Undercap', color: 'Cream', size: '', price: 30, image: './assets/color-cream.jpg' }
   };
   document.querySelectorAll('.st-cart__upsell-item').forEach(it => {
     it.querySelector('.st-cart__upsell-add').onclick = e => {
@@ -2266,7 +2342,7 @@
       id: 'crinkle-hijab',
       name: 'Crinkle Hijab',
       color, size,
-      price: 4.500,
+      price: 54,
       image: colorImages[color] || './assets/product-taupe-1.jpg',
       qty: +qty.value
     });
