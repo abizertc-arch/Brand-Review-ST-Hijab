@@ -1296,6 +1296,7 @@
   .st-cart-item__qty button { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; color: var(--brown); font-size: 14px; }
   .st-cart-item__qty span { min-width: 22px; text-align: center; font-size: 12px; font-weight: 700; }
   .st-cart-item__price { font-size: 13px; font-weight: 700; color: var(--brown); font-family: var(--font-body); }
+  .st-cart-item__discount-tag { display: inline-flex; align-items: center; gap: 4px; margin: 4px 0 2px; padding: 3px 7px; background: var(--beige-pale); border: 1px solid var(--beige); border-radius: 4px; font-size: 10px; font-weight: 600; color: var(--brown); letter-spacing: .02em; }
   .st-cart-item__close {
     position: absolute;
     top: 14px; right: 0;
@@ -1594,9 +1595,9 @@
         <div class="t2">Over 25 KWD</div>
       </div>
       <div class="pdp-trust__item">
-        <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/><polyline points="21 3 21 9 15 9"/></svg>
-        <div class="t1">14-Day Returns</div>
-        <div class="t2">Hassle-free</div>
+        <svg viewBox="0 0 24 24"><path d="M12 2 L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/><polyline points="9 12 11 14 15 10"/></svg>
+        <div class="t1">Quality Assured</div>
+        <div class="t2">All sales final</div>
       </div>
       <div class="pdp-trust__item">
         <svg viewBox="0 0 24 24"><path d="M12 2 L4 6v6c0 5 3.4 9.5 8 10 4.6-.5 8-5 8-10V6l-8-4z"/></svg>
@@ -1948,7 +1949,6 @@
       <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
     <h3>Size Guide</h3>
-    <p class="pdp-size-modal__sub">Our crinkle hijabs come in three signature cuts. Pick what suits your face shape and styling preference.</p>
     <table class="pdp-size-table">
       <tr>
         <th>Size</th>
@@ -2044,7 +2044,7 @@
   /* ============================================================
      CART (same as homepage)
      ============================================================ */
-  const cart = {
+  const cart = window.cart = {
     items: [],
     SHIPPING_THRESHOLD: 25,
     add(p) {
@@ -2092,12 +2092,14 @@
         </div>`;
         totalsEl.style.display = 'none';
       } else {
+        const d = this.discount();
         itemsEl.innerHTML = this.items.map(i => `
           <div class="st-cart-item">
             <div class="st-cart-item__img"><img src="${i.image}" alt=""></div>
             <div class="st-cart-item__body">
               <div class="st-cart-item__name">${i.name}</div>
               <div class="st-cart-item__variant">${i.color}${i.size ? ' · ' + i.size : ''}</div>
+              ${d ? `<div class="st-cart-item__discount-tag"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>${d.label}</div>` : ''}
               <div class="st-cart-item__row">
                 <div class="st-cart-item__qty">
                   <button onclick="cart.setQty('${i.key}', ${i.qty - 1})">−</button>
