@@ -1227,6 +1227,12 @@
   }
   .st-cart__gift.is-claimed { background: #edf5ed; border-color: #b8dcbb; color: #2d6a35; }
   .st-cart__gift.is-claimed svg { stroke: #2d6a35; }
+  .st-cart__coupon-code {
+    margin-left: auto; font-family: monospace; font-size: 12px; font-weight: 700;
+    letter-spacing: .12em; color: #2d6a35;
+    border: 1.5px dashed #2d6a35; border-radius: 5px;
+    padding: 4px 10px; white-space: nowrap;
+  }
   .st-cart__apply-btn {
     margin-left: auto; background: var(--brown); color: var(--cream); border: none;
     border-radius: 6px; padding: 6px 13px; font-size: 11px; font-weight: 700;
@@ -2190,7 +2196,7 @@
             <div class="st-cart-item__body">
               <div class="st-cart-item__name">${i.name}</div>
               ${i.color ? `<div class="st-cart-item__variant">${i.color}${i.size ? ' · ' + i.size : ''}</div>` : ''}
-              ${i.isGift ? `<div class="st-cart-item__discount-tag"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg>GIFT10 — Free gift wrap</div>` : (d ? `<div class="st-cart-item__discount-tag"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>${d.label}</div>` : '')}
+              ${!i.isGift && d ? `<div class="st-cart-item__discount-tag"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>${d.label}</div>` : ''}
               <div class="st-cart-item__row">
                 <div class="st-cart-item__qty">
                   <button onclick="cart.setQty('${i.key}', ${i.qty - 1})">−</button>
@@ -2253,8 +2259,7 @@
       const giftClaimed = this.items.some(i => i.id === 'free-gift');
       const giftSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`;
       if (giftClaimed) {
-        const reapplyBtn = potentialD ? `<button class="st-cart__gift-btn--ghost" onclick="cart.applyDiscount()">Re-apply ${potentialD.pct}% discount instead</button>` : '';
-        giftEl.innerHTML = `<div class="st-cart__gift is-claimed">${giftSvg}<span class="st-cart__gift-text">Free gift wrap added — <strong>GIFT10</strong> applied!</span>${reapplyBtn}</div>`;
+        giftEl.innerHTML = `<div class="st-cart__gift is-claimed">${giftSvg}<span class="st-cart__gift-text">Free gift wrap added!</span><span class="st-cart__coupon-code">GIFT10</span></div>`;
       } else if (sub >= this.GIFT_THRESHOLD) {
         giftEl.innerHTML = `<div class="st-cart__gift">${giftSvg}<span class="st-cart__gift-text">You've unlocked a <strong>free gift wrap!</strong></span><button class="st-cart__gift-btn" onclick="cart.claimGift()">Apply</button></div>`;
       } else {
