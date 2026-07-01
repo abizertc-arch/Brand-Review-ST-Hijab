@@ -2175,6 +2175,7 @@
       const itemsEl = document.getElementById('cartItems');
       const totalsEl = document.getElementById('cartTotals');
 
+      const d = this.activeDiscount();
       if (this.items.length === 0) {
         itemsEl.innerHTML = `<div class="st-cart__empty">
           <svg viewBox="0 0 24 24"><path d="M5 7h14l-1.5 11H6.5L5 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
@@ -2183,7 +2184,6 @@
         </div>`;
         totalsEl.style.display = 'none';
       } else {
-        const d = this.activeDiscount();
         itemsEl.innerHTML = this.items.map(i => `
           <div class="st-cart-item">
             <div class="st-cart-item__img"><img src="${i.image}" alt=""></div>
