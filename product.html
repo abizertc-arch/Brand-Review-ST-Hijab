@@ -2094,7 +2094,7 @@
 
   <div class="st-cart__totals" id="cartTotals" style="display:none;">
     <div class="st-cart__row"><span>Subtotal</span><span data-subtotal>Dhs. 0</span></div>
-    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>âˆ’Dhs. 0</span></div>
+    <div class="st-cart__row is-discount" id="discountRow" style="display:none;"><span data-discount-label>Discount</span><span data-discount>âˆ'Dhs. 0</span></div>
     <div class="st-cart__total"><span>Total</span><span data-total>Dhs. 0</span></div>
     <div id="giftBanner"></div>
     <button class="st-cart__checkout">Checkout</button>
@@ -2206,14 +2206,14 @@
           </div>
         `).join('');
         const sub = this.subtotal();
-        document.querySelector(‘[data-subtotal]’).textContent = this.fmt(sub);
-        document.querySelector(‘[data-total]’).textContent = this.fmt(this.total());
-        const dRow = document.getElementById(‘discountRow’);
+        document.querySelector('[data-subtotal]').textContent = this.fmt(sub);
+        document.querySelector('[data-total]').textContent = this.fmt(this.total());
+        const dRow = document.getElementById('discountRow');
         if (d) {
-          dRow.style.display = ‘flex’;
-          document.querySelector(‘[data-discount-label]’).textContent = d.label;
-          document.querySelector(‘[data-discount]’).textContent = ‘−’ + this.fmt(sub * d.pct / 100);
-        } else { dRow.style.display = ‘none’; }
+          dRow.style.display = 'flex';
+          document.querySelector('[data-discount-label]').textContent = d.label;
+          document.querySelector('[data-discount]').textContent = '−' + this.fmt(sub * d.pct / 100);
+        } else { dRow.style.display = 'none'; }
         totalsEl.style.display = 'block';
       }
 
@@ -2448,9 +2448,9 @@
     ['â€"', '–'],
     ['Â·', '·'],
     ['Ã‚Â·', '·'],
-    ['âˆ’', '−'],
+    ["âˆ'", '−'],
     ['Â©', '©'],
-    ['â†’', '→'],
+    ["â†'", '→'],
     ['â†', '←'],
     ['Ã—', '×'],
     ['ðŸŽ ', ''],
