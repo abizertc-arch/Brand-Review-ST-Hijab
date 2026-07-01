@@ -1188,9 +1188,11 @@
   .st-cart__shipping-fill { height: 100%; background: var(--brown); border-radius: 999px; width: 0%; transition: width .4s ease; }
 
   .st-cart__offer {
-    padding: 14px 22px;
+    padding: 10px 18px;
     background: var(--beige-pale);
     border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    flex-wrap: wrap;
     text-align: center;
     font-size: 11px;
     letter-spacing: .12em;
@@ -1234,8 +1236,8 @@
     padding: 4px 10px; white-space: nowrap;
   }
   .st-cart__apply-btn {
-    margin-left: auto; background: var(--brown); color: var(--cream); border: none;
-    border-radius: 6px; padding: 6px 13px; font-size: 11px; font-weight: 700;
+    flex-shrink: 0; background: var(--brown); color: var(--cream); border: none;
+    border-radius: 6px; padding: 5px 12px; font-size: 10px; font-weight: 700;
     letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
   }
 
