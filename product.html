@@ -1141,16 +1141,16 @@
 
   .st-cart {
     position: fixed;
-    bottom: 0; left: 0; right: 0;
+    top: 0; left: 0; right: 0;
     width: 100%; max-width: 100%;
     max-height: 92vh;
     background: var(--cream);
     z-index: 110;
-    transform: translateY(100%);
+    transform: translateY(-100%);
     transition: transform .38s cubic-bezier(.4,0,.2,1);
     display: flex; flex-direction: column;
-    box-shadow: 0 -8px 40px rgba(46,35,28,.18);
-    border-radius: 18px 18px 0 0;
+    box-shadow: 0 8px 40px rgba(46,35,28,.18);
+    border-radius: 0 0 18px 18px;
     overflow: hidden;
   }
   .st-cart.is-open { transform: translateY(0); }
@@ -1314,8 +1314,7 @@
   }
   .st-cart__upsell-add:hover { background: var(--brown); color: var(--beige); }
   @media (max-width: 479px) {
-    .st-cart__upsell { display: none; }
-    .st-cart__upsell { padding: 16px 12px; }
+    .st-cart__upsell { display: block; padding: 16px 12px; }
     .st-cart__upsell-list { gap: 7px; }
     .st-cart__upsell-item { padding: 7px; }
     .st-cart__upsell-img { margin-bottom: 6px; }
@@ -2091,7 +2090,7 @@
 
   <!-- Upsell strip -->
   <div class="st-cart__upsell">
-    <div class="st-cart__upsell-title">Complete the look</div>
+    <div class="st-cart__upsell-title">You may also like</div>
     <div class="st-cart__upsell-list">
       <div class="st-cart__upsell-item" data-upsell="tape">
         <div class="st-cart__upsell-img"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
@@ -2120,7 +2119,6 @@
     <div class="st-cart__total"><span>Total</span><span data-total>AED 0</span></div>
     <div id="giftBanner"></div>
     <button class="st-cart__checkout">Checkout</button>
-    <button class="st-cart__continue" id="continueShopping">Continue Shopping</button>
   </div>
 </div>
 
