@@ -1204,15 +1204,34 @@
   .st-cart__offer.is-applied strong { color: var(--cream); }
 
   /* Gift banner */
-  #giftBanner { border-bottom: 1px solid var(--line); }
-  .st-cart__gift-progress { padding: 10px 18px; font-size: 11px; color: var(--brown-soft); text-align: center; }
-  .st-cart__gift-progress strong { color: var(--brown); }
-  .st-cart__gift { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: #f9f2e7; font-size: 12px; color: var(--brown); font-weight: 500; }
+  #giftBanner { margin: 0 -22px 14px; }
+  .st-cart__gift {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+    padding: 12px 18px; background: #f9f2e7;
+    font-size: 12px; color: var(--brown); font-weight: 500;
+    border-top: 1px solid #e8d9c0; border-bottom: 1px solid #e8d9c0;
+  }
   .st-cart__gift svg { width: 18px; height: 18px; flex-shrink: 0; stroke: #9a7230; }
   .st-cart__gift strong { font-weight: 700; }
-  .st-cart__gift-btn { margin-left: auto; background: var(--brown); color: var(--cream); border: none; border-radius: 6px; padding: 6px 14px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
-  .st-cart__gift.is-claimed { background: #edf5ed; color: #2d6a35; }
+  .st-cart__gift-text { flex: 1; min-width: 0; }
+  .st-cart__gift-btn {
+    background: var(--brown); color: var(--cream); border: none; border-radius: 6px;
+    padding: 7px 14px; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase; cursor: pointer; white-space: nowrap;
+  }
+  .st-cart__gift-btn--ghost {
+    background: transparent; color: var(--brown); border: 1px solid var(--brown);
+    border-radius: 6px; padding: 6px 12px; font-size: 10px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    margin-top: 2px;
+  }
+  .st-cart__gift.is-claimed { background: #edf5ed; border-color: #b8dcbb; color: #2d6a35; }
   .st-cart__gift.is-claimed svg { stroke: #2d6a35; }
+  .st-cart__apply-btn {
+    margin-left: auto; background: var(--brown); color: var(--cream); border: none;
+    border-radius: 6px; padding: 6px 13px; font-size: 11px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
+  }
 
   /* Cart upsell strip */
   .st-cart__upsell { padding: 18px 14px; border-bottom: 1px solid var(--line); }
@@ -2106,6 +2125,7 @@
   const cart = window.cart = {
     items: [],
     giftApplied: false,
+    discountApplied: false,
     SHIPPING_THRESHOLD: 100,
     GIFT_THRESHOLD: 400,
     add(p) {
@@ -2127,16 +2147,25 @@
     subtotal() { return this.items.reduce((s, i) => s + i.price * i.qty, 0); },
     totalQty() { return this.items.reduce((s, i) => s + i.qty, 0); },
     discount() {
-      if (this.giftApplied) return null;
       const q = this.totalQty();
       if (q >= 6) return { pct: 20, label: 'Buy 6 — 20% off' };
       if (q >= 2) return { pct: 10, label: 'Buy 2 — 10% off' };
       return null;
     },
+    activeDiscount() {
+      if (!this.discountApplied) return null;
+      return this.discount();
+    },
     total() {
       const sub = this.subtotal();
-      const d = this.discount();
+      const d = this.activeDiscount();
       return d ? sub * (1 - d.pct / 100) : sub;
+    },
+    applyDiscount() {
+      this.items = this.items.filter(i => i.id !== 'free-gift');
+      this.giftApplied = false;
+      this.discountApplied = true;
+      this.render();
     },
     fmt(v) { return 'Dhs. ' + Math.round(v); },
     render() {
@@ -2154,21 +2183,21 @@
         </div>`;
         totalsEl.style.display = 'none';
       } else {
-        const d = this.discount();
+        const d = this.activeDiscount();
         itemsEl.innerHTML = this.items.map(i => `
           <div class="st-cart-item">
             <div class="st-cart-item__img"><img src="${i.image}" alt=""></div>
             <div class="st-cart-item__body">
               <div class="st-cart-item__name">${i.name}</div>
-              <div class="st-cart-item__variant">${i.color}${i.size ? ' · ' + i.size : ''}</div>
-              ${d ? `<div class="st-cart-item__discount-tag"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>${d.label}</div>` : ''}
+              ${i.color ? `<div class="st-cart-item__variant">${i.color}${i.size ? ' · ' + i.size : ''}</div>` : ''}
+              ${i.isGift ? `<div class="st-cart-item__discount-tag"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/></svg>GIFT10 — Free gift wrap</div>` : (d ? `<div class="st-cart-item__discount-tag"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>${d.label}</div>` : '')}
               <div class="st-cart-item__row">
                 <div class="st-cart-item__qty">
                   <button onclick="cart.setQty('${i.key}', ${i.qty - 1})">−</button>
                   <span>${i.qty}</span>
                   <button onclick="cart.setQty('${i.key}', ${i.qty + 1})">+</button>
                 </div>
-                <div class="st-cart-item__price">${this.fmt(i.price * i.qty)}</div>
+                <div class="st-cart-item__price">${i.price === 0 ? 'Free' : this.fmt(i.price * i.qty)}</div>
               </div>
             </div>
             <button class="st-cart-item__close" onclick="cart.remove('${i.key}')" aria-label="Remove">
@@ -2177,14 +2206,14 @@
           </div>
         `).join('');
         const sub = this.subtotal();
-        document.querySelector('[data-subtotal]').textContent = this.fmt(sub);
-        document.querySelector('[data-total]').textContent = this.fmt(this.total());
-        const dRow = document.getElementById('discountRow');
+        document.querySelector(‘[data-subtotal]’).textContent = this.fmt(sub);
+        document.querySelector(‘[data-total]’).textContent = this.fmt(this.total());
+        const dRow = document.getElementById(‘discountRow’);
         if (d) {
-          dRow.style.display = 'flex';
-          document.querySelector('[data-discount-label]').textContent = d.label;
-          document.querySelector('[data-discount]').textContent = 'âˆ’' + this.fmt(sub * d.pct / 100);
-        } else { dRow.style.display = 'none'; }
+          dRow.style.display = ‘flex’;
+          document.querySelector(‘[data-discount-label]’).textContent = d.label;
+          document.querySelector(‘[data-discount]’).textContent = ‘−’ + this.fmt(sub * d.pct / 100);
+        } else { dRow.style.display = ‘none’; }
         totalsEl.style.display = 'block';
       }
 
@@ -2199,21 +2228,35 @@
         : `<div class="st-cart__shipping-msg is-met"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Free shipping unlocked</strong></div>
            <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:100%"></div></div>`;
 
-      // Offer (themed, no emojis)
+      // Offer (requires Apply click — no auto-discount)
       const offerEl = document.getElementById('offer');
       const q = this.totalQty();
-      if (q === 0) { offerEl.innerHTML = `Buy <strong>2 hijabs</strong> — save <strong>10%</strong>  ·  Buy <strong>6</strong> — save <strong>20%</strong>`; offerEl.classList.remove('is-applied'); }
-      else if (q < 2) { offerEl.innerHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong>`; offerEl.classList.remove('is-applied'); }
-      else if (q < 6) { offerEl.innerHTML = `<strong>10% off applied</strong>  ·  Add <strong>${6 - q} more</strong> for 20% off`; offerEl.classList.add('is-applied'); }
-      else { offerEl.innerHTML = `<strong>20% off — biggest savings unlocked</strong>`; offerEl.classList.add('is-applied'); }
+      const potentialD = this.discount();
+      if (q === 0) {
+        offerEl.innerHTML = `Buy <strong>2 hijabs</strong> — save <strong>10%</strong>  ·  Buy <strong>6</strong> — save <strong>20%</strong>`;
+        offerEl.classList.remove('is-applied');
+      } else if (q < 2) {
+        offerEl.innerHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong>`;
+        offerEl.classList.remove('is-applied');
+      } else if (this.discountApplied && d) {
+        const extra = q < 6 ? `  ·  Add <strong>${6 - q} more</strong> for 20% off` : '';
+        offerEl.innerHTML = `<strong>${d.pct}% off applied</strong>${extra}`;
+        offerEl.classList.add('is-applied');
+      } else if (potentialD) {
+        const extra = q < 6 ? `  ·  Add <strong>${6 - q} more</strong> for 20% off` : '';
+        offerEl.innerHTML = `Eligible for <strong>${potentialD.pct}% off</strong>${extra} <button class="st-cart__apply-btn" onclick="cart.applyDiscount()">Apply</button>`;
+        offerEl.classList.remove('is-applied');
+      }
 
       // Free gift wrap at Dhs. 400 — show only after threshold passed
       const giftEl = document.getElementById('giftBanner');
       const giftClaimed = this.items.some(i => i.id === 'free-gift');
+      const giftSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`;
       if (giftClaimed) {
-        giftEl.innerHTML = `<div class="st-cart__gift is-claimed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Free gift wrap added — code <strong>GIFT10</strong> applied!</div>`;
+        const reapplyBtn = potentialD ? `<button class="st-cart__gift-btn--ghost" onclick="cart.applyDiscount()">Re-apply ${potentialD.pct}% discount instead</button>` : '';
+        giftEl.innerHTML = `<div class="st-cart__gift is-claimed">${giftSvg}<span class="st-cart__gift-text">Free gift wrap added — <strong>GIFT10</strong> applied!</span>${reapplyBtn}</div>`;
       } else if (sub >= this.GIFT_THRESHOLD) {
-        giftEl.innerHTML = `<div class="st-cart__gift"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> You've unlocked a <strong>free gift wrap!</strong> <button class="st-cart__gift-btn" onclick="cart.claimGift()">Apply</button></div>`;
+        giftEl.innerHTML = `<div class="st-cart__gift">${giftSvg}<span class="st-cart__gift-text">You've unlocked a <strong>free gift wrap!</strong></span><button class="st-cart__gift-btn" onclick="cart.claimGift()">Apply</button></div>`;
       } else {
         giftEl.innerHTML = '';
       }
@@ -2230,8 +2273,9 @@
     },
     claimGift() {
       this.items = this.items.filter(i => i.id !== 'free-gift');
-      this.items.push({ id: 'free-gift', name: 'Gift Wrap', color: 'GIFT10', size: '', price: 0, qty: 1, image: './assets/color-cream.jpg', isGift: true });
+      this.items.push({ id: 'free-gift', name: 'Gift Wrap', color: '', size: '', price: 0, qty: 1, image: './assets/color-cream.jpg', isGift: true });
       this.giftApplied = true;
+      this.discountApplied = false;
       this.render();
     },
     toast() {
