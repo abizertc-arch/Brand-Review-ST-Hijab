@@ -1188,22 +1188,26 @@
   .st-cart__shipping-fill { height: 100%; background: var(--brown); border-radius: 999px; width: 0%; transition: width .4s ease; }
 
   .st-cart__offer {
-    padding: 10px 18px;
+    padding: 10px 18px 12px;
     background: var(--beige-pale);
     border-bottom: 1px solid var(--line);
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    flex-wrap: wrap;
-    text-align: center;
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--brown-soft);
-    font-weight: 600;
-    line-height: 1.4;
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--brown-soft); font-weight: 600;
   }
+  .st-cart__offer-row { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
   .st-cart__offer strong { color: var(--brown); font-weight: 700; }
-  .st-cart__offer.is-applied { background: var(--brown); color: var(--beige); }
-  .st-cart__offer.is-applied strong { color: var(--cream); }
+  .st-cart__offer.is-applied .st-cart__offer-row { color: var(--brown); }
+  /* tier bar */
+  .st-cart__tier-bar { display: flex; align-items: center; gap: 0; height: 20px; }
+  .st-cart__tier-track { flex: 1; height: 3px; background: var(--line); border-radius: 999px; overflow: hidden; position: relative; }
+  .st-cart__tier-fill { height: 100%; background: var(--brown); border-radius: 999px; transition: width .4s ease; }
+  .st-cart__tier-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--line); border: 1.5px solid var(--beige);
+    flex-shrink: 0; position: relative; z-index: 1; transition: background .3s;
+  }
+  .st-cart__tier-dot.is-reached { background: var(--brown); border-color: var(--brown); }
+  .st-cart__tier-label { font-size: 9px; letter-spacing: .08em; color: var(--brown-soft); white-space: nowrap; padding: 0 4px; font-weight: 700; }
+  .st-cart__tier-label.is-reached { color: var(--brown); }
 
   /* Gift banner */
   #giftBanner { margin: 0 -22px 14px; }
@@ -2236,25 +2240,42 @@
         : `<div class="st-cart__shipping-msg is-met"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><strong>Free shipping unlocked</strong></div>
            <div class="st-cart__shipping-bar"><div class="st-cart__shipping-fill" style="width:100%"></div></div>`;
 
-      // Offer (requires Apply click — no auto-discount)
+      // Offer strip with tier bar
       const offerEl = document.getElementById('offer');
       const q = this.totalQty();
       const potentialD = this.discount();
+      offerEl.classList.remove('is-applied');
+
+      // Tier bar: 0 → 2 → 6
+      const tier1 = Math.min(q, 2), tier2 = Math.min(q, 6);
+      const pct1 = Math.round((tier1 / 2) * 100);
+      const pct2 = Math.round(((tier2 - 2) / 4) * 100);
+      const dot0 = true, dot1 = q >= 2, dot2 = q >= 6;
+      const tierBar = `<div class="st-cart__tier-bar">
+        <span class="st-cart__tier-label${dot0 ? ' is-reached' : ''}">0</span>
+        <div class="st-cart__tier-track"><div class="st-cart__tier-fill" style="width:${pct1}%"></div></div>
+        <div class="st-cart__tier-dot${dot1 ? ' is-reached' : ''}"></div>
+        <span class="st-cart__tier-label${dot1 ? ' is-reached' : ''}">10%</span>
+        <div class="st-cart__tier-track"><div class="st-cart__tier-fill" style="width:${pct2}%"></div></div>
+        <div class="st-cart__tier-dot${dot2 ? ' is-reached' : ''}"></div>
+        <span class="st-cart__tier-label${dot2 ? ' is-reached' : ''}">20%</span>
+      </div>`;
+
+      let rowHTML = '';
       if (q === 0) {
-        offerEl.innerHTML = `Buy <strong>2 hijabs</strong> — save <strong>10%</strong>  ·  Buy <strong>6</strong> — save <strong>20%</strong>`;
-        offerEl.classList.remove('is-applied');
+        rowHTML = `Buy <strong>2</strong> for <strong>10% off</strong> · Buy <strong>6</strong> for <strong>20% off</strong>`;
       } else if (q < 2) {
-        offerEl.innerHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong>`;
-        offerEl.classList.remove('is-applied');
+        rowHTML = `Add <strong>${2 - q} more</strong> to unlock <strong>10% off</strong> · 6 for <strong>20% off</strong>`;
       } else if (this.discountApplied && d) {
-        const extra = q < 6 ? `  ·  Add <strong>${6 - q} more</strong> for 20% off` : '';
-        offerEl.innerHTML = `<strong>${d.pct}% off applied</strong>${extra}`;
+        const next = q < 6 ? ` · Add <strong>${6 - q} more</strong> for <strong>20% off</strong>` : '';
+        rowHTML = `<strong>${d.pct}% off applied</strong>${next}`;
         offerEl.classList.add('is-applied');
-      } else if (potentialD) {
-        const extra = q < 6 ? `  ·  Add <strong>${6 - q} more</strong> for 20% off` : '';
-        offerEl.innerHTML = `Eligible for <strong>${potentialD.pct}% off</strong>${extra} <button class="st-cart__apply-btn" onclick="cart.applyDiscount()">Apply</button>`;
-        offerEl.classList.remove('is-applied');
+      } else {
+        const applyBtn = `<button class="st-cart__apply-btn" onclick="cart.applyDiscount()">Apply</button>`;
+        const next = q < 6 ? ` · Add <strong>${6 - q} more</strong> for <strong>20% off</strong>` : '';
+        rowHTML = `Eligible for <strong>${potentialD.pct}% off</strong>${next} ${applyBtn}`;
       }
+      offerEl.innerHTML = `<div class="st-cart__offer-row">${rowHTML}</div>${tierBar}`;
 
       // Free gift wrap at Dhs. 400 — show only after threshold passed
       const giftEl = document.getElementById('giftBanner');
